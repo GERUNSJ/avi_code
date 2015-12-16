@@ -45,7 +45,7 @@
 
 
 #ifndef AVI_FORMANTES_H
-#def AVI_FORMANTES_H
+#define AVI_FORMANTES_H
 
 #include <Eigen30.h>
 #include <Eigen/Eigenvalues>
