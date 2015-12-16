@@ -3,6 +3,14 @@
 // Eigen30.h no debería estar acá, ya que está en AVI_formantes.h , pero el puto arduino no lo toma desde allá.
 // Esto debería ser arreglado...
 
+
+// Este test utiliza un arreglo de muestra para obtener sus 2 primeros formantes. Prueba 
+// las funciones
+// void swap(float *x, float *y);
+// void complex_swap(std::complex<float> *x, std::complex<float> *y);
+// void BurgAlgorithm(float* coeffs,  float* x , int x_n, int p, int Fs);
+// void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2);
+
 // GLOBALES
 
 // Vector de datos (extraccion de una A en 8KHz del Edwin?) - los primeros 200 datos
