@@ -1,11 +1,10 @@
 #include "AVI_formantes.h"
-
 #define DEBUG 1
 
 using namespace Eigen;
 using namespace std;
 
-
+//=================================================================================================
 // Funcion de intercambio (tipo float)
 void swap(float *x, float *y)
 {
@@ -15,6 +14,7 @@ void swap(float *x, float *y)
   *y = temp;
 }
 
+//=================================================================================================
 // Funcion de intercambio (tipo std::complex<float>)
 void complex_swap(complex<float> *x, complex<float> *y)
 {
@@ -27,6 +27,25 @@ void complex_swap(complex<float> *x, complex<float> *y)
   y->imag(temp.imag());
 }
 
+//=================================================================================================
+// Aplica una ventana de Hamming al vector de entrada
+void hamming(float* vector, int longitud)
+{
+// Generamos la ventana de Hamming de N puntos
+// Implementacion basica.  
+  // w = zeros(N,1);
+  // for i=1:N
+  // w(i) = 0.54 - 0.46*cos(2*pi*(i-1)/(N-1));
+  // end
+  
+  for( int i = 0; i < longitud; i++  )
+  {
+    vector[i] = vector[i] * (0.54 - 0.46*cos(PI_2*i/(longitud-1)));
+  }
+  return;
+}
+
+//=================================================================================================
 // Algoritmo Convencional de Burg
 // Fuente: https://github.com/RhysU/ar [Collomb2009.cpp]
 // En coeffs devuelve los coeficientes del filtro estimado
@@ -103,9 +122,14 @@ void BurgAlgorithm(float* coeffs, float* x, int x_n, int p)
   }
 }
 
+//=================================================================================================
 // Obtener formantes a partir del segmento de sonido
 void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2)
 {
+  using namespace Eigen;
+  using namespace std;
+
+  
   // PRIMERA PARTE - BURG
   float coeffs[p+1]; //Coeficientes de Burg
   BurgAlgorithm(coeffs, x, x_n, p); //Calcula los Coeficientes
@@ -322,27 +346,5 @@ void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2)
 	  *f2 = 0;
     return;
   }
-}
-
-
-
-
-
-
-// Aplica una ventana de Hamming al vector de entrada
-void hamming(float* vector, int longitud)
-{
-// Generamos la ventana de Hamming de N puntos
-// Implementacion basica.	
-	// w = zeros(N,1);
-	// for i=1:N
-	// w(i) = 0.54 - 0.46*cos(2*pi*(i-1)/(N-1));
-	// end
-	
-	for( int i = 0; i < longitud; i++  )
-	{
-		vector(i) = vector(i) * (0.54 - 0.46*cos(2*pi*(i)/(longitud-1));)
-	}
-	return;
 }
 

@@ -51,6 +51,7 @@
 #include <Eigen/Eigenvalues>
 #include "Arduino.h"
 #define DIV_2_PI 0.15915494f // 1/2*PI
+#define PI_2 6.28318530717959f // 2*PI
 
 // ********************************************************************
 // 			DECLARACIÓN DE FUNCIONES
@@ -60,6 +61,9 @@ void swap(float *x, float *y);
 
 // Funcion de intercambio (tipo std::complex<float>)
 void complex_swap(std::complex<float> *x, std::complex<float> *y);
+
+// Aplica una ventanda de Hamming al vector de entrada
+void hamming(float* vector, int longitud);
 
 // Algoritmo Convencional de Burg
 // Fuente: https://github.com/RhysU/ar [Collomb2009.cpp]
@@ -75,9 +79,6 @@ void BurgAlgorithm(float* coeffs,  float* x , int x_n, int p, int Fs);
 // en x1 y x2 se devuelven los 2 primeros formantes encontrados. Si 
 // no, se devuelven 0s.
 void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2);
-
-// Aplica una ventanda de Hamming al vector de entrada
-void hamming(float* vector, int longitud)
 
 
 #endif // AVI_FORMANTES_H 

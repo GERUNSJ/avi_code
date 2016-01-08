@@ -22,6 +22,23 @@ int main()
   int p = 10; // Orden del Filtro
   int Fs = 8000; // Frecuencia de Muestreo
 
+  float a[10]={0.572674, 0.923660, 0.481029, 0.147713, 0.034214, 0.948993, 0.755289, 0.974128, 0.753004, 0.124419};
+
+  Serial.println("Vector A antes de Hamming:");
+  for(uint8_t i=0; i<10; i++)
+  {
+    Serial.println(a[i],6);
+  }
+  Serial.println();
+  hamming(a,10);
+  Serial.println("Vector A despues de Hamming:");
+  for(uint8_t i=0; i<10; i++)
+  {
+    Serial.println(a[i],6);
+  }
+  Serial.println();
+  
+
   obtener_formantes(x, x_n, p, Fs, &f1, &f2);
   
   Serial.print("F1 =\t");
