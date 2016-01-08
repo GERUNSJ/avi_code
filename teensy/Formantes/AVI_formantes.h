@@ -76,5 +76,8 @@ void BurgAlgorithm(float* coeffs,  float* x , int x_n, int p, int Fs);
 // no, se devuelven 0s.
 void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2);
 
+// Aplica una ventanda de Hamming al vector de entrada
+void hamming(float* vector, int longitud)
+
 
 #endif // AVI_FORMANTES_H 

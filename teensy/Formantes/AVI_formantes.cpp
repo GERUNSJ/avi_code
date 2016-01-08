@@ -323,3 +323,26 @@ void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2)
     return;
   }
 }
+
+
+
+
+
+
+// Aplica una ventana de Hamming al vector de entrada
+void hamming(float* vector, int longitud)
+{
+// Generamos la ventana de Hamming de N puntos
+// Implementacion basica.	
+	// w = zeros(N,1);
+	// for i=1:N
+	// w(i) = 0.54 - 0.46*cos(2*pi*(i-1)/(N-1));
+	// end
+	
+	for( int i = 0; i < longitud; i++  )
+	{
+		vector(i) = vector(i) * (0.54 - 0.46*cos(2*pi*(i)/(longitud-1));)
+	}
+	return;
+}
+
