@@ -1,14 +1,12 @@
 #include "AVI_formantes.h"
 
+#define DEBUG 1
+
 using namespace Eigen;
 using namespace std;
 
 
-// ********************************************************************
-// 			IMPLEMENTACI”N DE FUNCIONES
-
 // Funcion de intercambio (tipo float)
-// Utilizado en el Bubble Sort
 void swap(float *x, float *y)
 {
   float temp;
@@ -17,11 +15,7 @@ void swap(float *x, float *y)
   *y = temp;
 }
 
-
-
-
 // Funcion de intercambio (tipo std::complex<float>)
-// Utilizado en el Bubble Sort
 void complex_swap(complex<float> *x, complex<float> *y)
 {
   complex<float> temp;
@@ -33,16 +27,13 @@ void complex_swap(complex<float> *x, complex<float> *y)
   y->imag(temp.imag());
 }
 
-
-
-
 // Algoritmo Convencional de Burg
 // Fuente: https://github.com/RhysU/ar [Collomb2009.cpp]
 // En coeffs devuelve los coeficientes del filtro estimado
-// x es la seÒal a partir de la cual se estimar· un filtro de solo polos
+// x es la se√±al a partir de la cual se estimar√° un filtro de solo polos
 // x_n es la cantidad de elementos de x
 // p es el orden del filtro a estimar
-void BurgAlgorithm(float* coeffs,  float* x , int x_n, int p)
+void BurgAlgorithm(float* coeffs, float* x, int x_n, int p)
 {
   // Initializar Datos
   int x_length = x_n - 1; // Input Size
@@ -112,33 +103,23 @@ void BurgAlgorithm(float* coeffs,  float* x , int x_n, int p)
   }
 }
 
-
-
-
 // Obtener formantes a partir del segmento de sonido
 void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2)
 {
-  // Variables
+  // PRIMERA PARTE - BURG
   float coeffs[p+1]; //Coeficientes de Burg
-
-  
-  // Serial.println("--- INICIO LOOP ---");
-  // delay(1000);
-  // digitalWrite(13, HIGH);
-  
-  // Serial.println("--- INICIO BURG ---");
   BurgAlgorithm(coeffs, x, x_n, p); //Calcula los Coeficientes
-  // digitalWrite(13, LOW);
-  // Serial.println("--- FIN BURG ---");
-  
-  // Serial.println("Coeficientes obtenidos:");
-  // for(uint8_t i = 0; i < p+1; i++)
-  // {
-    // Serial.println(coeffs[i],8);
-  // }
-  // Serial.println();
 
-  // Serial.println("--- INICIO RAICES ---");
+  #if DEBUG == 1
+  Serial.println("Coeficientes obtenidos:");
+  for(uint8_t i = 0; i < p+1; i++)
+  {
+   Serial.println(coeffs[i],8);
+  }
+  Serial.println();
+  #endif
+
+  // SEGUNDA PARTE - RAICES
   MatrixXd Mat_coeffs(p,p);
 
   // Construye la Companion Matrix del polinomio.
@@ -169,8 +150,7 @@ void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2)
 
   // Los autovalores de la companion matrix son las raices del polinomio
   EigenSolver<MatrixXd> es(Mat_coeffs,false); // false porque no necesitamos autovectores
-  MatrixXcd Mat_roots;
-    
+  MatrixXcd Mat_roots;  
   complex<float> roots[p];
 
   // Calcula los autovalores y los quita de la matriz diagonal
@@ -186,20 +166,26 @@ void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2)
       }
     }
   }
-  
-  // Serial.println("--- FIN RAICES ---");
 
-  // Raices reales y complejas con imag>0
-  uint8_t pp = 0; // Nuevo Indice
-
-  // Serial.println("Raices:");
+  #if DEBUG == 1
+  Serial.println("Raices:");
   for(uint8_t i=0; i<p; i++)
   {
-    // Serial.print(roots[i].real(), 8);
-    // Serial.print(" + ");
-    // Serial.print(roots[i].imag(), 8);
-    // Serial.println("i");
-    
+    Serial.print(roots[i].real(), 8);
+    Serial.print(" + ");
+    Serial.print(roots[i].imag(), 8);
+    Serial.println("i");
+  }
+  Serial.println();
+  #endif
+
+  // TERCERA PARTE - FILTRADO DE LAS RAICES
+  
+  // Raices reales y complejas con imag>0
+  uint8_t pp = 0; // Nuevo Indice
+  
+  for(uint8_t i=0; i<p; i++)
+  {
     // Cuenta cuantas raices reales y complejas con imag>0 hay
     if(roots[i].imag()>=0)
     {
@@ -207,7 +193,7 @@ void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2)
     }
   }
   
-  // Si no encontrÛ raices
+  // Si no encontr√≥ raices, termina
   if (pp == 0)
 	{
 		*f1 = 0;
@@ -215,8 +201,6 @@ void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2)
 		return;
 	}
   
-  // Serial.println();
-
   // Con el indice creamos y cargamos el nuevo arreglo de raices
   complex<float> roots_real[pp];
   pp = 0;
@@ -229,32 +213,35 @@ void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2)
       pp++;
     }
   }
-  
-  // Si no encontrÛ raices
-  if (pp == 0)
-	{
-		*f1 = 0;
-		*f2 = 0;
-		return;
-	}
-  
-  // Serial.println("Raices Reales e Imag>0:");
-  // for(uint8_t i=0; i<pp; i++)
-  // {
-    // Serial.print(roots_real[i].real(), 8);
-    // Serial.print(" + ");
-    // Serial.print(roots_real[i].imag(), 8);
-    // Serial.println("i");
-  // }
-  // Serial.println();
 
+  #if DEBUG == 1
+  Serial.println("Raices Reales e Imag>0:");
+  for(uint8_t i=0; i<pp; i++)
+  {
+   Serial.print(roots_real[i].real(), 8);
+   Serial.print(" + ");
+   Serial.print(roots_real[i].imag(), 8);
+   Serial.println("i");
+  }
+  Serial.println();
+  #endif
+
+  // CUARTA PARTE - ANGULOS DE CADA RAIZ
   // Obtiene el angulo de cada raiz.
   float frqs[pp];
   for(uint8_t i=0; i<pp; i++)
   {
     frqs[i] = atan2(roots_real[i].imag(), roots_real[i].real())*(Fs*DIV_2_PI);
-    // Serial.println(frqs[i], 8);
   }
+
+  #if DEBUG == 1
+  Serial.println("freqs[i]:");
+  for(uint8_t i=0; i<pp; i++)
+  {
+    Serial.println(frqs[i], 8);
+  }
+  Serial.println();
+  #endif
 
   // Ordena los arreglos segun sus angulos.
   // De paso ordena las raices (Bubble Sort).
@@ -270,55 +257,69 @@ void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2)
     }
   }
 
-  // Serial.println();
-  // Serial.println();
-
+  // QUINTA PARTE - BANDWIDTH
   float bw[pp];
   for(uint8_t i=0; i<pp; i++)
   {
     // abs de complex se solapa con abs de valor absoluto y trae problemas
     bw[i] = (-0.5)*(Fs*DIV_2_PI)*log(sqrt(roots_real[i].real()*roots_real[i].real()+roots_real[i].imag()*roots_real[i].imag()));
-    // Serial.println(bw[i],5);
   }
 
+  #if DEBUG == 1
+  Serial.println("bw[i]:");
+  for(uint8_t i=0; i<pp; i++)
+  {
+    Serial.println(bw[i],5);
+  }
+  Serial.println();
+  #endif
+
+  // SEXTA PARTE - FORMANTES
+
   // Eliminamos todas los polos menores a 50 Hz o que tengan anchos de banda mayores
-  // a 400 Hz. Esto es un criterio empÌrico. En la ayuda de Matlab dice > 90 Hz, 
+  // a 400 Hz. Esto es un criterio emp√≠rico. En la ayuda de Matlab dice > 90 Hz, 
   // Praat 5.4 dice > 50 Hz.
   
-  // ff ser· el Ìndice del arreglo de formantes v·lidos. Reuso el arreglo de frqs para
+  // ff ser√° el √≠ndice del arreglo de formantes v√°lidos. Reuso el arreglo de frqs para
   // ahorrar recursos? Pistola.
-  // Luego habr· que chequear si efectivamente se habÌan encontrado frqs/formantes o no
+  // Luego habr√° que chequear si efectivamente se hab√°an encontrado frqs/formantes o no
   // y ver que hacer en caso de que no.
-  float formantes[3]; // SÌ solo usamos 2...
+  
+  float formantes[3]; // Si solo usamos 2...
   uint8_t ff = 0;	
   for(uint8_t i=0; i<pp; i++)
   {
-    if( (frqs[i] > 50) && bw[i] < 400 )
-	{
+    if((frqs[i] > 50)&&(bw[i] < 400))
+    {
       formantes[ff] = frqs[i];
-	  ff++;
-	}	  
+      ff++;
+    }
+    // Como solo queremos 2 formantes..
+    if(ff == 3)
+    {
+      break;
+    }
   }
-  // Serial.println("Los formantes encontrados son \n");
-  // for(uint8_t i=0; i<3; i++)
-  // {
-    // Serial.println(formantes[i]);
-  // }
-  // Serial.println();
-  
-  if (ff >= 2) // Si hay dos o m·s formantes, guardo los dos primeros como F1 y F2. Else, 0
+
+  #if DEBUG == 1
+  Serial.println("Los formantes encontrados son:");
+  for(uint8_t i=0; i<3; i++)
   {
-	  *f1 = formantes[0];
-	  *f2 = formantes[1];
-	  return;
+   Serial.println(formantes[i]);
+  }
+  Serial.println();
+  #endif
+  
+  if (ff >= 2) // Si hay dos o m√°s formantes, guardo los dos primeros como F1 y F2.
+  {
+    *f1 = round(formantes[0]);
+    *f2 = round(formantes[1]);
+    return;
   }
   else
   {
-	  *f1 = 0;
+    *f1 = 0;
 	  *f2 = 0;
-	  return;
+    return;
   }
-  
-  return;
-
 }

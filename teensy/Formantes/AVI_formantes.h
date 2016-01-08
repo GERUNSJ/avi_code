@@ -49,17 +49,16 @@
 
 #include <Eigen30.h>
 #include <Eigen/Eigenvalues>
+#include "Arduino.h"
 #define DIV_2_PI 0.15915494f // 1/2*PI
 
 // ********************************************************************
 // 			DECLARACIÓN DE FUNCIONES
 
 // Funcion de intercambio (tipo float)
-// Utilizado en el Bubble Sort
 void swap(float *x, float *y);
 
 // Funcion de intercambio (tipo std::complex<float>)
-// Utilizado en el Bubble Sort
 void complex_swap(std::complex<float> *x, std::complex<float> *y);
 
 // Algoritmo Convencional de Burg
