@@ -11,14 +11,15 @@
 //=================================================================================================
 
 //-------------------------------------------------------------------------------------------------
-// DEBUG
+// GENERAL
 #define DEBUG 0
+#define ARM_MATH_CM4
 
 //-------------------------------------------------------------------------------------------------
 // AUDIO
 #define AUDIO_FS 8000 // Frecuencia Muestreo [Hz]
 #define AUDIO_TIEMPO_SEGMENTO 25 // Duracion del segmento de grabacion [ms] (a Fs = 8kHz, 25ms = 200 muestras)
-const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*1000/AUDIO_FS; // Cantidad de muestras
+const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad de muestras
 #define UMBRAL_MINIMO 30 // Umbral Minimo de Captura
 
 //-------------------------------------------------------------------------------------------------
