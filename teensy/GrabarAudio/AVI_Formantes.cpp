@@ -1,5 +1,5 @@
-#include "AVI_formantes.h"
-#define DEBUG 1
+#include "AVI_Formantes.h"
+#define DEBUG 0
 
 using namespace Eigen;
 using namespace std;
