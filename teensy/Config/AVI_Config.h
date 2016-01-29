@@ -1,6 +1,28 @@
-#ifndef AVI_CONFIG_H
-#define AVI_CONFIG_H
-
+//=================================================================================================
+// AVI_Config.h
+//
+// Aguado, Pablo.
+// Areche, Ariadna.
+// Barragan, Edwin.
+// Icard, Nicolas.
+// Mas, German Emilio.
+// 
+// Año 2016
+//
+//=================================================================================================
+// DESCRIPCION
+// - Contiene aquellas definiciones y constantes utiles para todo el programa.
+//
+//=================================================================================================
+// COMENTARIOS GENERALES
+// - Se usa define para constantes numericas y "const" para formulas y arreglos.
+// - Si se tiene que dividir por 2*pi, se multiplica por una constante DIV_2_PI que es 1/(2*pi).
+// - La constante PI_2 es 2*pi para simplificar calculo.
+// - En Eigen: Matrix X c d
+//   - X es de filas y columnas dinámicas. Se tiene que definir en el constructor.
+//   - c es que los elementos son complejos.
+//   - d elementos tipo double. (Queremos buena precision)
+//
 //=================================================================================================
 // TODO
 //
@@ -9,6 +31,9 @@
 // MODOS
 // - umbrales
 //=================================================================================================
+
+#ifndef AVI_CONFIG_H
+#define AVI_CONFIG_H
 
 //-------------------------------------------------------------------------------------------------
 // GENERAL
@@ -29,7 +54,8 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 #define TOL_VOCALES 0 // Tolerancia de las vocales
 #define TOL_MUESTRA 0 // Tolerancia de las muestras
 
-// Vocales
+//-------------------------------------------------------------------------------------------------
+// VOCALES
 #define A_F1 772
 #define A_F2 1305
 
@@ -48,5 +74,4 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 //-------------------------------------------------------------------------------------------------
 // TODO
 
-
-#endif
+#endif // AVI_CONFIG_H
