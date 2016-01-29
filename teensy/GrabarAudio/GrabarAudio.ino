@@ -19,6 +19,7 @@ float maximo = 0;
 float minimo = 1024;
 int f1 = 0; // Primer Formante
 int f2 = 0; // Segundo Formante
+char vocal = 'X';
 
 // Funciones Auxiliares
 void medir()
@@ -83,13 +84,16 @@ void loop()
     // Filtrado y Obtencion de Formantes
     hamming(datos, AUDIO_CANT_MUESTRAS);
     obtener_formantes(datos, AUDIO_CANT_MUESTRAS, FILTRO_PROM_N, AUDIO_FS, &f1, &f2);
-
+    vocal = getVocal(f1, f2);
+    
     // Imprimir los resultados
     Serial.begin(115200);
     Serial.print("F1 =\t");
     Serial.print(f1);
     Serial.print("\tF2 =\t");
-    Serial.println(f2);
+    Serial.print(f2);
+    Serial.print("\tVocal =\t");
+    Serial.println(vocal);
     Serial.end();
 
     // Fin del ciclo de calculo
