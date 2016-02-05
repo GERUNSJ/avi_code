@@ -1,50 +1,6 @@
-#ifndef AVI_LEDS_H
-#define AVI_LEDS_H
-
-#include "Arduino.h"
-#include "AVI_Config.h"
-#include "AVI_Pines.h"
 #include <FastLED.h>
 
-#define DEBUG_LEDS 1 
-
-
-enum class IMAGENES
-{
-	CIRCULO = 1,
-	CARA,	
-	VOL_LOW,
-	VOL_MID,
-	VOL_HIGH,
-	A_IMG,
-	E_IMG,
-	I_IMG,
-	O_IMG,
-	U_IMG,
-	TIME_SH_A,
-	TIME_SH_B,
-	TIME_MID_A,
-	TIME_MID_B,
-	TIME_LO_A,
-	TIME_LO_B
-}	
-
-// TODO: Enums de brillo . Función de mostrar(forma,brillo,color), y otras.
-
-
-class LEDs
-{
-public:
-	LEDs(void);
-	mostrar(IMAGENES img);
-	
-private:
-	CRGB leds[50];
-	CRGB color;
-	String estado;
-	static const long* a_mostrar = nullptr;
-}
-
+#define PIN_LED_DATA 9
 
 const long CIRCULO[50] =  {0x000000, 0x000000, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0x000000, 0x000000, 0xFFFFFF, 0x000000, 0x000000, 0xFFFFFF, 0x000000, 0x000000, 0x000000, 0x000000, 0xFFFFFF, 0x000000, 0x000000, 0x000000, 0xFFFFFF, 0x000000, 0x000000, 0xFFFFFF, 0x000000, 0x000000, 0x000000, 0xFFFFFF, 0x000000, 0x000000, 0x000000, 0x000000, 0xFFFFFF, 0x000000, 0x000000, 0x000000, 0xFFFFFF, 0x000000, 0x000000, 0xFFFFFF, 0x000000, 0x000000, 0xFFFFFF, 0x000000, 0x000000, 0x000000, 0x000000, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0x000000};
 
@@ -78,4 +34,18 @@ const long TIME_LO_A[50] ={0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x0
 
 const long TIME_LO_B[50] ={0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0x000000, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0x000000, 0x000000, 0x000000, 0x000000, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0x000000, 0x000000, 0x000000, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF};
 
-#endif // AVI_LEDS_H
+  CRGB leds[50];
+
+void setup() {
+  // put your setup code here, to run once:
+  FastLED.addLeds<WS2812B, PIN_LED_DATA> (leds, 50);
+  for(int i=0; i < 50; i++)
+    leds[i] = TIME_LO_A[i] & CRGB::Yellow | TIME_LO_B[i] & CRGB::AliceBlue;
+  FastLED.show();
+}
+
+void loop() {
+  
+  // put your main code here, to run repeatedly:
+
+}
