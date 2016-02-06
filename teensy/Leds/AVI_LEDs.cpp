@@ -26,7 +26,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "CIRCULO";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = CIRCULO;
@@ -37,7 +37,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "CARA";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = CARA;
@@ -48,7 +48,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "VOL_LOW";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = VOL_LOW;
@@ -59,7 +59,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "VOL_MID";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = VOL_MID;
@@ -70,7 +70,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "VOL_HIGH";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = VOL_HIGH;
@@ -81,7 +81,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "A_IMG";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = A_IMG;
@@ -92,7 +92,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "E_IMG";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = E_IMG;
@@ -103,7 +103,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "I_IMG";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = I_IMG;
@@ -114,7 +114,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "O_IMG";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = O_IMG;
@@ -125,7 +125,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "U_IMG";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = U_IMG;
@@ -136,7 +136,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "TIME_SH_A";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = TIME_SH_A;
@@ -147,7 +147,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "TIME_SH_B";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = TIME_SH_B;
@@ -158,7 +158,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "TIME_MID_A";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = TIME_MID_A;
@@ -169,7 +169,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "TIME_MID_B";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = TIME_MID_B;
@@ -180,7 +180,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "TIME_LO_A";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = TIME_LO_A;
@@ -191,7 +191,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "TIME_LO_B";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = TIME_LO_B;
@@ -201,7 +201,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 		{
 			#ifdef DEBUG_LEDS
 			estado = "DEFAULT";
-			println("Mostrando: " + estado);
+			Serial.println("Mostrando: " + estado);
 			#endif
 			
 			a_mostrar = TIME_LO_B;
@@ -215,7 +215,7 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 	// Máscara
 	for(unsigned int i = 0 ; i < 50 ; i++)
 	{
-		leds[i] = leds[i] & a_mostrar[i];
+		leds[i] = (const long)leds[i] & a_mostrar[i];
 	}
 	
 	
