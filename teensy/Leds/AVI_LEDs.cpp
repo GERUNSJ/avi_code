@@ -1,13 +1,25 @@
 #include "AVI_LEDs.h"
 
+
 LEDs::LEDs(void)
 {
 	FastLED.addLeds<WS2812B, PIN_LED_DATA> (leds, 50);
+	brillo = LEDS_BRILLO;
 }
 
 
-LEDs::mostrar(IMAGENES img)
+void LEDs::apagar()
 {
+	fill_solid(leds, 50, CHSV(0, 0, 0) );
+	return;
+}
+
+
+void LEDs::mostrar(IMAGENES img, uint8_t color)
+{
+	//CHSV aux(0,0,brillo);
+	//uint8_t color;
+	
 	switch( img )
 	{
 		case IMAGENES::CIRCULO:
@@ -197,10 +209,13 @@ LEDs::mostrar(IMAGENES img)
 		}
 	}
 	
+	//void 	fill_solid (struct CHSV *targetArray, int numToFill, const struct CHSV &hsvColor)
+	fill_solid(leds, 50, CHSV(color, 255, brillo) );
 	
+	// Máscara
 	for(unsigned int i = 0 ; i < 50 ; i++)
 	{
-		leds[i] = a_mostrar[i];
+		leds[i] = leds[i] & a_mostrar[i];
 	}
 	
 	
