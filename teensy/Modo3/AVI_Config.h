@@ -48,10 +48,6 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 #define UMBRAL_MINIMO 30 // Umbral Minimo de Captura
 
 //-------------------------------------------------------------------------------------------------
-// LEDS
-#define LEDS_BRILLO 128	//0-255
-
-//-------------------------------------------------------------------------------------------------
 // FORMANTES
 #define FILTRO_PROM_N 10 // Tamaño del Filtro Promediador de Formantes
 #define BURG_P 10 // Orden del Filtro AR de Burg
@@ -63,16 +59,14 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 #define M1_PROM 5 // Tamaño del Filtro Promediador
 #define M1_TS 20 // Tiempo de Muestreo [mseg]
 
-//-------------------------------------------------------------------------------------------------
-// MODOS
-#define M1_PROM 5 // Tamaño del Filtro Promediador
-#define M1_TS 20 // Tiempo de Muestreo [mseg]
-
 #define M2_ALTO 85 // Porcentaje del Maximo que se considera Alto
 #define M2_MEDIO 55 // Porcentaje del Maximo que se considera Medio
 #define M2_BAJO 25 // Porcentaje del Maximo que se considera Bajo
 #define M2_PROM 5 // Tamaño del Filtro Promediador
 #define M2_TS 20 // Tiempo de Muestreo [mseg]
+
+#define M3_TS 20 // Tiempo de Muestreo [mseg]
+#define M3_MEDIO 60 // Sobre que Porcentaje del Umbral se considera Medio
 
 //-------------------------------------------------------------------------------------------------
 // VOCALES
