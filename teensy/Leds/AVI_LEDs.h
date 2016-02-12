@@ -7,7 +7,7 @@
 #include "AVI_Pines.h"
 
 
-//#define DEBUG_LEDS 
+#define DEBUG_LEDS 
 
 
 enum class IMAGENES
