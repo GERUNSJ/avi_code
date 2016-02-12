@@ -22,12 +22,9 @@ enum class IMAGENES
 	I_IMG,
 	O_IMG,
 	U_IMG,
-	TIME_SH_A,
-	TIME_SH_B,
-	TIME_MID_A,
-	TIME_MID_B,
-	TIME_LO_A,
-	TIME_LO_B
+	TIME_SH,
+	TIME_MID,
+	TIME_LO
 }	;
 
 // enum class :long BRILLO
@@ -45,7 +42,7 @@ class LEDs
 {
 public:
 	LEDs(void);
-	void mostrar(IMAGENES img, long color);
+	void mostrar(IMAGENES img, long color, long color_b = 0);
 	void apagar(void);
 	float brillo;
 	
@@ -54,6 +51,7 @@ public:
 	//CRGB color;
 	String estado;
 	const long* a_mostrar;	 /* = nullptr*/
+  const long* a_mostrar_b;
 };
 
 

@@ -46,7 +46,7 @@ void loop()
   leds.apagar();
   delay(1000);
 
-     leds.mostrar(IMAGENES::O_IMG , 0x66FF00 ); // naranja
+     leds.mostrar(IMAGENES::TIME_LO , 0x66FF00, 0x0066FF); // naranja
   delay(1000);
   leds.apagar();
   delay(1000);
