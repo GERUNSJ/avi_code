@@ -4,6 +4,8 @@
 LEDs::LEDs(void)
 {
 	FastLED.addLeds<WS2812B, PIN_LED_DATA> (leds, 50);
+  FastLED.setCorrection(  0xB0FFF0 ); // GRB  TypicalSMD5050
+ // FastLED.setTemperature( Halogen );
 	brillo = LEDS_BRILLO;
 }
 
@@ -15,7 +17,7 @@ void LEDs::apagar()
 }
 
 
-void LEDs::mostrar(IMAGENES img, uint8_t color)
+void LEDs::mostrar(IMAGENES img, long color)
 {
 	//CHSV aux(0,0,brillo);
 	//uint8_t color;
@@ -208,14 +210,27 @@ void LEDs::mostrar(IMAGENES img, uint8_t color)
 			break;
 		}
 	}
-	
+
+//  for( int i = 0 ; i<50 ; i++)
+//  {
+//    Serial.println(leds.leds[i]);
+//  }
+  
 	//void 	fill_solid (struct CHSV *targetArray, int numToFill, const struct CHSV &hsvColor)
-	fill_solid(leds, 50, CHSV(color, 255, brillo) );
+//	CRGB auxrgb;
+//	CHSV auxhsv(color, 255, brillo);
+//	hsv2rgb_rainbow( auxhsv, auxrgb);
+//	fill_solid(leds, 50, auxrgb );
+  
 	
 	// Máscara
 	for(unsigned int i = 0 ; i < 50 ; i++)
 	{
-		leds[i] = (const long)leds[i] & a_mostrar[i];
+      leds[i].r = (long)((a_mostrar[i] & 0xFF0000 & color) * brillo) >> 16;
+      leds[i].g = (long)((a_mostrar[i] & 0x00FF00 & color) * brillo ) >> 8;
+      leds[i].b = (long)((a_mostrar[i] & 0x0000FF & color) * brillo ) >> 0;
+      Serial.println(leds[i].g,HEX);
+      //leds[i] = (a_mostrar[i] & color) * (float)brillo/255;
 	}
 	
 	
