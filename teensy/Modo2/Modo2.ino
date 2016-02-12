@@ -52,6 +52,5 @@ void setup()
 
 void loop()
 {
-  //Modo2(0,1024);
-  Serial.println("okk");
+  Modo2(1024);
 }
