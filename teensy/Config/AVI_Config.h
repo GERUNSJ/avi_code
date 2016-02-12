@@ -48,6 +48,10 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 #define UMBRAL_MINIMO 30 // Umbral Minimo de Captura
 
 //-------------------------------------------------------------------------------------------------
+// LEDS
+#define LEDS_BRILLO 128	//0-255
+
+//-------------------------------------------------------------------------------------------------
 // FORMANTES
 #define FILTRO_PROM_N 10 // Tamaño del Filtro Promediador de Formantes
 #define BURG_P 10 // Orden del Filtro AR de Burg
