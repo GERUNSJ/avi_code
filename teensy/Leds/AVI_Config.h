@@ -59,11 +59,6 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 #define TOL_MUESTRA 0 // Tolerancia de las muestras
 
 //-------------------------------------------------------------------------------------------------
-// MODOS
-#define M1_PROM 5 // Tamaño del Filtro Promediador
-#define M1_TS 20 // Tiempo de Muestreo [mseg]
-
-//-------------------------------------------------------------------------------------------------
 // VOCALES
 #define A_F1 772
 #define A_F2 1305
