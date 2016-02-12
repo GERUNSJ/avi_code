@@ -59,7 +59,7 @@
 #define PIN_BOTON_2 1
 #define PIN_LED_DATA 9
 #define PIN_MIC_GATE 13
-#define PIN_MIC_ENVOLVENTE 14
-#define PIN_MIC_AUDIO 15
+#define PIN_MIC_ENVOLVENTE A0 // Pin digital 14
+#define PIN_MIC_AUDIO A1 // Pin digital 15
 
 #endif // AVI_PINES_H
