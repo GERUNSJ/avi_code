@@ -10,18 +10,19 @@
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 
-#define MOTORES
-//#define LEDs
-//#define MODO_1
-//#define MODO_2
-//#define MODO_3
-//#define FORMANTES
-//#define GRABAR_AUDIO
+// Descomentar solo 1 y trabajar 
+//#define D_MOTORES
+//#define D_LEDs
+//#define D_MODO_1
+//#define D_MODO_2
+//#define D_MODO_3
+#define D_FORMANTES
+//#define D_GRABAR_AUDIO
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 
-#ifdef MOTORES
+#ifdef D_MOTORES
   Motor motor_A(PIN_MOTOR_A_1, PIN_MOTOR_A_2, PIN_PWM_A);
   Motor motor_B(PIN_MOTOR_B_1, PIN_MOTOR_B_2, PIN_PWM_B);
   Motor motor_C(PIN_MOTOR_C_1, PIN_MOTOR_C_2, PIN_PWM_C);
@@ -61,13 +62,13 @@ void loop()
 	motores.girarCCW(50, 700);
 	delay(500);
 }
-#endif // MOTORES
+#endif // D_MOTORES
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-#ifdef LEDs
+#ifdef D_LEDs
 
 LEDs leds;
 
@@ -128,13 +129,13 @@ void loop()
 }
 
 
-#endif // LEDs
+#endif // D_LEDs
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-#ifdef MODO_1
+#ifdef D_MODO_1
 void setup()
 {
   //COMUNICACION
@@ -151,13 +152,13 @@ void loop()
 {
   Modo1(512);
 }
-#endif // MODO_1
+#endif // D_MODO_1
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-#ifdef MODO_2
+#ifdef D_MODO_2
 void setup()
 {
   //COMUNICACION
@@ -175,13 +176,13 @@ void loop()
   Modo2(1024);
 }
 
-#endif // MODO_2
+#endif // D_MODO_2
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-#ifdef MODO_3
+#ifdef D_MODO_3
 void setup()
 {
   //COMUNICACION
@@ -198,13 +199,13 @@ void loop()
 {
   Modo3(800, 5);
 }
-#endif // MODO_3
+#endif // D_MODO_3
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-#ifdef FORMANTES
+#ifdef D_FORMANTES
 #include <Eigen30.h>
 // Para evitar problemas. Ver https://forum.pjrc.com/archive/index.php/t-28181.html
 void abort()
@@ -253,13 +254,13 @@ int main()
   
   return 0;
 }
-#endif // Formantes
+#endif // D_FORMANTES
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-#ifdef GRABAR_AUDIO
+#ifdef D_GRABAR_AUDIO
 #include <FlexiTimer2.h>
 #include <Eigen30.h>
 #include <arm_math.h>
@@ -361,4 +362,4 @@ void loop()
     FlexiTimer2::start();
   }
 }
-#endif // GRABAR_AUDIO
+#endif // D_GRABAR_AUDIO

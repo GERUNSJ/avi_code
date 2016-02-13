@@ -51,7 +51,7 @@ void Modo3(int umbral, int segundos)
   static int contador = 0;
 
   // Otros
-  int envolvente;
+  int envolvente = 0;
 
   t_actual = millis();
   if((t_actual - t_anterior) >= M3_TS)

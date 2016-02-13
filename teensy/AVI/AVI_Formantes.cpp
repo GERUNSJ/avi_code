@@ -1,10 +1,45 @@
+//=================================================================================================
+// AVI_Formantes.cpp
+//
+// Aguado, Pablo.
+// Areche, Ariadna.
+// Barragan, Edwin.
+// Icard, Nicolas.
+// Mas, German Emilio.
+// 
+// Año 2016
+//
+//=================================================================================================
+// FUENTES
+// - https://github.com/RhysU/ar [Collomb2009.cpp]
+// - https://forum.pjrc.com/
+// - https://github.com/vancegroup/EigenArduino
+//
+//=================================================================================================
+// DESCRIPCION
+// - Contiene funciones relacionadas con el calculo de formantes y vocales.
+//
+//=================================================================================================
+// COMENTARIOS GENERALES
+// - Los indices del for usan uint8_t. Es mas chico, a menos que sea necesario mayor tamaño.
+// - Si se tiene que dividir por 2*pi, se multiplica por una constante DIV_2_PI que es 1/(2*pi).
+// - La constante PI_2 es 2*pi para simplificar calculo.
+// - En Eigen: Matrix X c d
+//   - X es de filas y columnas dinámicas. Se tiene que definir en el constructor.
+//   - c es que los elementos son complejos.
+//   - d elementos tipo double. (Queremos buena precision)
+//
+//=================================================================================================
+
 #include "AVI_Formantes.h"
-#define DEBUG 1
+
+#define DIV_2_PI 0.15915494f // 1/2*PI
+#define PI_2 6.28318530717959f // 2*PI
 
 using namespace Eigen;
 using namespace std;
 
-//=================================================================================================
+//-------------------------------------------------------------------------------------------------
 // Funcion de intercambio (tipo float)
 void swap(float *x, float *y)
 {
@@ -14,7 +49,7 @@ void swap(float *x, float *y)
   *y = temp;
 }
 
-//=================================================================================================
+//-------------------------------------------------------------------------------------------------
 // Funcion de intercambio (tipo std::complex<float>)
 void complex_swap(complex<float> *x, complex<float> *y)
 {
@@ -27,7 +62,7 @@ void complex_swap(complex<float> *x, complex<float> *y)
   y->imag(temp.imag());
 }
 
-//=================================================================================================
+//-------------------------------------------------------------------------------------------------
 // Aplica una ventana de Hamming al vector de entrada
 void hamming(float* vector, int longitud)
 {
@@ -45,7 +80,57 @@ void hamming(float* vector, int longitud)
   return;
 }
 
-//=================================================================================================
+//-------------------------------------------------------------------------------------------------
+// Obtiene la vocal con los formantes y tolerancias
+char getVocal(int f1, int f2)
+{
+  double dist[5], minimo;
+  int resultado = 0;
+  char vocal;
+  for(uint8_t i=0; i<5; i++)
+  {
+    dist[i] = 0;
+  }
+  dist[0] = sqrt(pow(f1-A_F1, 2) + pow(f2-A_F2, 2));
+  dist[1] = sqrt(pow(f1-E_F1, 2) + pow(f2-E_F2, 2));
+  dist[2] = sqrt(pow(f1-I_F1, 2) + pow(f2-I_F2, 2));
+  dist[3] = sqrt(pow(f1-O_F1, 2) + pow(f2-O_F2, 2));
+  dist[4] = sqrt(pow(f1-U_F1, 2) + pow(f2-U_F2, 2));
+  minimo = dist[0];
+  resultado = 1;
+  for(uint8_t i=0; i<5; i++)
+  {
+    if(dist[i] < minimo)
+    {
+      minimo = dist[i];
+      resultado = i+1;
+    }
+  }
+  switch(resultado)
+    {
+      case 1:
+      vocal = 'A';
+      break;
+      case 2:
+      vocal = 'E';
+      break;
+      case 3:
+      vocal = 'I';
+      break;
+      case 4:
+      vocal = 'O';
+      break;
+      case 5:
+      vocal = 'U';
+      break;
+      default:
+      vocal = 'X';
+      break;
+    }
+  return vocal;
+}
+
+//-------------------------------------------------------------------------------------------------
 // Algoritmo Convencional de Burg
 // Fuente: https://github.com/RhysU/ar [Collomb2009.cpp]
 // En coeffs devuelve los coeficientes del filtro estimado
@@ -122,7 +207,7 @@ void BurgAlgorithm(float* coeffs, float* x, int x_n, int p)
   }
 }
 
-//=================================================================================================
+//-------------------------------------------------------------------------------------------------
 // Obtener formantes a partir del segmento de sonido
 void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2)
 {

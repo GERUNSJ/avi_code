@@ -47,7 +47,7 @@ void Modo1(int umbral)
   static int contador = 0;
 
   // Otros
-  int envolvente;
+  int envolvente = 0;
 
   t_actual = millis();
   if((t_actual - t_anterior) >= M1_TS)

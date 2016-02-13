@@ -50,7 +50,7 @@ void Modo2(int umbral_max)
   static int contador = 0;
 
   // Otros
-  int envolvente;
+  int envolvente = 0;
 
   t_actual = millis();
   if((t_actual - t_anterior) >= M2_TS)

@@ -1,29 +1,23 @@
-// Creado 06/12/15 - Pablo
-
-
 //=================================================================================================
-// Algoritmo de Detección de Vocales
+// AVI_Formantes.h
 //
-// Aguado, Pablo
-// Mas, German Emilio
+// Aguado, Pablo.
+// Areche, Ariadna.
+// Barragan, Edwin.
+// Icard, Nicolas.
+// Mas, German Emilio.
+// 
+// Año 2016
 //
-// Año 2015
-//
-// Fuentes:
+//=================================================================================================
+// FUENTES
 // - https://github.com/RhysU/ar [Collomb2009.cpp]
 // - https://forum.pjrc.com/
 // - https://github.com/vancegroup/EigenArduino
 //
 //=================================================================================================
-// Descripcion.
-//
-//=================================================================================================
-// TODO
-// - Terminar de pasar avi_burg.m
-// - Ordenar algunos fors que pueden obviarse
-// - Usar labels diferentes para ordenar las funciones (pero pasar un solo .ino es mas comodo...)
-// - No usar tanto Serial.print, pero hay que debuggear de alguna forma.
-// - En Mat_roots = es.eigenvalues().asDiagonal(), ver si no es necesario devolverlo como matriz.
+// DESCRIPCION
+// - Contiene funciones relacionadas con el calculo de formantes y vocales.
 //
 //=================================================================================================
 // COMENTARIOS GENERALES
@@ -50,8 +44,8 @@
 #include <Eigen30.h>
 #include <Eigen/Eigenvalues>
 #include "Arduino.h"
-#define DIV_2_PI 0.15915494f // 1/2*PI
-#define PI_2 6.28318530717959f // 2*PI
+#include "AVI_Config.h"
+
 
 // ********************************************************************
 // 			DECLARACIÓN DE FUNCIONES
@@ -64,6 +58,9 @@ void complex_swap(std::complex<float> *x, std::complex<float> *y);
 
 // Aplica una ventanda de Hamming al vector de entrada
 void hamming(float* vector, int longitud);
+
+// Con el punto y las tolerancias, busca la vocal
+char getVocal(int f1, int f2);
 
 // Algoritmo Convencional de Burg
 // Fuente: https://github.com/RhysU/ar [Collomb2009.cpp]
@@ -79,6 +76,5 @@ void BurgAlgorithm(float* coeffs,  float* x , int x_n, int p, int Fs);
 // en x1 y x2 se devuelven los 2 primeros formantes encontrados. Si 
 // no, se devuelven 0s.
 void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2);
-
 
 #endif // AVI_FORMANTES_H 
