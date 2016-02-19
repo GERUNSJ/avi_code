@@ -75,7 +75,7 @@ public:
 private:
 	//unsigned int velocidad_default = 0;
 	bool encendido = false;	// Flag de encendido. Si es false, nada se mueve, solo debug.
-	String estado;
+	String estado = "default";
 	Motor motor_A;
 	Motor motor_B;
 	Motor motor_C;
