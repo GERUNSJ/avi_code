@@ -75,7 +75,8 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 #define M2_TS 20 // Tiempo de Muestreo [mseg]
 
 #define M3_TS 20 // Tiempo de Muestreo [mseg]
-#define M3_MEDIO 60 // Sobre que Porcentaje del Umbral se considera Medio
+#define M3_BAJO 33 // Porcentaje de tiempo para mostrar la primer imagen
+#define M3_MEDIO 66 // Porcentaje de tiempo para mostrar la segunda imagen
 
 //-------------------------------------------------------------------------------------------------
 // VOCALES

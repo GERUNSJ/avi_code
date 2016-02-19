@@ -17,15 +17,16 @@
 
 #define DEBUG_MODO_3 1
 
-void Modo3(int umbral, int segundos)
+void Modo3(int umbral, int tiempo)
 {
   // Estados
   enum Estados
   {
     verde,
-    bajo,
-    medio,
-    alto,
+    img_inicio,
+    img_bajo,
+    img_medio,
+    img_alto,
     cara,
     rojo
   };
@@ -35,18 +36,20 @@ void Modo3(int umbral, int segundos)
   static unsigned long t_anterior = 0;
   unsigned long t_actual;
   int t_verde = 2000/M3_TS; // 2 Segundos
-  int t_fail = 6000/M3_TS; // 6 Segundos
+  int t_cara = 3000/M3_TS; // 3 Segundos
   int t_rojo = 4000/M3_TS; // 4 Segundos
-  int t_cara = 2000/M3_TS; // 2 Segundos
+  int t_delay = 5000/M3_TS; // 5 Segundos
+  int t_obj = (tiempo*1000)/M3_TS; // Tiempo debe estar en segundos
 
   // Flags
   static boolean flag_verde = LOW;
+  static boolean flag_rojo = LOW;
+  static boolean flag_cara = LOW;
+  static boolean flag_inicio = LOW;
   static boolean flag_bajo = LOW;
   static boolean flag_medio = LOW;
   static boolean flag_alto = LOW;
-  static boolean flag_cara = LOW;
-  static boolean flag_rojo = LOW;
-  
+
   // Contadores
   static int contador = 0;
 
@@ -54,7 +57,7 @@ void Modo3(int umbral, int segundos)
   int envolvente = 0;
 
   t_actual = millis();
-  if((t_actual - t_anterior) >= M3_TS)
+  if((t_actual - t_anterior) >= M1_TS)
   {
     t_anterior = t_actual;
     switch(estado)
@@ -71,123 +74,114 @@ void Modo3(int umbral, int segundos)
       if(contador >= t_verde)
       {
         flag_verde = LOW;
-        // TODO - Deja de mostrar la img verde
-        estado = bajo;
+        estado = img_inicio;
         contador = 0;
       }
       break;
       
       //-------------------------------------------------------------------------------------------------
-      case bajo:
+      case img_inicio:
+      if(!flag_inicio)
+      {
+        flag_inicio = HIGH;
+        // TODO - Mostrar Imagen Inicio
+      }
+      envolvente = analogRead(PIN_MIC_ENVOLVENTE);
+      if(envolvente >= umbral)
+      {
+        estado = img_bajo;
+        flag_inicio = LOW;
+        contador = 0;
+      }
+      contador++;
+      if(contador >= t_delay)
+      {
+        estado = rojo;
+        flag_inicio = LOW;
+        contador = 0;
+      }
+      break;
+
+      //-------------------------------------------------------------------------------------------------
+      case img_bajo:
       if(!flag_bajo)
       {
         flag_bajo = HIGH;
-        // TODO - Mostrar Img Bajo
+        // TODO - Mostrar Imagen Bajo
       }
-      contador++;
-      if(contador < t_fail)
+      envolvente = analogRead(PIN_MIC_ENVOLVENTE);
+      if(envolvente >= umbral)
       {
-        envolvente = analogRead(PIN_MIC_ENVOLVENTE);
-        // Chequeo Medio
-        if((envolvente < umbral) && (envolvente >= (umbral*M3_MEDIO/100)))
+        contador++;
+        if(contador >= t_obj*M3_BAJO/100)
         {
+          estado = img_medio;
           flag_bajo = LOW;
-          estado = medio;
-        }
-        // Chequeo Alto
-        if(envolvente >= umbral)
-        {
-          flag_bajo = LOW;
-          estado = alto;
         }
       }
       else
       {
+        estado = img_inicio;
         flag_bajo = LOW;
-        estado = rojo;
+        contador = 0;
       }
       break;
 
       //-------------------------------------------------------------------------------------------------
-      case medio:
+      case img_medio:
       if(!flag_medio)
       {
         flag_medio = HIGH;
-        // TODO - Mostrar Img Medio
+        // TODO - Mostrar Imagen Medio
       }
-      contador++;
-      if(contador < t_fail)
+      envolvente = analogRead(PIN_MIC_ENVOLVENTE);
+      if(envolvente >= umbral)
       {
-        envolvente = analogRead(PIN_MIC_ENVOLVENTE);
-        // Chequeo Bajo
-        if(envolvente < (umbral*M3_MEDIO/100))
+        contador++;
+        if(contador >= t_obj*M3_MEDIO/100)
         {
+          estado = img_alto;
           flag_medio = LOW;
-          estado = bajo;
-        }
-        // Chequeo Alto
-        if(envolvente >= umbral)
-        {
-          flag_medio = LOW;
-          estado = alto;
         }
       }
       else
       {
+        estado = img_inicio;
         flag_medio = LOW;
-        estado = rojo;
-      }
-      break;
-      
-      //-------------------------------------------------------------------------------------------------
-      case alto:
-      if(!flag_alto)
-      {
-        flag_alto = HIGH;
-        // TODO - Mostrar Img Alto
         contador = 0;
-      }
-      contador++;
-      if(contador >= segundos*1000/M3_TS)
-      {
-        flag_alto = LOW;
-        estado = cara;
-        contador = 0;
-      }
-      else
-      {
-        envolvente = analogRead(PIN_MIC_ENVOLVENTE);
-        // Chequeo Bajo
-        if(envolvente < (umbral*M3_MEDIO/100))
-        {
-          flag_alto = LOW;
-          estado = bajo;
-          contador = 0;
-        }
-        // Chequeo Medio
-        if((envolvente < umbral) && (envolvente >= (umbral*M3_MEDIO/100)))
-        {
-          flag_alto = LOW;
-          estado = medio;
-          contador = 0;
-        }
       }
       break;
 
+      //-------------------------------------------------------------------------------------------------
+      case img_alto:
+      if(!flag_alto)
+      {
+        flag_alto = HIGH;
+        // TODO - Mostrar Imagen Alto
+      }
+      envolvente = analogRead(PIN_MIC_ENVOLVENTE);
+      if(envolvente < umbral)
+      {
+        estado = cara;
+        flag_alto = LOW;
+        contador = 0;
+      }
+      break;
+      
       //-------------------------------------------------------------------------------------------------
       case cara:
       if(!flag_cara)
       {
         flag_cara = HIGH;
-        // TODO - Muestra el rojo
-        contador = 0;
+        // TODO - Muestra cara
       }
       contador++;
       if(contador >= t_cara)
       {
-        flag_cara = LOW;
-        // TODO - No mostrar nada
         estado = verde;
+        flag_cara = LOW;
+        // TODO - Dejar de mostrar la cara
+        contador = 0;
       }
       break;
       
@@ -207,12 +201,13 @@ void Modo3(int umbral, int segundos)
         estado = verde;
       }
       break;
-      
       //-------------------------------------------------------------------------------------------------
+
       default:
       // TODO- Default
       break;
     }
+    
     #if DEBUG_MODO_3 == 1
     if(estado==verde)
     {
@@ -221,45 +216,63 @@ void Modo3(int umbral, int segundos)
       Serial.print(" de ");
       Serial.println(t_verde);
     }
-    if(estado==bajo)
+    if(estado==img_inicio)
     {
-      Serial.print("BAJO\t");
+      Serial.print("IMG_INICIO\t(|------)\t");
       Serial.print(contador);
       Serial.print(" de ");
-      Serial.print(t_fail);
-      Serial.print(" para Fail\tEnvolvente: ");
+      Serial.print(t_delay);
+      Serial.print("\tEnvolvente: ");
       Serial.print(envolvente);
-      Serial.print(" de (");
-      Serial.print(umbral*M3_MEDIO/100);
-      Serial.print("/");
+      Serial.print(" (");
       Serial.print(umbral);
       Serial.println(")");
     }
-    if(estado==medio)
+    if(estado==img_bajo)
     {
-      Serial.print("MEDIO\t");
+      Serial.print("IMG_BAJO\t(|||----)\t");
       Serial.print(contador);
       Serial.print(" de ");
-      Serial.print(t_fail);
-      Serial.print(" para Fail\tEnvolvente: ");
+      Serial.print(t_obj);
+      Serial.print(" (");
+      Serial.print(t_obj*M3_BAJO/100);
+      Serial.print(" / ");
+      Serial.print(t_obj*M3_MEDIO/100);
+      Serial.print(")\tEnvolvente: ");
       Serial.print(envolvente);
-      Serial.print(" de (");
-      Serial.print(umbral*M3_MEDIO/100);
-      Serial.print("/");
+      Serial.print(" (");
       Serial.print(umbral);
       Serial.println(")");
     }
-    if(estado==alto)
+    if(estado==img_medio)
     {
-      Serial.print("ALTO\t");
+      Serial.print("IMG_MEDIO\t(|||||--)\t");
       Serial.print(contador);
       Serial.print(" de ");
-      Serial.print(segundos*1000/M3_TS);
-      Serial.print(" para Success\tEnvolvente: ");
+      Serial.print(t_obj);
+      Serial.print(" (");
+      Serial.print(t_obj*M3_BAJO/100);
+      Serial.print(" / ");
+      Serial.print(t_obj*M3_MEDIO/100);
+      Serial.print(")\tEnvolvente: ");
       Serial.print(envolvente);
-      Serial.print(" de (");
-      Serial.print(umbral*M3_MEDIO/100);
-      Serial.print("/");
+      Serial.print(" (");
+      Serial.print(umbral);
+      Serial.println(")");
+    }
+    if(estado==img_alto)
+    {
+      Serial.print("IMG_ALTO\t(|||||||)\t");
+      Serial.print(contador);
+      Serial.print(" de ");
+      Serial.print(t_obj);
+      Serial.print(" (");
+      Serial.print(t_obj*M3_BAJO/100);
+      Serial.print(" / ");
+      Serial.print(t_obj*M3_MEDIO/100);
+      Serial.print(")\tEnvolvente: ");
+      Serial.print(envolvente);
+      Serial.print(" (");
       Serial.print(umbral);
       Serial.println(")");
     }

@@ -7,6 +7,7 @@
 #include "AVI_Modo_2.h"
 #include "AVI_Modo_3.h"
 #include "AVI_Motores.h"
+#include <FastLED.h>
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 
@@ -15,8 +16,8 @@
 //#define D_LEDs
 //#define D_MODO_1
 //#define D_MODO_2
-//#define D_MODO_3
-#define D_FORMANTES
+#define D_MODO_3
+//#define D_FORMANTES
 //#define D_GRABAR_AUDIO
 
 //-------------------------------------------------------------------------------------------------
@@ -197,7 +198,7 @@ void setup()
 
 void loop()
 {
-  Modo3(800, 5);
+  Modo3(240, 6);
 }
 #endif // D_MODO_3
 

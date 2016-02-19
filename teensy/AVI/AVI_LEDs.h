@@ -13,7 +13,7 @@
 enum class IMAGENES
 {
 	CIRCULO = 1,
-	CARA,	
+	CARA,
 	VOL_LOW,
 	VOL_MID,
 	VOL_HIGH,

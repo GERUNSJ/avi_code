@@ -52,5 +52,5 @@ void setup()
 
 void loop()
 {
-  Modo3(800, 5);
+  Modo3(512, 5);
 }
