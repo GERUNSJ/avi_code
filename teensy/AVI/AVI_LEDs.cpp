@@ -1,195 +1,222 @@
 #include "AVI_LEDs.h"
+#include "AVI_Config.h"
+#include "AVI_Pines.h"
 
+#define DEBUG_LEDS 1
 
+// Constructor de LEDs
 LEDs::LEDs(void)
 {
 	FastLED.addLeds<WS2812B, PIN_LED_DATA> (leds, 50);
-  FastLED.setCorrection(  0xB0FFF0 ); // GRB  TypicalSMD5050
- // FastLED.setTemperature( Halogen );
+  FastLED.setCorrection(0xB0FFF0); // GRB TypicalSMD5050
+  //FastLED.setTemperature(Halogen);
 	brillo = LEDS_BRILLO;
 }
 
-
+// Apagar todo. Escribe NEGRO en todos los LEDs
 void LEDs::apagar()
 {
-	fill_solid(leds, 50, CHSV(0, 0, 0) );
+	fill_solid(leds, 50, CHSV(0,0,0));
 	return;
 }
 
-
+// Mostrar Imagen indicada en el color indicado
 void LEDs::mostrar(IMAGENES img, long color, long color_b)
 {
 	//CHSV aux(0,0,brillo);
 	//uint8_t color;
 	
-	switch( img )
+	switch(img)
 	{
-		case IMAGENES::CIRCULO:
+		case IMAGENES::circulo:
 		{
-			#ifdef DEBUG_LEDS
-			estado = "CIRCULO";
+			#if DEBUG_LEDS == 1
+			estado = "circulo";
 			Serial.println("Mostrando: " + estado);
-			#endif
+			#endif // DEBUG_LEDS == 1
 			
-			a_mostrar = CIRCULO;
-      a_mostrar_b = CIRCULO;
+			a_mostrar = circulo;
+      a_mostrar_b = circulo;
 			break;
 		}
 		
-		case IMAGENES::CARA:
+		case IMAGENES::cara:
 		{
-			#ifdef DEBUG_LEDS
-			estado = "CARA";
+			#if DEBUG_LEDS == 1
+			estado = "cara";
 			Serial.println("Mostrando: " + estado);
-			#endif
+			#endif // DEBUG_LEDS == 1
 			
-			a_mostrar = CARA;
-      a_mostrar_b = CARA;
+			a_mostrar = cara;
+      a_mostrar_b = cara;
 			break;
 		}
 		
-		case IMAGENES::VOL_LOW:
+		case IMAGENES::m2_img_standby:
 		{
-			#ifdef DEBUG_LEDS
-			estado = "VOL_LOW";
+			#if DEBUG_LEDS == 1
+			estado = "m2_img_standby";
 			Serial.println("Mostrando: " + estado);
-			#endif
+			#endif // DEBUG_LEDS == 1
 			
-			a_mostrar = VOL_LOW;
-      a_mostrar_b = VOL_LOW;
+			a_mostrar = m2_img_standby;
+      a_mostrar_b = m2_img_standby;
 			break;
 		}
 		
-		case IMAGENES::VOL_MID:
+		case IMAGENES::m2_img_bajo:
 		{
-			#ifdef DEBUG_LEDS
-			estado = "VOL_MID";
+			#if DEBUG_LEDS == 1
+			estado = "m2_img_bajo";
 			Serial.println("Mostrando: " + estado);
-			#endif
+			#endif // DEBUG_LEDS == 1
 			
-			a_mostrar = VOL_MID;
-      a_mostrar_b = VOL_MID;
+			a_mostrar = m2_img_bajo;
+      a_mostrar_b = m2_img_bajo;
 			break;
 		}
 		
-		case IMAGENES::VOL_HIGH:
+    case IMAGENES::m2_img_medio:
+    {
+      #if DEBUG_LEDS == 1
+      estado = "m2_img_medio";
+      Serial.println("Mostrando: " + estado);
+      #endif // DEBUG_LEDS == 1
+      
+      a_mostrar = m2_img_medio;
+      a_mostrar_b = m2_img_medio;
+      break;
+    }
+
+    case IMAGENES::m2_img_alto:
+    {
+      #if DEBUG_LEDS == 1
+      estado = "m2_img_alto";
+      Serial.println("Mostrando: " + estado);
+      #endif // DEBUG_LEDS == 1
+      
+      a_mostrar = m2_img_alto;
+      a_mostrar_b = m2_img_alto;
+      break;
+    }
+
+    case IMAGENES::m3_img_standby:
+    {
+      #if DEBUG_LEDS == 1
+      estado = "m3_img_standby";
+      Serial.println("Mostrando: " + estado);
+      #endif // DEBUG_LEDS == 1
+      
+      a_mostrar = m3_img_standby;
+      a_mostrar_b = m3_img_standby;
+      break;
+    }
+    
+    case IMAGENES::m3_img_bajo:
+    {
+      #if DEBUG_LEDS == 1
+      estado = "m3_img_bajo";
+      Serial.println("Mostrando: " + estado);
+      #endif // DEBUG_LEDS == 1
+      
+      a_mostrar = m3_img_bajo_a;
+      a_mostrar_b = m3_img_bajo_b;
+      break;
+    }
+    
+    case IMAGENES::m3_img_medio:
+    {
+      #if DEBUG_LEDS == 1
+      estado = "m3_img_medio";
+      Serial.println("Mostrando: " + estado);
+      #endif // DEBUG_LEDS == 1
+      
+      a_mostrar = m3_img_medio_a;
+      a_mostrar_b = m3_img_medio_b;
+      break;
+    }
+
+    case IMAGENES::m3_img_alto:
+    {
+      #if DEBUG_LEDS == 1
+      estado = "m3_img_alto";
+      Serial.println("Mostrando: " + estado);
+      #endif // DEBUG_LEDS == 1
+      
+      a_mostrar = m3_img_alto_a;
+      a_mostrar_b = m3_img_alto_b;
+      break;
+    }
+		
+		case IMAGENES::a_img:
 		{
-			#ifdef DEBUG_LEDS
-			estado = "VOL_HIGH";
+			#if DEBUG_LEDS == 1
+			estado = "a_img";
 			Serial.println("Mostrando: " + estado);
-			#endif
+			#endif // DEBUG_LEDS == 1
 			
-			a_mostrar = VOL_HIGH;
-      a_mostrar_b = VOL_HIGH;
+			a_mostrar = a_img;
+      a_mostrar_b = a_img;
 			break;
 		}
 		
-		case IMAGENES::A_IMG:
+		case IMAGENES::e_img:
 		{
-			#ifdef DEBUG_LEDS
-			estado = "A_IMG";
+			#if DEBUG_LEDS == 1
+			estado = "e_img";
 			Serial.println("Mostrando: " + estado);
-			#endif
+			#endif // DEBUG_LEDS == 1
 			
-			a_mostrar = A_IMG;
-      a_mostrar_b = A_IMG;
+			a_mostrar = e_img;
+      a_mostrar_b = e_img;
 			break;
 		}
 		
-		case IMAGENES::E_IMG:
+		case IMAGENES::i_img:
 		{
-			#ifdef DEBUG_LEDS
-			estado = "E_IMG";
+			#if DEBUG_LEDS == 1
+			estado = "i_img";
 			Serial.println("Mostrando: " + estado);
-			#endif
+			#endif // DEBUG_LEDS == 1
 			
-			a_mostrar = E_IMG;
-      a_mostrar_b = E_IMG;
+			a_mostrar = i_img;
+      a_mostrar_b = i_img;
 			break;
 		}
 		
-		case IMAGENES::I_IMG:
+		case IMAGENES::o_img:
 		{
-			#ifdef DEBUG_LEDS
-			estado = "I_IMG";
+			#if DEBUG_LEDS == 1
+			estado = "o_img";
 			Serial.println("Mostrando: " + estado);
-			#endif
+			#endif // DEBUG_LEDS == 1
 			
-			a_mostrar = I_IMG;
-      a_mostrar_b = I_IMG;
+			a_mostrar = o_img;
+      a_mostrar_b = o_img;
 			break;
 		}
 		
-		case IMAGENES::O_IMG:
+		case IMAGENES::u_img:
 		{
-			#ifdef DEBUG_LEDS
-			estado = "O_IMG";
+			#if DEBUG_LEDS == 1
+			estado = "u_img";
 			Serial.println("Mostrando: " + estado);
-			#endif
+			#endif // DEBUG_LEDS == 1
 			
-			a_mostrar = O_IMG;
-      a_mostrar_b = O_IMG;
-			break;
-		}
-		
-		case IMAGENES::U_IMG:
-		{
-			#ifdef DEBUG_LEDS
-			estado = "U_IMG";
-			Serial.println("Mostrando: " + estado);
-			#endif
-			
-			a_mostrar = U_IMG;
-      a_mostrar_b = U_IMG;
-			break;
-		}
-		
-		case IMAGENES::TIME_SH:
-		{
-			#ifdef DEBUG_LEDS
-			estado = "TIME_SH";
-			Serial.println("Mostrando: " + estado);
-			#endif
-			
-			a_mostrar = TIME_SH_A;
-      a_mostrar_b = TIME_SH_B;
-			break;
-		}
-		
-		
-		case IMAGENES::TIME_MID:
-		{
-			#ifdef DEBUG_LEDS
-			estado = "TIME_MID";
-			Serial.println("Mostrando: " + estado);
-			#endif
-			
-			a_mostrar = TIME_MID_A;
-      a_mostrar_b = TIME_MID_B;
-			break;
-		}
-				
-		case IMAGENES::TIME_LO:
-		{
-			#ifdef DEBUG_LEDS
-			estado = "TIME_LO";
-			Serial.println("Mostrando: " + estado);
-			#endif
-			
-			a_mostrar = TIME_LO_A;
-      a_mostrar_b = TIME_LO_B;
+			a_mostrar = u_img;
+      a_mostrar_b = u_img;
 			break;
 		}
 		
 		default:
 		{
-			#ifdef DEBUG_LEDS
+			#if DEBUG_LEDS == 1
 			estado = "DEFAULT";
 			Serial.println("Mostrando: " + estado);
-			#endif
+			#endif // DEBUG_LEDS == 1
 			
-			a_mostrar = CIRCULO;
-      a_mostrar_b = CIRCULO;
+			a_mostrar = circulo;
+      a_mostrar_b = circulo;
 			break;
 		}
 	}
@@ -215,7 +242,6 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
       //Serial.println(leds[i].g,HEX);
       //leds[i] = (a_mostrar[i] & color) * (float)brillo/255;
 	}
-	
 	
 	FastLED.show();
 }

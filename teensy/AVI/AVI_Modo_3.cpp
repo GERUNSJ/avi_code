@@ -12,6 +12,7 @@
 //=================================================================================================
 
 #include "AVI_Config.h"
+#include "AVI_Pines.h"
 #include "AVI_Modo_3.h"
 #include "Arduino.h"
 
@@ -23,7 +24,7 @@ void Modo3(int umbral, int tiempo)
   enum Estados
   {
     verde,
-    img_inicio,
+    img_standby,
     img_bajo,
     img_medio,
     img_alto,
@@ -45,7 +46,7 @@ void Modo3(int umbral, int tiempo)
   static boolean flag_verde = LOW;
   static boolean flag_rojo = LOW;
   static boolean flag_cara = LOW;
-  static boolean flag_inicio = LOW;
+  static boolean flag_standby = LOW;
   static boolean flag_bajo = LOW;
   static boolean flag_medio = LOW;
   static boolean flag_alto = LOW;
@@ -67,37 +68,37 @@ void Modo3(int umbral, int tiempo)
       if(!flag_verde)
       {
         flag_verde = HIGH;
-        // TODO - Mostrar Img Verde
+        //leds.mostrar(IMAGENES::circulo, c_verde); // TODO ARREGLAR CLASE
         contador = 0;
       }
       contador++;
       if(contador >= t_verde)
       {
         flag_verde = LOW;
-        estado = img_inicio;
+        estado = img_standby;
         contador = 0;
       }
       break;
       
       //-------------------------------------------------------------------------------------------------
-      case img_inicio:
-      if(!flag_inicio)
+      case img_standby:
+      if(!flag_standby)
       {
-        flag_inicio = HIGH;
-        // TODO - Mostrar Imagen Inicio
+        flag_standby = HIGH;
+        //leds.mostrar(IMAGENES::m3_img_standby, c_naranja); // TODO ARREGLAR CLASE
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente >= umbral)
       {
         estado = img_bajo;
-        flag_inicio = LOW;
+        flag_standby = LOW;
         contador = 0;
       }
       contador++;
       if(contador >= t_delay)
       {
         estado = rojo;
-        flag_inicio = LOW;
+        flag_standby = LOW;
         contador = 0;
       }
       break;
@@ -107,13 +108,13 @@ void Modo3(int umbral, int tiempo)
       if(!flag_bajo)
       {
         flag_bajo = HIGH;
-        // TODO - Mostrar Imagen Bajo
+        //leds.mostrar(IMAGENES::m2_img_bajo, c_naranja, c_azul); // TODO ARREGLAR CLASE
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente >= umbral)
       {
         contador++;
-        if(contador >= t_obj*M3_BAJO/100)
+        if(contador >= t_obj*M3_PORC_BAJO/100)
         {
           estado = img_medio;
           flag_bajo = LOW;
@@ -121,7 +122,7 @@ void Modo3(int umbral, int tiempo)
       }
       else
       {
-        estado = img_inicio;
+        estado = img_standby;
         flag_bajo = LOW;
         contador = 0;
       }
@@ -132,13 +133,13 @@ void Modo3(int umbral, int tiempo)
       if(!flag_medio)
       {
         flag_medio = HIGH;
-        // TODO - Mostrar Imagen Medio
+        //leds.mostrar(IMAGENES::m2_img_medio, c_naranja, c_azul); // TODO ARREGLAR CLASE
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente >= umbral)
       {
         contador++;
-        if(contador >= t_obj*M3_MEDIO/100)
+        if(contador >= t_obj*M3_PORC_MEDIO/100)
         {
           estado = img_alto;
           flag_medio = LOW;
@@ -146,7 +147,7 @@ void Modo3(int umbral, int tiempo)
       }
       else
       {
-        estado = img_inicio;
+        estado = img_standby;
         flag_medio = LOW;
         contador = 0;
       }
@@ -157,7 +158,7 @@ void Modo3(int umbral, int tiempo)
       if(!flag_alto)
       {
         flag_alto = HIGH;
-        // TODO - Mostrar Imagen Alto
+        //leds.mostrar(IMAGENES::m2_img_alto, c_naranja, c_azul); // TODO ARREGLAR CLASE
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente < umbral)
@@ -173,14 +174,13 @@ void Modo3(int umbral, int tiempo)
       if(!flag_cara)
       {
         flag_cara = HIGH;
-        // TODO - Muestra cara
+        //leds.mostrar(IMAGENES::cara, c_azul); // TODO ARREGLAR CLASE
       }
       contador++;
       if(contador >= t_cara)
       {
         estado = verde;
         flag_cara = LOW;
-        // TODO - Dejar de mostrar la cara
         contador = 0;
       }
       break;
@@ -190,21 +190,29 @@ void Modo3(int umbral, int tiempo)
       if(!flag_rojo)
       {
         flag_rojo = HIGH;
-        // TODO - Muestra el rojo
+        //leds.mostrar(IMAGENES::circulo, c_rojo); // TODO ARREGLAR CLASE
         contador = 0;
       }
       contador++;
       if(contador >= t_rojo)
       {
         flag_rojo = LOW;
-        // TODO - No mostrar nada
         estado = verde;
       }
       break;
+      
       //-------------------------------------------------------------------------------------------------
-
       default:
-      // TODO- Default
+      // Reinicia
+      flag_verde = LOW;
+      flag_rojo = LOW;
+      flag_cara = LOW;
+      flag_standby = LOW;
+      flag_bajo = LOW;
+      flag_medio = LOW;
+      flag_alto = LOW;
+      contador = 0;
+      estado = verde;
       break;
     }
     
@@ -216,7 +224,7 @@ void Modo3(int umbral, int tiempo)
       Serial.print(" de ");
       Serial.println(t_verde);
     }
-    if(estado==img_inicio)
+    if(estado==img_standby)
     {
       Serial.print("IMG_INICIO\t(|------)\t");
       Serial.print(contador);
@@ -235,9 +243,9 @@ void Modo3(int umbral, int tiempo)
       Serial.print(" de ");
       Serial.print(t_obj);
       Serial.print(" (");
-      Serial.print(t_obj*M3_BAJO/100);
+      Serial.print(t_obj*M3_PORC_BAJO/100);
       Serial.print(" / ");
-      Serial.print(t_obj*M3_MEDIO/100);
+      Serial.print(t_obj*M3_PORC_MEDIO/100);
       Serial.print(")\tEnvolvente: ");
       Serial.print(envolvente);
       Serial.print(" (");
@@ -251,9 +259,9 @@ void Modo3(int umbral, int tiempo)
       Serial.print(" de ");
       Serial.print(t_obj);
       Serial.print(" (");
-      Serial.print(t_obj*M3_BAJO/100);
+      Serial.print(t_obj*M3_PORC_BAJO/100);
       Serial.print(" / ");
-      Serial.print(t_obj*M3_MEDIO/100);
+      Serial.print(t_obj*M3_PORC_MEDIO/100);
       Serial.print(")\tEnvolvente: ");
       Serial.print(envolvente);
       Serial.print(" (");
@@ -267,9 +275,9 @@ void Modo3(int umbral, int tiempo)
       Serial.print(" de ");
       Serial.print(t_obj);
       Serial.print(" (");
-      Serial.print(t_obj*M3_BAJO/100);
+      Serial.print(t_obj*M3_PORC_BAJO/100);
       Serial.print(" / ");
-      Serial.print(t_obj*M3_MEDIO/100);
+      Serial.print(t_obj*M3_PORC_MEDIO/100);
       Serial.print(")\tEnvolvente: ");
       Serial.print(envolvente);
       Serial.print(" (");

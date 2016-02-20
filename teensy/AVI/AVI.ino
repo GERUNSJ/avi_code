@@ -14,14 +14,22 @@
 // Descomentar solo 1 y trabajar 
 //#define D_MOTORES
 //#define D_LEDs
-//#define D_MODO_1
+#define D_MODO_1
 //#define D_MODO_2
-#define D_MODO_3
+//#define D_MODO_3
 //#define D_FORMANTES
 //#define D_GRABAR_AUDIO
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+
+// VARIABLES GLOBALES
+LEDs leds;
+
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+
 
 #ifdef D_MOTORES
   Motor motor_A(PIN_MOTOR_A_1, PIN_MOTOR_A_2, PIN_PWM_A);

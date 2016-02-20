@@ -12,7 +12,9 @@
 //=================================================================================================
 
 #include "AVI_Config.h"
+#include "AVI_Pines.h"
 #include "AVI_Modo_1.h"
+#include "AVI_LEDs.h"
 #include "Arduino.h"
 
 #define DEBUG_MODO_1 0
@@ -60,14 +62,13 @@ void Modo1(int umbral)
       if(!flag_verde)
       {
         flag_verde = HIGH;
-        // TODO - Mostrar Img Verde
+        //leds.mostrar(IMAGENES::circulo, c_verde); // TODO ARREGLAR CLASE
         contador = 0;
       }
       contador++;
       if(contador >= t_verde)
       {
         flag_verde = LOW;
-        // TODO - Deja de mostrar la img verde
         estado = standby;
         contador = 0;
       }
@@ -99,13 +100,13 @@ void Modo1(int umbral)
         }
       }
       break;
+      
       //-------------------------------------------------------------------------------------------------
-
       case cara:
       if(!flag_cara)
       {
         flag_cara = HIGH;
-        // TODO - Muestra cara
+        //leds.mostrar(IMAGENES::cara, c_azul); // TODO ARREGLAR CLASE
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente >= umbral)
@@ -119,32 +120,36 @@ void Modo1(int umbral)
         {
           estado = standby;
           flag_cara = LOW;
-          // TODO - Dejar de mostrar la cara
           contador = 0;
         }
       }
       break;
+      
       //-------------------------------------------------------------------------------------------------
-
       case rojo:
       if(!flag_rojo)
       {
         flag_rojo = HIGH;
-        // TODO - Muestra el rojo
+        //leds.mostrar(IMAGENES::circulo, c_rojo); // TODO ARREGLAR CLASE
         contador = 0;
       }
       contador++;
       if(contador >= t_rojo)
       {
         flag_rojo = LOW;
-        // TODO - No mostrar nada
         estado = verde;
       }
       break;
+      
       //-------------------------------------------------------------------------------------------------
-
       default:
-      // TODO- Default
+      // Reinicia
+      flag_verde = LOW;
+      flag_rojo = LOW;
+      flag_cara = LOW;
+      flag_ok = LOW;
+      contador = 0;
+      estado = verde;
       break;
     }
     #if DEBUG_MODO_1 == 1

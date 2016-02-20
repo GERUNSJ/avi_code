@@ -12,6 +12,7 @@
 //=================================================================================================
 
 #include "AVI_Config.h"
+#include "AVI_Pines.h"
 #include "AVI_Modo_2.h"
 #include "Arduino.h"
 
@@ -45,6 +46,7 @@ void Modo2(int umbral_max)
   static boolean flag_bajo = LOW;
   static boolean flag_medio = LOW;
   static boolean flag_alto = LOW;
+  static boolean flag_standby = LOW;
   
   // Contadores
   static int contador = 0;
@@ -63,14 +65,13 @@ void Modo2(int umbral_max)
       if(!flag_verde)
       {
         flag_verde = HIGH;
-        // TODO - Mostrar Img Verde
+        //leds.mostrar(IMAGENES::circulo, c_verde); // TODO ARREGLAR CLASE
         contador = 0;
       }
       contador++;
       if(contador >= t_verde)
       {
         flag_verde = LOW;
-        // TODO - Deja de mostrar la img verde
         estado = standby;
         contador = 0;
       }
@@ -78,30 +79,38 @@ void Modo2(int umbral_max)
       
       //-------------------------------------------------------------------------------------------------
       case standby:
+      if(!flag_standby)
+      {
+        flag_standby = HIGH;
+        //leds.mostrar(IMAGENES::m2_img_standby, c_azul); // TODO ARREGLAR CLASE
+      }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       // Chequea Alto
-      if(envolvente >= (umbral_max*M2_ALTO/100))
+      if(envolvente >= (umbral_max*M2_PORC_ALTO/100))
       {
         flag_ok = HIGH;
+        flag_standby = LOW;
         estado = alto;
         contador = 0;
       }
       //Chequea Medio
-      if((envolvente < (umbral_max*M2_ALTO/100))&&(envolvente >= (umbral_max*M2_MEDIO/100)))
+      if((envolvente < (umbral_max*M2_PORC_ALTO/100))&&(envolvente >= (umbral_max*M2_PORC_MEDIO/100)))
       {
         flag_ok = HIGH;
+        flag_standby = LOW;
         estado = medio;
         contador = 0;
       }
       //Chequea Bajo
-      if((envolvente < (umbral_max*M2_MEDIO/100))&&(envolvente >= (umbral_max*M2_BAJO/100)))
+      if((envolvente < (umbral_max*M2_PORC_MEDIO/100))&&(envolvente >= (umbral_max*M2_PORC_BAJO/100)))
       {
         flag_ok = HIGH;
+        flag_standby = LOW;
         estado = bajo;
         contador = 0;
       }
       //Chequea Nada
-      if(envolvente < (umbral_max*M2_BAJO/100))
+      if(envolvente < (umbral_max*M2_PORC_BAJO/100))
       {
         contador++;
         if(contador >= t_delay)
@@ -109,27 +118,29 @@ void Modo2(int umbral_max)
           if(flag_ok)
           {
             estado = verde;
+            flag_standby = LOW;
             flag_ok = LOW;
           }
           else
           {
+            flag_standby = LOW;
             estado = rojo;
           }
         }
       }
       break;
+      
       //-------------------------------------------------------------------------------------------------
-
       case bajo:
       if(!flag_bajo)
       {
         flag_bajo = HIGH;
-        // TODO - Muestra Pelota Bajo
+        //leds.mostrar(IMAGENES::m2_img_bajo, c_azul); // TODO ARREGLAR CLASE
         contador = 0;
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       // Chequea Alto
-      if(envolvente >= (umbral_max*M2_ALTO/100))
+      if(envolvente >= (umbral_max*M2_PORC_ALTO/100))
       {
         flag_ok = HIGH;
         flag_bajo = LOW;
@@ -137,7 +148,7 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Medio
-      if((envolvente < (umbral_max*M2_ALTO/100))&&(envolvente >= (umbral_max*M2_MEDIO/100)))
+      if((envolvente < (umbral_max*M2_PORC_ALTO/100))&&(envolvente >= (umbral_max*M2_PORC_MEDIO/100)))
       {
         flag_ok = HIGH;
         flag_bajo = LOW;
@@ -145,24 +156,24 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Nada
-      if(envolvente < (umbral_max*M2_BAJO/100))
+      if(envolvente < (umbral_max*M2_PORC_BAJO/100))
       {
         flag_bajo = LOW;
         estado = standby;
       }
       break;
+      
       //-------------------------------------------------------------------------------------------------
-
       case medio:
       if(!flag_medio)
       {
         flag_medio = HIGH;
-        // TODO - Muestra Pelota Medio
+        //leds.mostrar(IMAGENES::m2_img_medio, c_azul); // TODO ARREGLAR CLASE
         contador = 0;
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       // Chequea Alto
-      if(envolvente >= (umbral_max*M2_ALTO/100))
+      if(envolvente >= (umbral_max*M2_PORC_ALTO/100))
       {
         flag_ok = HIGH;
         flag_medio = LOW;
@@ -170,7 +181,7 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Bajo
-      if((envolvente < (umbral_max*M2_MEDIO/100))&&(envolvente >= (umbral_max*M2_BAJO/100)))
+      if((envolvente < (umbral_max*M2_PORC_MEDIO/100))&&(envolvente >= (umbral_max*M2_PORC_BAJO/100)))
       {
         flag_ok = HIGH;
         flag_medio = LOW;
@@ -178,24 +189,24 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Nada
-      if(envolvente < (umbral_max*M2_BAJO/100))
+      if(envolvente < (umbral_max*M2_PORC_BAJO/100))
       {
         flag_medio = LOW;
         estado = standby;
       }
       break;
+      
       //-------------------------------------------------------------------------------------------------
-
       case alto:
       if(!flag_alto)
       {
         flag_alto = HIGH;
-        // TODO - Muestra Pelota Alto
+        //leds.mostrar(IMAGENES::m2_img_alto, c_azul); // TODO ARREGLAR CLASE
         contador = 0;
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       //Chequea Medio
-      if((envolvente < (umbral_max*M2_ALTO/100))&&(envolvente >= (umbral_max*M2_MEDIO/100)))
+      if((envolvente < (umbral_max*M2_PORC_ALTO/100))&&(envolvente >= (umbral_max*M2_PORC_MEDIO/100)))
       {
         flag_ok = HIGH;
         flag_alto = LOW;
@@ -203,7 +214,7 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Bajo
-      if((envolvente < (umbral_max*M2_MEDIO/100))&&(envolvente >= (umbral_max*M2_BAJO/100)))
+      if((envolvente < (umbral_max*M2_PORC_MEDIO/100))&&(envolvente >= (umbral_max*M2_PORC_BAJO/100)))
       {
         flag_ok = HIGH;
         flag_alto = LOW;
@@ -211,19 +222,19 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Nada
-      if(envolvente < (umbral_max*M2_BAJO/100))
+      if(envolvente < (umbral_max*M2_PORC_BAJO/100))
       {
         flag_alto = LOW;
         estado = standby;
       }
       break;
+      
       //-------------------------------------------------------------------------------------------------
-
       case rojo:
       if(!flag_rojo)
       {
         flag_rojo = HIGH;
-        // TODO - Muestra el rojo
+        //leds.mostrar(IMAGENES::circulo, c_rojo); // TODO ARREGLAR CLASE
         contador = 0;
       }
       contador++;
@@ -234,10 +245,19 @@ void Modo2(int umbral_max)
         estado = verde;
       }
       break;
+      
       //-------------------------------------------------------------------------------------------------
-
       default:
-      // TODO- Default
+      // Reinicia
+      flag_verde = LOW;
+      flag_rojo = LOW;
+      flag_ok = LOW; // Si se cumplio o no el objetivo
+      flag_bajo = LOW;
+      flag_medio = LOW;
+      flag_alto = LOW;
+      flag_standby = LOW;
+      contador = 0;
+      estado = verde;
       break;
     }
     #if DEBUG_MODO_2 == 1
@@ -257,11 +277,11 @@ void Modo2(int umbral_max)
       Serial.print("\tEnvolvente: ");
       Serial.print(envolvente);
       Serial.print(" de (");
-      Serial.print(umbral_max*M2_BAJO/100);
+      Serial.print(umbral_max*M2_PORC_BAJO/100);
       Serial.print("/");
-      Serial.print(umbral_max*M2_MEDIO/100);
+      Serial.print(umbral_max*M2_PORC_MEDIO/100);
       Serial.print("/");
-      Serial.print(umbral_max*M2_ALTO/100);
+      Serial.print(umbral_max*M2_PORC_ALTO/100);
       Serial.println(")");
     }
     if(estado==bajo)
@@ -270,11 +290,11 @@ void Modo2(int umbral_max)
       Serial.print("\tEnvolvente: ");
       Serial.print(envolvente);
       Serial.print(" de (");
-      Serial.print(umbral_max*M2_BAJO/100);
+      Serial.print(umbral_max*M2_PORC_BAJO/100);
       Serial.print("/");
-      Serial.print(umbral_max*M2_MEDIO/100);
+      Serial.print(umbral_max*M2_PORC_MEDIO/100);
       Serial.print("/");
-      Serial.print(umbral_max*M2_ALTO/100);
+      Serial.print(umbral_max*M2_PORC_ALTO/100);
       Serial.println(")");
     }
     if(estado==medio)
@@ -283,11 +303,11 @@ void Modo2(int umbral_max)
       Serial.print("\tEnvolvente: ");
       Serial.print(envolvente);
       Serial.print(" de (");
-      Serial.print(umbral_max*M2_BAJO/100);
+      Serial.print(umbral_max*M2_PORC_BAJO/100);
       Serial.print("/");
-      Serial.print(umbral_max*M2_MEDIO/100);
+      Serial.print(umbral_max*M2_PORC_MEDIO/100);
       Serial.print("/");
-      Serial.print(umbral_max*M2_ALTO/100);
+      Serial.print(umbral_max*M2_PORC_ALTO/100);
       Serial.println(")");
     }
     if(estado==alto)
@@ -296,11 +316,11 @@ void Modo2(int umbral_max)
       Serial.print("\tEnvolvente: ");
       Serial.print(envolvente);
       Serial.print(" de (");
-      Serial.print(umbral_max*M2_BAJO/100);
+      Serial.print(umbral_max*M2_PORC_BAJO/100);
       Serial.print("/");
-      Serial.print(umbral_max*M2_MEDIO/100);
+      Serial.print(umbral_max*M2_PORC_MEDIO/100);
       Serial.print("/");
-      Serial.print(umbral_max*M2_ALTO/100);
+      Serial.print(umbral_max*M2_PORC_ALTO/100);
       Serial.println(")");
     }
     if(estado==rojo)
