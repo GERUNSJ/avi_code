@@ -137,7 +137,8 @@ String Motores::getEstado(void)
 void Motores::desplazamientoAdelante(float porcentaje)
 {
 #ifdef DEBUG_MOTORES
-	estado = "desplazando adelante";
+	if( encendido )
+		estado = "desplazando adelante";
 	Serial.println("Motores: " + estado);
 #endif
 	
@@ -155,7 +156,8 @@ void Motores::desplazamientoAdelante(float porcentaje)
 void Motores::desplazamientoAtras(float porcentaje)
 {
 #ifdef DEBUG_MOTORES
-	estado = "desplazando atras";
+	if( encendido )
+		estado = "desplazando atras";
 	Serial.println("Motores: " + estado);
 #endif
 	
@@ -173,7 +175,8 @@ void Motores::desplazamientoAtras(float porcentaje)
 void Motores::desplazamientoIzquierda(float porcentaje)
 {
 #ifdef DEBUG_MOTORES
-	estado = "desplazando izquierda";
+	if( encendido )
+		estado = "desplazando izquierda";
 	Serial.println("Motores: " + estado);
 #endif
 	
@@ -191,7 +194,8 @@ void Motores::desplazamientoIzquierda(float porcentaje)
 void Motores::desplazamientoDerecha(float porcentaje)
 {
 #ifdef DEBUG_MOTORES
-	estado = "desplazando derecha";
+	if( encendido )
+		estado = "desplazando derecha";
 	Serial.println("Motores: " + estado);
 #endif
 	
@@ -212,7 +216,8 @@ void Motores::desplazamientoDerecha(float porcentaje)
 void Motores::girarCW(float porcentaje)
 {
 #ifdef DEBUG_MOTORES
-	estado = "girando cw";
+	if( encendido )
+		estado = "girando cw";
 	Serial.println("Motores: " + estado);
 #endif
 	
@@ -230,7 +235,8 @@ void Motores::girarCW(float porcentaje)
 void Motores::girarCW(float porcentaje, unsigned int tiempo)
 {
 #ifdef DEBUG_MOTORES
-	estado = "girando cw";
+	if( encendido )
+		estado = "girando cw";
 	Serial.println("Motores: " + estado);
 #endif
 	
@@ -249,7 +255,8 @@ void Motores::girarCW(float porcentaje, unsigned int tiempo)
 void Motores::girarCCW(float porcentaje)
 {
 #ifdef DEBUG_MOTORES
-	estado = "girando ccw";
+	if( encendido )
+		estado = "girando ccw";
 	Serial.println("Motores: " + estado);
 #endif
 	
@@ -267,7 +274,8 @@ void Motores::girarCCW(float porcentaje)
 void Motores::girarCCW(float porcentaje, unsigned int tiempo)
 {
 #ifdef DEBUG_MOTORES
-	estado = "girando ccw";
+	if( encendido )
+		estado = "girando ccw";
 	Serial.println("Motores: " + estado);
 #endif
 	
@@ -284,7 +292,8 @@ void Motores::girarCCW(float porcentaje, unsigned int tiempo)
 void Motores::giro90CW(void)
 {
 #ifdef DEBUG_MOTORES
-	estado = "girando 90 cw";
+	if( encendido )
+		estado = "girando 90 cw";
 	Serial.println("Motores: " + estado);
 #endif
 	
@@ -301,7 +310,8 @@ void Motores::giro90CW(void)
 void Motores::giro90CCW(void)
 {
 #ifdef DEBUG_MOTORES
-	estado = "girando 90 ccw";
+	if( encendido )
+		estado = "girando 90 ccw";
 	Serial.println("Motores: " + estado);
 #endif
 	
@@ -318,7 +328,8 @@ void Motores::giro90CCW(void)
 void Motores::giro180(void)
 {
 #ifdef DEBUG_MOTORES
-	estado = "girando 180";
+	if( encendido )
+		estado = "girando 180";
 	Serial.println("Motores: " + estado);
 #endif
 	
@@ -342,7 +353,8 @@ void Motores::giro180(void)
 void Motores::giro360(void)
 {
 #ifdef DEBUG_MOTORES
-	estado = "girando 360";
+	if( encendido )
+		estado = "girando 360";
 	Serial.println("Motores: " + estado);
 #endif
 	
@@ -370,7 +382,8 @@ void Motores::giro360(void)
 void Motores::giro360(unsigned int veces)
 {
 #ifdef DEBUG_MOTORES
-	estado = "girando 360 - " + String(veces) + " veces";
+	if( encendido )
+		estado = "girando 360 - " + String(veces) + " veces";
 	Serial.println("Motores: " + estado);
 #endif
 	
