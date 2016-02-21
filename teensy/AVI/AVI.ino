@@ -12,9 +12,9 @@
 //-------------------------------------------------------------------------------------------------
 
 // Descomentar solo 1 y trabajar 
-#define D_MOTORES
-//#define D_LEDs
-#define D_MODO_1
+//#define D_MOTORES
+#define D_LEDs
+//#define D_MODO_1
 //#define D_MODO_2
 //#define D_MODO_3
 //#define D_FORMANTES
@@ -86,7 +86,7 @@ void loop()
 
 #ifdef D_LEDs
 
-LEDs leds;
+//LEDs leds;
 
 void setup()
 {
@@ -98,7 +98,7 @@ void setup()
 	digitalWrite(13, LOW);
 	delay(500);
 
-  leds.mostrar(IMAGENES::CIRCULO , CRGB::Blue );
+  leds.mostrar(IMAGENES::circulo , CRGB::Blue );
   delay(1000);
 //  for( int i = 0 ; i<50 ; i++)
 //  {
@@ -120,22 +120,22 @@ void loop()
   digitalWrite(13, LOW);
   delay(500);
   
-	leds.mostrar(IMAGENES::CIRCULO , long(0x2084B7));
+	leds.mostrar(IMAGENES::circulo , long(0x2084B7));
 	delay(1000);
 	leds.apagar();
 	delay(1000);
 
-   leds.mostrar(IMAGENES::O_IMG , 0x00FF00 ); // rojo
+   leds.mostrar(IMAGENES::o_img , 0x00FF00 ); // rojo
   delay(1000);
   leds.apagar();
   delay(1000);
 
-     leds.mostrar(IMAGENES::TIME_LO , 0x66FF00, 0x0066FF); // naranja
+     leds.mostrar(IMAGENES::m2_img_medio , 0x66FF00, 0x0066FF); // naranja
   delay(1000);
   leds.apagar();
   delay(1000);
 
-       leds.mostrar(IMAGENES::O_IMG , 0xFFFF00 ); //amarillo
+       leds.mostrar(IMAGENES::o_img , 0xFFFF00 ); //amarillo
   delay(1000);
   leds.apagar();
   delay(1000);

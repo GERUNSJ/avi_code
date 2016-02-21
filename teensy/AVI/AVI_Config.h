@@ -14,23 +14,6 @@
 // - Contiene aquellas definiciones y constantes utiles para todo el programa.
 //
 //=================================================================================================
-// COMENTARIOS GENERALES
-// - Se usa define para constantes numericas y "const" para formulas y arreglos.
-// - Si se tiene que dividir por 2*pi, se multiplica por una constante DIV_2_PI que es 1/(2*pi).
-// - La constante PI_2 es 2*pi para simplificar calculo.
-// - En Eigen: Matrix X c d
-//   - X es de filas y columnas dinámicas. Se tiene que definir en el constructor.
-//   - c es que los elementos son complejos.
-//   - d elementos tipo double. (Queremos buena precision)
-//
-//=================================================================================================
-// TODO
-//
-// LEDS
-// MOTORES
-// MODOS
-// - umbrales
-//=================================================================================================
 
 #ifndef AVI_CONFIG_H
 #define AVI_CONFIG_H

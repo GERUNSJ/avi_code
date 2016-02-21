@@ -11,14 +11,18 @@
 //
 //=================================================================================================
 
+#include "Arduino.h"
 #include "AVI_Config.h"
 #include "AVI_Pines.h"
-#include "AVI_Modo_1.h"
 #include "AVI_LEDs.h"
-#include "Arduino.h"
+#include "AVI_Modo_1.h"
 
 #define DEBUG_MODO_1 0
 
+// Variables Globales
+extern LEDs leds;
+
+// Funciones
 void Modo1(int umbral)
 {
   // Estados
@@ -62,7 +66,7 @@ void Modo1(int umbral)
       if(!flag_verde)
       {
         flag_verde = HIGH;
-        //leds.mostrar(IMAGENES::circulo, c_verde); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::circulo, c_verde);
         contador = 0;
       }
       contador++;
@@ -106,7 +110,7 @@ void Modo1(int umbral)
       if(!flag_cara)
       {
         flag_cara = HIGH;
-        //leds.mostrar(IMAGENES::cara, c_azul); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::cara, c_azul);
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente >= umbral)
@@ -130,7 +134,7 @@ void Modo1(int umbral)
       if(!flag_rojo)
       {
         flag_rojo = HIGH;
-        //leds.mostrar(IMAGENES::circulo, c_rojo); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::circulo, c_rojo);
         contador = 0;
       }
       contador++;

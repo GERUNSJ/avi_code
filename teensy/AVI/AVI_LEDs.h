@@ -1,3 +1,16 @@
+//=================================================================================================
+// AVI_LEDs.h
+//
+// Aguado, Pablo.
+// Areche, Ariadna.
+// Barragan, Edwin.
+// Icard, Nicolas.
+// Mas, German Emilio.
+// 
+// Año 2016
+//
+//=================================================================================================
+
 #ifndef AVI_LEDS_H
 #define AVI_LEDS_H
 
@@ -6,6 +19,7 @@
 #include "AVI_Config.h"
 #include "AVI_Pines.h"
 
+// Contenedor de Imagenes
 enum class IMAGENES
 {
 	circulo = 1,
@@ -25,7 +39,7 @@ enum class IMAGENES
 	u_img
 };
 
-// Color en GRB
+// Colores en GRB
 enum color
 {
   c_azul = 0x0000FF,

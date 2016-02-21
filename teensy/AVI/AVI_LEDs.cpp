@@ -1,3 +1,16 @@
+//=================================================================================================
+// AVI_LEDs.cpp
+//
+// Aguado, Pablo.
+// Areche, Ariadna.
+// Barragan, Edwin.
+// Icard, Nicolas.
+// Mas, German Emilio.
+// 
+// Año 2016
+//
+//=================================================================================================
+
 #include "AVI_LEDs.h"
 #include "AVI_Config.h"
 #include "AVI_Pines.h"

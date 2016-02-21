@@ -11,13 +11,18 @@
 //
 //=================================================================================================
 
+#include "Arduino.h"
 #include "AVI_Config.h"
 #include "AVI_Pines.h"
+#include "AVI_LEDs.h"
 #include "AVI_Modo_3.h"
-#include "Arduino.h"
 
-#define DEBUG_MODO_3 1
+#define DEBUG_MODO_3 0
 
+// Variables Globales
+extern LEDs leds;
+
+// Funciones
 void Modo3(int umbral, int tiempo)
 {
   // Estados
@@ -68,7 +73,7 @@ void Modo3(int umbral, int tiempo)
       if(!flag_verde)
       {
         flag_verde = HIGH;
-        //leds.mostrar(IMAGENES::circulo, c_verde); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::circulo, c_verde);
         contador = 0;
       }
       contador++;
@@ -85,7 +90,7 @@ void Modo3(int umbral, int tiempo)
       if(!flag_standby)
       {
         flag_standby = HIGH;
-        //leds.mostrar(IMAGENES::m3_img_standby, c_naranja); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::m3_img_standby, c_naranja);
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente >= umbral)
@@ -108,7 +113,7 @@ void Modo3(int umbral, int tiempo)
       if(!flag_bajo)
       {
         flag_bajo = HIGH;
-        //leds.mostrar(IMAGENES::m2_img_bajo, c_naranja, c_azul); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::m2_img_bajo, c_naranja, c_azul);
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente >= umbral)
@@ -133,7 +138,7 @@ void Modo3(int umbral, int tiempo)
       if(!flag_medio)
       {
         flag_medio = HIGH;
-        //leds.mostrar(IMAGENES::m2_img_medio, c_naranja, c_azul); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::m2_img_medio, c_naranja, c_azul);
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente >= umbral)
@@ -158,7 +163,7 @@ void Modo3(int umbral, int tiempo)
       if(!flag_alto)
       {
         flag_alto = HIGH;
-        //leds.mostrar(IMAGENES::m2_img_alto, c_naranja, c_azul); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::m2_img_alto, c_naranja, c_azul);
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente < umbral)
@@ -174,7 +179,7 @@ void Modo3(int umbral, int tiempo)
       if(!flag_cara)
       {
         flag_cara = HIGH;
-        //leds.mostrar(IMAGENES::cara, c_azul); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::cara, c_azul);
       }
       contador++;
       if(contador >= t_cara)
@@ -190,7 +195,7 @@ void Modo3(int umbral, int tiempo)
       if(!flag_rojo)
       {
         flag_rojo = HIGH;
-        //leds.mostrar(IMAGENES::circulo, c_rojo); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::circulo, c_rojo);
         contador = 0;
       }
       contador++;

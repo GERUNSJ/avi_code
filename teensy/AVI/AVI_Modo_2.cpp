@@ -11,13 +11,18 @@
 //
 //=================================================================================================
 
+#include "Arduino.h"
 #include "AVI_Config.h"
 #include "AVI_Pines.h"
+#include "AVI_LEDs.h"
 #include "AVI_Modo_2.h"
-#include "Arduino.h"
 
-#define DEBUG_MODO_2 1
+#define DEBUG_MODO_2 0
 
+// Variables Globales
+extern LEDs leds;
+
+// Funciones
 void Modo2(int umbral_max)
 {
   // Estados
@@ -65,7 +70,7 @@ void Modo2(int umbral_max)
       if(!flag_verde)
       {
         flag_verde = HIGH;
-        //leds.mostrar(IMAGENES::circulo, c_verde); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::circulo, c_verde);
         contador = 0;
       }
       contador++;
@@ -82,7 +87,7 @@ void Modo2(int umbral_max)
       if(!flag_standby)
       {
         flag_standby = HIGH;
-        //leds.mostrar(IMAGENES::m2_img_standby, c_azul); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::m2_img_standby, c_azul);
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       // Chequea Alto
@@ -135,7 +140,7 @@ void Modo2(int umbral_max)
       if(!flag_bajo)
       {
         flag_bajo = HIGH;
-        //leds.mostrar(IMAGENES::m2_img_bajo, c_azul); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::m2_img_bajo, c_azul);
         contador = 0;
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
@@ -168,7 +173,7 @@ void Modo2(int umbral_max)
       if(!flag_medio)
       {
         flag_medio = HIGH;
-        //leds.mostrar(IMAGENES::m2_img_medio, c_azul); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::m2_img_medio, c_azul);
         contador = 0;
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
@@ -201,7 +206,7 @@ void Modo2(int umbral_max)
       if(!flag_alto)
       {
         flag_alto = HIGH;
-        //leds.mostrar(IMAGENES::m2_img_alto, c_azul); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::m2_img_alto, c_azul);
         contador = 0;
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
@@ -234,14 +239,13 @@ void Modo2(int umbral_max)
       if(!flag_rojo)
       {
         flag_rojo = HIGH;
-        //leds.mostrar(IMAGENES::circulo, c_rojo); // TODO ARREGLAR CLASE
+        leds.mostrar(IMAGENES::circulo, c_rojo);
         contador = 0;
       }
       contador++;
       if(contador >= t_rojo)
       {
         flag_rojo = LOW;
-        // TODO - No mostrar nada
         estado = verde;
       }
       break;
