@@ -1,22 +1,16 @@
-**AVI**
+**TODO LIST**
 ===============
-1. **Hardware**
+#1. **Hardware**
+* Subir circuito
+* Tener Plaqueta
+* Botones
+* Baterías
+* Carcasa
+#2. **Software**
 ---------------
-* Teensy 3.1
-* SparkFun Sound Detector
-* 150:1 Micro Metal Gearmotor MP
-* TB6612FNG Dual Motor Driver Carrier
-* LM2596 DC-DC Converter Step-down Power Supply Module
-* **TODO** Subir circuito
-* **TODO** Tener Plaqueta
-2. **Software**
+* Modos Intermedio y Avanzado
+* Interfaz de Usuario
+#3. **Metodologia**
 ---------------
-* **TODO** Configuracion de Pines
-3. **Metodologia**
----------------
-* **TODO** Explicacion de Niveles
-* **TODO** Revisar umbrales objetivo para Nivel 1
-* **TODO** Flowcharts de cada Nivel
-* **TODO** Flowchart del programa en General
-* **TODO** Diagramas de temporización
-* **TODO** Utilizar LEDs
+* Explicacion de Niveles
+* Diagramas de Estado de cada Nivel
