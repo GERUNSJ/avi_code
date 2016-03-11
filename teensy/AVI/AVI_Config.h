@@ -48,8 +48,8 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 
 //-------------------------------------------------------------------------------------------------
 // MODOS
-#define M1_PROM 5 // Tamaño del Filtro Promediador
-#define M1_TS 20 // Tiempo de Muestreo [mseg]
+#define M1_PROM 2 // Tamaño del Filtro Promediador
+#define M1_TS 70 // Tiempo de Muestreo [mseg]
 
 #define M2_PORC_BAJO 25 // Porcentaje del Maximo que se considera Bajo
 #define M2_PORC_MEDIO 55 // Porcentaje del Maximo que se considera Medio

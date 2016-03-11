@@ -15,7 +15,7 @@
 #include "AVI_Config.h"
 #include "AVI_Pines.h"
 
-#define DEBUG_LEDS 1
+#define DEBUG_LEDS 0
 
 // Constructor de LEDs
 LEDs::LEDs(void)
