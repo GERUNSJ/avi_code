@@ -13,8 +13,8 @@
 
 // Descomentar solo 1 y trabajar 
 //#define D_MOTORES
-#define D_LEDs
-//#define D_MODO_1
+//#define D_LEDs
+#define D_MODO_1
 //#define D_MODO_2
 //#define D_MODO_3
 //#define D_FORMANTES
@@ -166,7 +166,7 @@ void setup()
 
 void loop()
 {
-  Modo1(512);
+  Modo1(40);
 }
 #endif // D_MODO_1
 

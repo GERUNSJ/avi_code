@@ -21,6 +21,7 @@
 
 // Variables Globales
 extern LEDs leds;
+bool flag_llenado_de_ceros = false;
 
 // Funciones
 void Modo1(int umbral)
@@ -39,9 +40,9 @@ void Modo1(int umbral)
   static unsigned long t_anterior = 0;
   unsigned long t_actual;
   int t_verde = 2000/M1_TS; // 2 Segundos
-  int t_delay = 5000/M1_TS; // 5 Segundos
-  int t_cara = 3000/M1_TS; // 3 Segundos
-  int t_rojo = 4000/M1_TS; // 4 Segundos
+  int t_delay = 3000/M1_TS; // 3 Segundos
+  int t_cara = 500/M1_TS; // 0.5 Segundos
+  int t_rojo = 2000/M1_TS; // 2 Segundos
 
   // Flags
   static boolean flag_verde = LOW;
@@ -53,7 +54,19 @@ void Modo1(int umbral)
   static int contador = 0;
 
   // Otros
-  int envolvente = 0;
+  static unsigned int envolvente = 0;
+  static unsigned int arreglo_envolvente[M1_PROM];
+  
+	
+	if( !flag_llenado_de_ceros )
+	{
+		// Llenado de ceros
+		for( int i = 0 ; i < M1_PROM ; i++ )
+		{
+			arreglo_envolvente[i] = 0;
+		}
+		flag_llenado_de_ceros = true;
+	}
 
   t_actual = millis();
   if((t_actual - t_anterior) >= M1_TS)
@@ -75,12 +88,38 @@ void Modo1(int umbral)
         flag_verde = LOW;
         estado = standby;
         contador = 0;
+				
+				// Llenado de ceros
+				for( int i = 0 ; i < M1_PROM ; i++ )
+				{
+					arreglo_envolvente[i] = 0;
+				}
+				flag_llenado_de_ceros = true;
       }
       break;
       
       //-------------------------------------------------------------------------------------------------
       case standby:
-      envolvente = analogRead(PIN_MIC_ENVOLVENTE);
+				
+			leds.apagar();
+				
+			// Actualización
+			for( int i = M1_PROM-1 ; i > 0 ; i-- ) // Desde el último elemento hasta el segundo
+			{
+				arreglo_envolvente[i] = arreglo_envolvente[i-1];
+			}
+			arreglo_envolvente[0] = analogRead(PIN_MIC_ENVOLVENTE);
+			//Serial.println(arreglo_envolvente[0]);
+			
+			// Cálculo del promedio
+			envolvente = 0;
+			for( int i = 0 ; i < M1_PROM ; i++ )
+			{
+				envolvente += arreglo_envolvente[i];  
+			}
+			envolvente = envolvente / M1_PROM;
+      
+			
       if(envolvente >= umbral)
       {
         flag_ok = HIGH;
@@ -112,7 +151,23 @@ void Modo1(int umbral)
         flag_cara = HIGH;
         leds.mostrar(IMAGENES::cara, c_azul);
       }
-      envolvente = analogRead(PIN_MIC_ENVOLVENTE);
+      
+      // Actualización
+			for( int i = M1_PROM-1 ; i > 0 ; i-- ) // Desde el último elemento hasta el segundo
+			{
+				arreglo_envolvente[i] = arreglo_envolvente[i-1];
+			}
+			arreglo_envolvente[0] = analogRead(PIN_MIC_ENVOLVENTE);
+			//Serial.println(arreglo_envolvente[0]);
+			
+			// Cálculo del promedio
+			envolvente = 0;
+			for( int i = 0 ; i < M1_PROM ; i++ )
+			{
+				envolvente += arreglo_envolvente[i];  
+			}
+			envolvente = envolvente / M1_PROM;      
+      
       if(envolvente >= umbral)
       {
         contador = 0;
@@ -170,7 +225,7 @@ void Modo1(int umbral)
       Serial.print(contador);
       Serial.print(" de ");
       Serial.print(t_delay);
-      Serial.print("\tEnvolvente: ");
+      Serial.print("  \tEnvolvente: ");
       Serial.print(envolvente);
       Serial.print(" (");
       Serial.print(umbral);
@@ -178,11 +233,11 @@ void Modo1(int umbral)
     }
     if(estado==cara)
     {
-      Serial.print("CARA\t");
+      Serial.print("CARA \t");
       Serial.print(contador);
       Serial.print(" de ");
       Serial.print(t_cara);
-      Serial.print("\tEnvolvente: ");
+      Serial.print(" \tEnvolvente: ");
       Serial.print(envolvente);
       Serial.print(" (");
       Serial.print(umbral);
@@ -190,7 +245,7 @@ void Modo1(int umbral)
     }
     if(estado==rojo)
     {
-      Serial.print("ROJO\t");
+      Serial.print("ROJO \t");
       Serial.print(contador);
       Serial.print(" de ");
       Serial.println(t_rojo);
