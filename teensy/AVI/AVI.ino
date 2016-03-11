@@ -14,8 +14,8 @@
 // Descomentar solo 1 y trabajar 
 //#define D_MOTORES
 //#define D_LEDs
-#define D_MODO_1
-//#define D_MODO_2
+//#define D_MODO_1
+#define D_MODO_2
 //#define D_MODO_3
 //#define D_FORMANTES
 //#define D_GRABAR_AUDIO
