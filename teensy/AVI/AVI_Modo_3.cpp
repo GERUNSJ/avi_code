@@ -63,7 +63,7 @@ void Modo3(int umbral, int tiempo)
   int envolvente = 0;
 
   t_actual = millis();
-  if((t_actual - t_anterior) >= M1_TS)
+  if((t_actual - t_anterior) >= M3_TS)
   {
     t_anterior = t_actual;
     switch(estado)
