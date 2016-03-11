@@ -21,7 +21,7 @@
 
 // Variables Globales
 extern LEDs leds;
-bool flag_llenado_de_ceros = false;
+
 
 // Funciones
 void Modo1(int umbral)
@@ -57,6 +57,7 @@ void Modo1(int umbral)
   static unsigned int envolvente = 0;
   static unsigned int arreglo_envolvente[M1_PROM];
   
+	static bool flag_llenado_de_ceros = false;
 	
 	if( !flag_llenado_de_ceros )
 	{

@@ -17,11 +17,11 @@
 #include "AVI_LEDs.h"
 #include "AVI_Modo_2.h"
 
-#define DEBUG_MODO_2 1
+#define DEBUG_MODO_2 0
 
 // Variables Globales
 extern LEDs leds;
-static bool flag_llenado_de_ceros = false;
+
 
 // Funciones
 void Modo2(int umbral_max)
@@ -61,6 +61,7 @@ void Modo2(int umbral_max)
   static unsigned int envolvente = 0;
   static unsigned int arreglo_envolvente[M2_PROM];
 	
+	static bool flag_llenado_de_ceros = false;
 	
 	if( !flag_llenado_de_ceros )
 	{
