@@ -15,10 +15,11 @@
 //#define D_MOTORES
 //#define D_LEDs
 //#define D_MODO_1
-#define D_MODO_2
+//#define D_MODO_2
 //#define D_MODO_3
 //#define D_FORMANTES
 //#define D_GRABAR_AUDIO
+#define D_INTERFAZ
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -379,3 +380,29 @@ void loop()
   }
 }
 #endif // D_GRABAR_AUDIO
+
+
+
+
+
+
+
+
+
+#ifdef D_INTERFAZ
+
+void setup()
+{
+	pinMode(PIN_BOTON_1, INPUT);
+	pinMode(PIN_BOTON_2, INPUT);
+	Serial.begin(9600);
+	delay(1000);
+}
+
+void loop()
+{
+	MODOS modo = elegir_modo();
+}
+
+
+#endif // D_INTERFAZ
