@@ -221,6 +221,8 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
 			break;
 		}
 		
+		// TODO: añadir cases para los numeros
+		
 		default:
 		{
 			#if DEBUG_LEDS == 1

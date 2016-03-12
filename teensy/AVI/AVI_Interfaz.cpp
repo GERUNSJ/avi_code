@@ -18,9 +18,12 @@
 #include "AVI_LEDs.h"
 
 #define CON_TECLADO 0
-#define DEBUG_INTERFAZ 0
+#define DEBUG_INTERFAZ 1
 
-#define CANTIDAD_DE_MODOS 5;
+#define CANTIDAD_DE_MODOS 5
+
+
+extern LEDs leds;
 
 
 MODOS elegir_modo(void)
@@ -37,24 +40,24 @@ MODOS elegir_modo(void)
 	
 	static bool decision_tomada = false;
 	
-	static MODOS modo_seleccionado = MODOS::modo1;
+	static int modo_seleccionado = (int) MODOS::modo1; // El cast puede ser implícito también
 	
 	while( decision_tomada == false )
 	{
 		
-		mostrar_modo_seleccionado( modo_seleccionado );
+		mostrar_modo_seleccionado( (MODOS) modo_seleccionado ); // Cast explícito de int a enum
 		
 		// Actualización y Lectura ( HIGH == TRUE, LOW == FALSE )
 		boton1_anterior = boton1_actual;
 		boton2_anterior = boton2_actual;
 					
 		
-#ifdef CON_TECLADO == 0
+#if CON_TECLADO == 0
 		boton1_actual = digitalRead( PIN_BOTON_1 );
 		boton2_actual = digitalRead( PIN_BOTON_2 );
 #endif
 
-#ifdef CON_TECLADO == 1
+#if CON_TECLADO == 1
 		char letra = Serial.read();
 		if( letra == '1' )
 			boton1_actual = 1;
@@ -94,14 +97,18 @@ MODOS elegir_modo(void)
 			boton1_ha_sido_soltado = false;
 			
 			// Avanzar 1
-			modo_seleccionado = ( (int)modo_seleccionado + 1 ) % CANTIDAD_DE_MODOS;
+			modo_seleccionado ++;
+			if( modo_seleccionado >= CANTIDAD_DE_MODOS )
+				modo_seleccionado = 0;
 		}
 		else if( boton2_ha_sido_soltado )
 		{
 			boton2_ha_sido_soltado = false;
 			
 			// Retroceder 1
-			modo_seleccionado = ( (int)modo_seleccionado - 1 ) % CANTIDAD_DE_MODOS;
+			modo_seleccionado --;
+			if( modo_seleccionado < 0 )
+				modo_seleccionado = CANTIDAD_DE_MODOS -1 ;
 		}
 		else if( boton1_ha_sido_apretado && boton2_ha_sido_apretado )
 		{
@@ -112,36 +119,49 @@ MODOS elegir_modo(void)
 			decision_tomada = true;
 		}
 		
-#ifdef DEBUG_INTERFAZ == 1
+#if DEBUG_INTERFAZ == 1
 		Serial.print("boton1_actual = ");
-		Serial.println((int)boton1_actual)
+		Serial.println((int)boton1_actual);
 		Serial.print("boton2_actual = ");
-		Serial.println((int)boton2_actual)
+		Serial.println((int)boton2_actual);
 		
-		Serial.print("boton1_ha_sido_apretado");
+		Serial.print("boton1_ha_sido_apretado = ");
 		Serial.println((int)boton1_ha_sido_apretado);
-		Serial.print("boton1_ha_sido_soltado");
+		Serial.print("boton1_ha_sido_soltado = ");
 		Serial.println((int)boton1_ha_sido_soltado);
-		Serial.print("boton2_ha_sido_apretado");
+		Serial.print("boton2_ha_sido_apretado = ");
+		Serial.println((int)boton2_ha_sido_apretado);
+		Serial.print("boton2_ha_sido_soltado = ");
 		Serial.println((int)boton2_ha_sido_soltado);
-		Serial.print("decision_tomada");
+		Serial.print("decision_tomada = ");
 		Serial.println((int)decision_tomada);
-		Serial.print("modo_seleccionado");
+		Serial.print("modo_seleccionado = ");
 		Serial.println((int)modo_seleccionado);
 	
-		delay(1000);
+		delay(2000);
 #endif
 		
 	}
 	
-	return modo_seleccionado;
+	return (MODOS) modo_seleccionado; // Cast explícito de int a enum
 }
 
 
 
 
 
-void mostrar_modo_seleccionado( modo_seleccionado )
+void mostrar_modo_seleccionado( MODOS modo_seleccionado )
 {
+	if( modo_seleccionado == MODOS::modo1 )
+		leds.mostrar( IMAGENES::numero1, c_azul );
+	else if( modo_seleccionado == MODOS::modo2 )
+		leds.mostrar( IMAGENES::numero2, c_azul );
+	else if( modo_seleccionado == MODOS::modo3 )
+		leds.mostrar( IMAGENES::numero3, c_azul );
+	else if( modo_seleccionado == MODOS::modo4 )
+		leds.mostrar( IMAGENES::numero4, c_azul );
+	else if( modo_seleccionado == MODOS::modo5 )
+		leds.mostrar( IMAGENES::numero5, c_azul );
+	
 	return;
 }

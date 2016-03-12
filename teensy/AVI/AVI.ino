@@ -7,6 +7,7 @@
 #include "AVI_Modo_2.h"
 #include "AVI_Modo_3.h"
 #include "AVI_Motores.h"
+#include "AVI_Interfaz.h"
 #include <FastLED.h>
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -396,12 +397,17 @@ void setup()
 	pinMode(PIN_BOTON_1, INPUT);
 	pinMode(PIN_BOTON_2, INPUT);
 	Serial.begin(9600);
-	delay(1000);
+	delay(2000);
+	Serial.println("Comienza programa interfaz");
 }
 
 void loop()
 {
+	Serial.println("Entra elegir_modo");
+	delay(2000);
 	MODOS modo = elegir_modo();
+	Serial.println("Entra elegir_modo");
+	delay(4000);
 }
 
 

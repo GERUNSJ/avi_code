@@ -35,7 +35,7 @@ enum class MODOS
 MODOS elegir_modo(void);
 
 
-void mostrar_modo_seleccionado( modo_seleccionado );
+void mostrar_modo_seleccionado( MODOS modo_seleccionado );
 
 
 #endif // AVI_INTERFAZ_H
