@@ -17,8 +17,8 @@
 #include "AVI_Pines.h"
 #include "AVI_LEDs.h"
 
-#define CON_TECLADO 0
-#define DEBUG_INTERFAZ 1
+#define CON_TECLADO 0 // '1' apreta el boton1, 'q' lo suelta. '2' apreta el boton2, 'w' lo suelta.
+#define DEBUG_INTERFAZ 0
 
 #define CANTIDAD_DE_MODOS 5
 
@@ -153,15 +153,15 @@ MODOS elegir_modo(void)
 void mostrar_modo_seleccionado( MODOS modo_seleccionado )
 {
 	if( modo_seleccionado == MODOS::modo1 )
-		leds.mostrar( IMAGENES::numero1, c_azul );
+		leds.mostrar( IMAGENES::numero_1, c_azul );
 	else if( modo_seleccionado == MODOS::modo2 )
-		leds.mostrar( IMAGENES::numero2, c_azul );
+		leds.mostrar( IMAGENES::numero_2, c_azul );
 	else if( modo_seleccionado == MODOS::modo3 )
-		leds.mostrar( IMAGENES::numero3, c_azul );
+		leds.mostrar( IMAGENES::numero_3, c_azul );
 	else if( modo_seleccionado == MODOS::modo4 )
-		leds.mostrar( IMAGENES::numero4, c_azul );
+		leds.mostrar( IMAGENES::numero_4, c_azul );
 	else if( modo_seleccionado == MODOS::modo5 )
-		leds.mostrar( IMAGENES::numero5, c_azul );
+		leds.mostrar( IMAGENES::numero_5, c_azul );
 	
 	return;
 }
