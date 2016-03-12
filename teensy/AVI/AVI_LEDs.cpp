@@ -45,7 +45,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
 		{
 			#if DEBUG_LEDS == 1
 			estado = "circulo";
-			Serial.println("Mostrando: " + estado);
+			Serial.println("---- LEDs: Mostrando: "  + estado);
 			#endif // DEBUG_LEDS == 1
 			
 			a_mostrar = circulo;
@@ -57,7 +57,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
 		{
 			#if DEBUG_LEDS == 1
 			estado = "cara";
-			Serial.println("Mostrando: " + estado);
+			Serial.println("---- LEDs: Mostrando: "  + estado);
 			#endif // DEBUG_LEDS == 1
 			
 			a_mostrar = cara;
@@ -69,7 +69,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
 		{
 			#if DEBUG_LEDS == 1
 			estado = "m2_img_standby";
-			Serial.println("Mostrando: " + estado);
+			Serial.println("---- LEDs: Mostrando: "  + estado);
 			#endif // DEBUG_LEDS == 1
 			
 			a_mostrar = m2_img_standby;
@@ -81,7 +81,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
 		{
 			#if DEBUG_LEDS == 1
 			estado = "m2_img_bajo";
-			Serial.println("Mostrando: " + estado);
+			Serial.println("---- LEDs: Mostrando: "  + estado);
 			#endif // DEBUG_LEDS == 1
 			
 			a_mostrar = m2_img_bajo;
@@ -93,7 +93,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
     {
       #if DEBUG_LEDS == 1
       estado = "m2_img_medio";
-      Serial.println("Mostrando: " + estado);
+      Serial.println("---- LEDs: Mostrando: "  + estado);
       #endif // DEBUG_LEDS == 1
       
       a_mostrar = m2_img_medio;
@@ -105,7 +105,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
     {
       #if DEBUG_LEDS == 1
       estado = "m2_img_alto";
-      Serial.println("Mostrando: " + estado);
+      Serial.println("---- LEDs: Mostrando: "  + estado);
       #endif // DEBUG_LEDS == 1
       
       a_mostrar = m2_img_alto;
@@ -117,7 +117,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
     {
       #if DEBUG_LEDS == 1
       estado = "m3_img_standby";
-      Serial.println("Mostrando: " + estado);
+      Serial.println("---- LEDs: Mostrando: "  + estado);
       #endif // DEBUG_LEDS == 1
       
       a_mostrar = m3_img_standby;
@@ -129,7 +129,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
     {
       #if DEBUG_LEDS == 1
       estado = "m3_img_bajo";
-      Serial.println("Mostrando: " + estado);
+      Serial.println("---- LEDs: Mostrando: "  + estado);
       #endif // DEBUG_LEDS == 1
       
       a_mostrar = m3_img_bajo_a;
@@ -141,7 +141,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
     {
       #if DEBUG_LEDS == 1
       estado = "m3_img_medio";
-      Serial.println("Mostrando: " + estado);
+      Serial.println("---- LEDs: Mostrando: "  + estado);
       #endif // DEBUG_LEDS == 1
       
       a_mostrar = m3_img_medio_a;
@@ -153,7 +153,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
     {
       #if DEBUG_LEDS == 1
       estado = "m3_img_alto";
-      Serial.println("Mostrando: " + estado);
+      Serial.println("---- LEDs: Mostrando: "  + estado);
       #endif // DEBUG_LEDS == 1
       
       a_mostrar = m3_img_alto_a;
@@ -165,7 +165,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
 		{
 			#if DEBUG_LEDS == 1
 			estado = "a_img";
-			Serial.println("Mostrando: " + estado);
+			Serial.println("---- LEDs: Mostrando: "  + estado);
 			#endif // DEBUG_LEDS == 1
 			
 			a_mostrar = a_img;
@@ -177,7 +177,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
 		{
 			#if DEBUG_LEDS == 1
 			estado = "e_img";
-			Serial.println("Mostrando: " + estado);
+			Serial.println("---- LEDs: Mostrando: "  + estado);
 			#endif // DEBUG_LEDS == 1
 			
 			a_mostrar = e_img;
@@ -189,7 +189,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
 		{
 			#if DEBUG_LEDS == 1
 			estado = "i_img";
-			Serial.println("Mostrando: " + estado);
+			Serial.println("---- LEDs: Mostrando: "  + estado);
 			#endif // DEBUG_LEDS == 1
 			
 			a_mostrar = i_img;
@@ -201,7 +201,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
 		{
 			#if DEBUG_LEDS == 1
 			estado = "o_img";
-			Serial.println("Mostrando: " + estado);
+			Serial.println("---- LEDs: Mostrando: "  + estado);
 			#endif // DEBUG_LEDS == 1
 			
 			a_mostrar = o_img;
@@ -213,7 +213,7 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
 		{
 			#if DEBUG_LEDS == 1
 			estado = "u_img";
-			Serial.println("Mostrando: " + estado);
+			Serial.println("---- LEDs: Mostrando: "  + estado);
 			#endif // DEBUG_LEDS == 1
 			
 			a_mostrar = u_img;
@@ -221,11 +221,71 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
 			break;
 		}
 		
+		case IMAGENES::numero_1:
+		{
+			#if DEBUG_LEDS == 1
+			estado = "numero_1";
+			Serial.println("---- LEDs: Mostrando: "  + estado);
+			#endif // DEBUG_LEDS == 1
+			
+			a_mostrar = numero_1;
+      a_mostrar_b = numero_1;
+			break;
+		}
+		
+		case IMAGENES::numero_2:
+		{
+			#if DEBUG_LEDS == 1
+			estado = "numero_2";
+			Serial.println("---- LEDs: Mostrando: "  + estado);
+			#endif // DEBUG_LEDS == 1
+			
+			a_mostrar = numero_2;
+      a_mostrar_b = numero_2;
+			break;
+		}
+		
+		case IMAGENES::numero_3:
+		{
+			#if DEBUG_LEDS == 1
+			estado = "numero_3";
+			Serial.println("---- LEDs: Mostrando: "  + estado);
+			#endif // DEBUG_LEDS == 1
+			
+			a_mostrar = numero_3;
+      a_mostrar_b = numero_3;
+			break;
+		}
+		
+		case IMAGENES::numero_4:
+		{
+			#if DEBUG_LEDS == 1
+			estado = "numero_4";
+			Serial.println("---- LEDs: Mostrando: "  + estado);
+			#endif // DEBUG_LEDS == 1
+			
+			a_mostrar = numero_4;
+      a_mostrar_b = numero_4;
+			break;
+		}
+		
+		case IMAGENES::numero_5:
+		{
+			#if DEBUG_LEDS == 1
+			estado = "numero_5";
+			Serial.println("---- LEDs: Mostrando: "  + estado);
+			#endif // DEBUG_LEDS == 1
+			
+			a_mostrar = numero_5;
+      a_mostrar_b = numero_5;
+			break;
+		}
+		
 		default:
 		{
 			#if DEBUG_LEDS == 1
 			estado = "DEFAULT";
-			Serial.println("Mostrando: " + estado);
+			Serial.println("---- LEDs: Mostrando: "  + estado);
 			#endif // DEBUG_LEDS == 1
 			
 			a_mostrar = circulo;

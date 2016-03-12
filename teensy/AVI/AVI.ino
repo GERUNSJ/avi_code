@@ -7,6 +7,7 @@
 #include "AVI_Modo_2.h"
 #include "AVI_Modo_3.h"
 #include "AVI_Motores.h"
+#include "AVI_Interfaz.h"
 #include <FastLED.h>
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -15,10 +16,11 @@
 //#define D_MOTORES
 //#define D_LEDs
 //#define D_MODO_1
-#define D_MODO_2
+//#define D_MODO_2
 //#define D_MODO_3
 //#define D_FORMANTES
 //#define D_GRABAR_AUDIO
+#define D_INTERFAZ
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -379,3 +381,34 @@ void loop()
   }
 }
 #endif // D_GRABAR_AUDIO
+
+
+
+
+
+
+
+
+
+#ifdef D_INTERFAZ
+
+void setup()
+{
+	pinMode(PIN_BOTON_1, INPUT);
+	pinMode(PIN_BOTON_2, INPUT);
+	Serial.begin(9600);
+	delay(2000);
+	Serial.println("Comienza programa interfaz");
+}
+
+void loop()
+{
+	Serial.println("Entra elegir_modo");
+	delay(2000);
+	MODOS modo = elegir_modo();
+	Serial.println("Entra elegir_modo");
+	delay(4000);
+}
+
+
+#endif // D_INTERFAZ
