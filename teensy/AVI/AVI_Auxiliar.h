@@ -20,6 +20,7 @@ class FiltroMA
   public:
     FiltroMA(int cant);
     void cargar(float dato);
+    void reiniciar();
     float promedio();
   private:
     float* _datos;

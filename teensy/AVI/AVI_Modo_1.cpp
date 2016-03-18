@@ -47,7 +47,7 @@ void Modo1(int umbral)
   static int contador = 0;
 
   // Otros
-  int envolvente = 0;
+  static FiltroMA envolvente(M1_PROM);
 
   t_actual = millis();
   if((t_actual - t_anterior) >= M1_TS)
@@ -62,6 +62,7 @@ void Modo1(int umbral)
         flag_verde = HIGH;
         leds.mostrar(IMAGENES::circulo, c_verde);
         contador = 0;
+        envolvente.reiniciar();
       }
       contador++;
       if(contador >= t_verde)
@@ -79,8 +80,8 @@ void Modo1(int umbral)
         flag_standby = HIGH;
         leds.apagar();
       }
-      envolvente = analogRead(PIN_MIC_ENVOLVENTE);
-      if(envolvente >= umbral)
+      envolvente.cargar(analogRead(PIN_MIC_ENVOLVENTE));
+      if(envolvente.promedio() >= umbral)
       {
         flag_ok = HIGH;
         contador = 0;
@@ -111,8 +112,8 @@ void Modo1(int umbral)
         flag_cara = HIGH;
         leds.mostrar(IMAGENES::cara, c_azul);
       }
-      envolvente = analogRead(PIN_MIC_ENVOLVENTE);
-      if(envolvente >= umbral)
+      envolvente.cargar(analogRead(PIN_MIC_ENVOLVENTE));
+      if(envolvente.promedio() >= umbral)
       {
         contador = 0;
       }
@@ -170,8 +171,8 @@ void Modo1(int umbral)
       Serial.print(contador);
       Serial.print(" de ");
       Serial.print(t_delay);
-      Serial.print("\tEnvolvente: ");
-      Serial.print(envolvente);
+      Serial.print("\tEnvolvente Promedio: ");
+      Serial.print(envolvente.promedio());
       Serial.print(" (");
       Serial.print(umbral);
       Serial.println(")");
@@ -182,8 +183,8 @@ void Modo1(int umbral)
       Serial.print(contador);
       Serial.print(" de ");
       Serial.print(t_cara);
-      Serial.print("\tEnvolvente: ");
-      Serial.print(envolvente);
+      Serial.print("\tEnvolvente Promedio: ");
+      Serial.print(envolvente.promedio());
       Serial.print(" (");
       Serial.print(umbral);
       Serial.println(")");

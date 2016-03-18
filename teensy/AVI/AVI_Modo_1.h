@@ -15,6 +15,7 @@
 #define AVI_MODO_1_H
 
 #include "Arduino.h"
+#include "AVI_Auxiliar.h"
 #include "AVI_Config.h"
 #include "AVI_Pines.h"
 #include "AVI_LEDs.h"

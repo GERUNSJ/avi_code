@@ -17,29 +17,30 @@
 // Constructor
 FiltroMA::FiltroMA(int cant)
 {
-  Serial.println("Constructor!");
   _datos = new float[cant];
   _cant = cant;
-  Serial.println("Inicializacion");
   for(int i=0; i<_cant; i++)
   {
     _datos[i] = 0;
-    Serial.println(_datos[i]);
   }
   _prom = 0;
+}
+
+// Coloca en 0 todos los elementos
+void FiltroMA::reiniciar()
+{
+  for(int i=0; i<_cant; i++)
+  {
+    _datos[i] = 0;
+  }
 }
 
 // Carga un nuevo valor (FIFO)
 void FiltroMA::cargar(float dato)
 {
-  Serial.println("Valores Antes y Despues");
   for(int i=_cant-1; i>0; i--)
   {
-    Serial.print("Antes:\t");
-    Serial.print(_datos[i]);
     _datos[i] = _datos[i-1];
-    Serial.print("\tDespues:\t");
-    Serial.println(_datos[i]);
   }
   _datos[0] = dato;  
 }

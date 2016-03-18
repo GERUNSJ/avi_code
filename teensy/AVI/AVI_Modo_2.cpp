@@ -50,7 +50,7 @@ void Modo2(int umbral_max)
   static int contador = 0;
 
   // Otros
-  int envolvente = 0;
+  static FiltroMA envolvente(M2_PROM);
 
   t_actual = millis();
   if((t_actual - t_anterior) >= M2_TS)
@@ -65,6 +65,7 @@ void Modo2(int umbral_max)
         flag_verde = HIGH;
         leds.mostrar(IMAGENES::circulo, c_verde);
         contador = 0;
+        envolvente.reiniciar();
       }
       contador++;
       if(contador >= t_verde)
@@ -82,9 +83,9 @@ void Modo2(int umbral_max)
         flag_standby = HIGH;
         leds.mostrar(IMAGENES::m2_img_standby, c_azul);
       }
-      envolvente = analogRead(PIN_MIC_ENVOLVENTE);
+      envolvente.cargar(analogRead(PIN_MIC_ENVOLVENTE));
       // Chequea Alto
-      if(envolvente >= (umbral_max*M2_PORC_ALTO/100))
+      if(envolvente.promedio() >= (umbral_max*M2_PORC_ALTO/100))
       {
         flag_ok = HIGH;
         flag_standby = LOW;
@@ -92,7 +93,7 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Medio
-      if((envolvente < (umbral_max*M2_PORC_ALTO/100))&&(envolvente >= (umbral_max*M2_PORC_MEDIO/100)))
+      if((envolvente.promedio() < (umbral_max*M2_PORC_ALTO/100))&&(envolvente.promedio() >= (umbral_max*M2_PORC_MEDIO/100)))
       {
         flag_ok = HIGH;
         flag_standby = LOW;
@@ -100,7 +101,7 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Bajo
-      if((envolvente < (umbral_max*M2_PORC_MEDIO/100))&&(envolvente >= (umbral_max*M2_PORC_BAJO/100)))
+      if((envolvente.promedio() < (umbral_max*M2_PORC_MEDIO/100))&&(envolvente.promedio() >= (umbral_max*M2_PORC_BAJO/100)))
       {
         flag_ok = HIGH;
         flag_standby = LOW;
@@ -108,7 +109,7 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Nada
-      if(envolvente < (umbral_max*M2_PORC_BAJO/100))
+      if(envolvente.promedio() < (umbral_max*M2_PORC_BAJO/100))
       {
         contador++;
         if(contador >= t_delay)
@@ -136,9 +137,9 @@ void Modo2(int umbral_max)
         leds.mostrar(IMAGENES::m2_img_bajo, c_azul);
         contador = 0;
       }
-      envolvente = analogRead(PIN_MIC_ENVOLVENTE);
+      envolvente.cargar(analogRead(PIN_MIC_ENVOLVENTE));
       // Chequea Alto
-      if(envolvente >= (umbral_max*M2_PORC_ALTO/100))
+      if(envolvente.promedio() >= (umbral_max*M2_PORC_ALTO/100))
       {
         flag_ok = HIGH;
         flag_bajo = LOW;
@@ -146,7 +147,7 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Medio
-      if((envolvente < (umbral_max*M2_PORC_ALTO/100))&&(envolvente >= (umbral_max*M2_PORC_MEDIO/100)))
+      if((envolvente.promedio() < (umbral_max*M2_PORC_ALTO/100))&&(envolvente.promedio() >= (umbral_max*M2_PORC_MEDIO/100)))
       {
         flag_ok = HIGH;
         flag_bajo = LOW;
@@ -154,7 +155,7 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Nada
-      if(envolvente < (umbral_max*M2_PORC_BAJO/100))
+      if(envolvente.promedio() < (umbral_max*M2_PORC_BAJO/100))
       {
         flag_bajo = LOW;
         estado = standby;
@@ -169,9 +170,9 @@ void Modo2(int umbral_max)
         leds.mostrar(IMAGENES::m2_img_medio, c_azul);
         contador = 0;
       }
-      envolvente = analogRead(PIN_MIC_ENVOLVENTE);
+      envolvente.cargar(analogRead(PIN_MIC_ENVOLVENTE));
       // Chequea Alto
-      if(envolvente >= (umbral_max*M2_PORC_ALTO/100))
+      if(envolvente.promedio() >= (umbral_max*M2_PORC_ALTO/100))
       {
         flag_ok = HIGH;
         flag_medio = LOW;
@@ -179,7 +180,7 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Bajo
-      if((envolvente < (umbral_max*M2_PORC_MEDIO/100))&&(envolvente >= (umbral_max*M2_PORC_BAJO/100)))
+      if((envolvente.promedio() < (umbral_max*M2_PORC_MEDIO/100))&&(envolvente.promedio() >= (umbral_max*M2_PORC_BAJO/100)))
       {
         flag_ok = HIGH;
         flag_medio = LOW;
@@ -187,7 +188,7 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Nada
-      if(envolvente < (umbral_max*M2_PORC_BAJO/100))
+      if(envolvente.promedio() < (umbral_max*M2_PORC_BAJO/100))
       {
         flag_medio = LOW;
         estado = standby;
@@ -202,9 +203,9 @@ void Modo2(int umbral_max)
         leds.mostrar(IMAGENES::m2_img_alto, c_azul);
         contador = 0;
       }
-      envolvente = analogRead(PIN_MIC_ENVOLVENTE);
+      envolvente.cargar(analogRead(PIN_MIC_ENVOLVENTE));
       //Chequea Medio
-      if((envolvente < (umbral_max*M2_PORC_ALTO/100))&&(envolvente >= (umbral_max*M2_PORC_MEDIO/100)))
+      if((envolvente.promedio() < (umbral_max*M2_PORC_ALTO/100))&&(envolvente.promedio() >= (umbral_max*M2_PORC_MEDIO/100)))
       {
         flag_ok = HIGH;
         flag_alto = LOW;
@@ -212,7 +213,7 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Bajo
-      if((envolvente < (umbral_max*M2_PORC_MEDIO/100))&&(envolvente >= (umbral_max*M2_PORC_BAJO/100)))
+      if((envolvente.promedio() < (umbral_max*M2_PORC_MEDIO/100))&&(envolvente.promedio() >= (umbral_max*M2_PORC_BAJO/100)))
       {
         flag_ok = HIGH;
         flag_alto = LOW;
@@ -220,7 +221,7 @@ void Modo2(int umbral_max)
         contador = 0;
       }
       //Chequea Nada
-      if(envolvente < (umbral_max*M2_PORC_BAJO/100))
+      if(envolvente.promedio() < (umbral_max*M2_PORC_BAJO/100))
       {
         flag_alto = LOW;
         estado = standby;
@@ -271,8 +272,8 @@ void Modo2(int umbral_max)
       Serial.print(contador);
       Serial.print(" de ");
       Serial.print(t_delay);
-      Serial.print("\tEnvolvente: ");
-      Serial.print(envolvente);
+      Serial.print("\tEnvolvente Promedio: ");
+      Serial.print(envolvente.promedio());
       Serial.print(" de (");
       Serial.print(umbral_max*M2_PORC_BAJO/100);
       Serial.print("/");
@@ -284,8 +285,8 @@ void Modo2(int umbral_max)
     if(estado==bajo)
     {
       Serial.print("BAJO");
-      Serial.print("\tEnvolvente: ");
-      Serial.print(envolvente);
+      Serial.print("\tEnvolvente Promedio: ");
+      Serial.print(envolvente.promedio());
       Serial.print(" de (");
       Serial.print(umbral_max*M2_PORC_BAJO/100);
       Serial.print("/");
@@ -297,8 +298,8 @@ void Modo2(int umbral_max)
     if(estado==medio)
     {
       Serial.print("MEDIO");
-      Serial.print("\tEnvolvente: ");
-      Serial.print(envolvente);
+      Serial.print("\tEnvolvente Promedio: ");
+      Serial.print(envolvente.promedio());
       Serial.print(" de (");
       Serial.print(umbral_max*M2_PORC_BAJO/100);
       Serial.print("/");
@@ -310,8 +311,8 @@ void Modo2(int umbral_max)
     if(estado==alto)
     {
       Serial.print("ALTO");
-      Serial.print("\tEnvolvente: ");
-      Serial.print(envolvente);
+      Serial.print("\tEnvolvente Promedio: ");
+      Serial.print(envolvente.promedio());
       Serial.print(" de (");
       Serial.print(umbral_max*M2_PORC_BAJO/100);
       Serial.print("/");
