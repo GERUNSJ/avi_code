@@ -82,51 +82,38 @@ void hamming(float* vector, int longitud)
 
 //-------------------------------------------------------------------------------------------------
 // Obtiene la vocal con los formantes y tolerancias
-char getVocal(int f1, int f2)
+int getVocal(int f1, int f2)
 {
-  double dist[5], minimo;
-  int resultado = 0;
-  char vocal;
+  double dist[5]; // Cinco distancias a cada vocal predefinida
+  double minimo; // Menor distancia entre las 5
+  
+  int vocal = 0;
+
+  // Inicializa las distancias
   for(uint8_t i=0; i<5; i++)
   {
     dist[i] = 0;
   }
+
+  // Calcula la distancia del punto obtenido a las vocales predefinidas
   dist[0] = sqrt(pow(f1-A_F1, 2) + pow(f2-A_F2, 2));
   dist[1] = sqrt(pow(f1-E_F1, 2) + pow(f2-E_F2, 2));
   dist[2] = sqrt(pow(f1-I_F1, 2) + pow(f2-I_F2, 2));
   dist[3] = sqrt(pow(f1-O_F1, 2) + pow(f2-O_F2, 2));
   dist[4] = sqrt(pow(f1-U_F1, 2) + pow(f2-U_F2, 2));
-  minimo = dist[0];
-  resultado = 1;
+
+  // Busca el minimo
+  minimo = 500000; // Numero arbitrario muy grande 
+  vocal = 5; // Si no cambia, indica error
+  
   for(uint8_t i=0; i<5; i++)
   {
     if(dist[i] < minimo)
     {
       minimo = dist[i];
-      resultado = i+1;
+      vocal = i;
     }
   }
-  switch(resultado)
-    {
-      case 1:
-      vocal = 'A';
-      break;
-      case 2:
-      vocal = 'E';
-      break;
-      case 3:
-      vocal = 'I';
-      break;
-      case 4:
-      vocal = 'O';
-      break;
-      case 5:
-      vocal = 'U';
-      break;
-      default:
-      vocal = 'X';
-      break;
-    }
   return vocal;
 }
 

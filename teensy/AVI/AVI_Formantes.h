@@ -61,7 +61,7 @@ void complex_swap(std::complex<float> *x, std::complex<float> *y);
 void hamming(float* vector, int longitud);
 
 // Con el punto y las tolerancias, busca la vocal
-char getVocal(int f1, int f2);
+int getVocal(int f1, int f2);
 
 // Algoritmo Convencional de Burg
 // Fuente: https://github.com/RhysU/ar [Collomb2009.cpp]

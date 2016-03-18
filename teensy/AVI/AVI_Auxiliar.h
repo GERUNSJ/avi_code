@@ -1,5 +1,5 @@
 //=================================================================================================
-// AVI_Modo_5.h
+// AVI_Auxiliar.h
 //
 // Aguado, Pablo.
 // Areche, Ariadna.
@@ -11,13 +11,20 @@
 //
 //=================================================================================================
 
-#ifndef AVI_MODO_5_H
-#define AVI_MODO_5_H
+#ifndef AVI_AUXILIAR_H
+#define AVI_AUXILIAR_H
 
-// Variables Globales
-extern LEDs leds;
+// Clase Filtro Moving Average (Promediador)
+class FiltroMA
+{
+  public:
+    FiltroMA(int cant);
+    void cargar(float dato);
+    float promedio();
+  private:
+    float* _datos;
+    int _cant;
+    float _prom;
+};
 
-// Realiza el algoritmo del Modo 5
-void Modo5(void);
-
-#endif // AVI_MODO_5_H
+#endif // AVI_AUXILIAR_H

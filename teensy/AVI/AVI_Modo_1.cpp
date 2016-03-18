@@ -11,16 +11,9 @@
 //
 //=================================================================================================
 
-#include "Arduino.h"
-#include "AVI_Config.h"
-#include "AVI_Pines.h"
-#include "AVI_LEDs.h"
 #include "AVI_Modo_1.h"
 
 #define DEBUG_MODO_1 0
-
-// Variables Globales
-extern LEDs leds;
 
 // Funciones
 void Modo1(int umbral)
@@ -47,6 +40,7 @@ void Modo1(int umbral)
   static boolean flag_verde = LOW;
   static boolean flag_rojo = LOW;
   static boolean flag_cara = LOW;
+  static boolean flag_standby = LOW;
   static boolean flag_ok = LOW; // Si se cumplio o no el objetivo
 
   // Contadores
@@ -80,6 +74,11 @@ void Modo1(int umbral)
       
       //-------------------------------------------------------------------------------------------------
       case standby:
+      if(!flag_standby)
+      {
+        flag_standby = HIGH;
+        leds.apagar();
+      }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente >= umbral)
       {
@@ -151,6 +150,7 @@ void Modo1(int umbral)
       flag_verde = LOW;
       flag_rojo = LOW;
       flag_cara = LOW;
+      flag_standby = LOW;
       flag_ok = LOW;
       contador = 0;
       estado = verde;

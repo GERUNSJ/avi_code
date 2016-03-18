@@ -11,16 +11,9 @@
 //
 //=================================================================================================
 
-#include "Arduino.h"
-#include "AVI_Config.h"
-#include "AVI_Pines.h"
-#include "AVI_LEDs.h"
 #include "AVI_Modo_3.h"
 
 #define DEBUG_MODO_3 0
-
-// Variables Globales
-extern LEDs leds;
 
 // Funciones
 void Modo3(int umbral, int tiempo)

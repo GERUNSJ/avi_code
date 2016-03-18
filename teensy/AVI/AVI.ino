@@ -1,3 +1,17 @@
+//=================================================================================================
+// AVI_Modo_3.cpp
+//
+// Aguado, Pablo.
+// Areche, Ariadna.
+// Barragan, Edwin.
+// Icard, Nicolas.
+// Mas, German Emilio.
+// 
+// Año 2016
+//
+//=================================================================================================
+
+#include "AVI_Auxiliar.h"
 #include "AVI_Config.h"
 #include "AVI_Pines.h"
 #include "AVI_Formantes.h"
@@ -13,19 +27,20 @@
 
 // Descomentar solo 1 y trabajar 
 //#define D_MOTORES
-#define D_LEDs
+//#define D_LEDs
 //#define D_MODO_1
 //#define D_MODO_2
 //#define D_MODO_3
 //#define D_FORMANTES
 //#define D_GRABAR_AUDIO
+#define D_FILTROMA
+
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 
 // VARIABLES GLOBALES
 LEDs leds;
-
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -296,18 +311,18 @@ float maximo = 0;
 float minimo = 1024;
 int f1 = 0; // Primer Formante
 int f2 = 0; // Segundo Formante
-char vocal = 'X';
+int vocal = -1;
 
 // Funciones Auxiliares
 void medir()
 {
-  datos[indice] = analogRead(A0);
+  datos[indice] = analogRead(PIN_MIC_AUDIO);
   indice++;
 }
 
 void setup()
 {
-  pinMode(13, OUTPUT);
+  //pinMode(13, OUTPUT);
   delay(1000);
   
   // Limpia el vector datos
@@ -320,7 +335,7 @@ void setup()
   FlexiTimer2::set(1, 1.0/AUDIO_FS, medir);
   FlexiTimer2::start();
   
-  digitalWrite(13, HIGH);
+  //digitalWrite(13, HIGH);
 }
 
 void loop()
@@ -329,7 +344,7 @@ void loop()
   {
     // Finaliza el ciclo de muestreo y comienza el de calculo
     FlexiTimer2::stop();
-    digitalWrite(13, LOW);
+    //digitalWrite(13, LOW);
     indice = 0;
 
     // Resta del valor medio y busca max/min
@@ -374,8 +389,35 @@ void loop()
     Serial.end();
 
     // Fin del ciclo de calculo
-    digitalWrite(13, HIGH);
+    //digitalWrite(13, HIGH);
     FlexiTimer2::start();
   }
 }
 #endif // D_GRABAR_AUDIO
+
+#ifdef D_FILTROMA
+
+void setup()
+{
+  Serial.begin(9600);
+  delay(1000);
+  
+  FiltroMA filtro(3);
+  
+  Serial.println("PROBANDO");
+
+  for(int i=0; i<5; i++)
+  {
+    delay(1000);
+    filtro.cargar(1);
+    Serial.println(filtro.promedio());
+    Serial.println("PROBANDO");
+  }
+}
+
+void loop()
+{
+  //
+}
+
+#endif // D_FILTROMA

@@ -11,16 +11,9 @@
 //
 //=================================================================================================
 
-#include "Arduino.h"
-#include "AVI_Config.h"
-#include "AVI_Pines.h"
-#include "AVI_LEDs.h"
 #include "AVI_Modo_2.h"
 
 #define DEBUG_MODO_2 0
-
-// Variables Globales
-extern LEDs leds;
 
 // Funciones
 void Modo2(int umbral_max)

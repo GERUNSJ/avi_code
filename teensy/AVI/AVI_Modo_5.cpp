@@ -19,9 +19,6 @@
 
 #define DEBUG_MODO_5 0
 
-// Variables Globales
-extern LEDs leds;
-
 // Funciones
 void Modo5()
 {

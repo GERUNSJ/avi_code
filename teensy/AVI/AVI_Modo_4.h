@@ -14,7 +14,15 @@
 #ifndef AVI_MODO_4_H
 #define AVI_MODO_4_H
 
+#include "Arduino.h"
+#include "AVI_Config.h"
+#include "AVI_Pines.h"
+#include "AVI_LEDs.h"
+
+// Variables Globales
+extern LEDs leds;
+
 // Realiza el algoritmo del Modo 4
 void Modo4(void);
 
-#endif
+#endif // AVI_MODO_4_H

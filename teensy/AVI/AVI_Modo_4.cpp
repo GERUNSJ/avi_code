@@ -11,16 +11,9 @@
 //
 //=================================================================================================
 
-#include "Arduino.h"
-#include "AVI_Config.h"
-#include "AVI_Pines.h"
-#include "AVI_LEDs.h"
 #include "AVI_Modo_4.h"
 
 #define DEBUG_MODO_4 0
-
-// Variables Globales
-extern LEDs leds;
 
 // Funciones
 void Modo4()
