@@ -85,7 +85,7 @@ class  FilterPreemphasis
 	public:
 		FilterPreemphasis()
 		{
-			alpha = exp(-2.0*PI*50/(float)AUDIO_FS);
+			alpha = exp(-2.0*M_PI*50/(float)AUDIO_FS);
 			for(int i=0; i < 2; i++)
 				v[i]=0.0;
 		}
@@ -107,5 +107,7 @@ class  FilterPreemphasis
 		
 };
 
+
+// TODO: Añadir ventana de hamming por acá?
 
 #endif // AVI_AUXILIAR_H

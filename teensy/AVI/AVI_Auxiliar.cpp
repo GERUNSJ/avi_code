@@ -70,4 +70,11 @@ void FilterBuLp5::filtrar_offline(float* i_arreglo, int i_cantidad)
 
 
 
-void FilterPreemphasis:: 
+void FilterPreemphasis::filtrar_offline(float* i_arreglo, int i_cantidad)
+{
+	for( int i = 0 ; i < i_cantidad ; i++ )
+	{
+		i_arreglo[i] = step(i_arreglo[i]);
+	}
+	return;
+}
