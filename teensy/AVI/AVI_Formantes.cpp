@@ -200,7 +200,6 @@ void obtener_formantes(float* x, int x_n, int p, int Fs, int* f1, int* f2)
 {
   using namespace Eigen;
   using namespace std;
-
   
   // PRIMERA PARTE - BURG
   float coeffs[p+1]; //Coeficientes de Burg

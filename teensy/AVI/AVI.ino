@@ -47,8 +47,8 @@ LEDs leds;
 //#define D_MODO_4
 //#define D_MODO_5
 //#define D_FORMANTES
-//#define D_GRABAR_AUDIO
-#define D_FILTROMA
+#define D_GRABAR_AUDIO
+//#define D_FILTROMA
 
 //-------------------------------------------------------------------------------------------------
 // DEBUG POR BLOQUES
@@ -336,6 +336,8 @@ float minimo = 1024;
 int f1 = 0; // Primer Formante
 int f2 = 0; // Segundo Formante
 int vocal = -1;
+FiltroMA formante1MA(5);
+FiltroMA formante2MA(5);
 
 // Funciones Auxiliares
 void medir()
@@ -400,14 +402,17 @@ void loop()
     // Filtrado y Obtencion de Formantes
     hamming(datos, AUDIO_CANT_MUESTRAS);
     obtener_formantes(datos, AUDIO_CANT_MUESTRAS, FILTRO_PROM_N, AUDIO_FS, &f1, &f2);
-    vocal = getVocal(f1, f2);
+    formante1MA.cargar(f1);
+    formante2MA.cargar(f2);
+    
+    vocal = getVocal(formante1MA.promedio(), formante2MA.promedio());
     
     // Imprimir los resultados
     Serial.begin(115200);
     Serial.print("F1 =\t");
-    Serial.print(f1);
+    Serial.print(formante1MA.promedio());
     Serial.print("\tF2 =\t");
-    Serial.print(f2);
+    Serial.print(formante2MA.promedio());
     Serial.print("\tVocal =\t");
     Serial.println(vocal);
     Serial.end();
