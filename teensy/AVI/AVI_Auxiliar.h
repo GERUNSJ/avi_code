@@ -18,14 +18,16 @@
 class FiltroMA
 {
   public:
+    // Constructor
     FiltroMA(int cant);
+    // Metodos
     void cargar(float dato);
     void reiniciar();
     float promedio();
   private:
+    // Parametros
     float* _datos;
     int _cant;
-    float _prom;
 };
 
 #endif // AVI_AUXILIAR_H

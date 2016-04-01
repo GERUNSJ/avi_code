@@ -336,19 +336,22 @@ float minimo = 1024;
 int f1 = 0; // Primer Formante
 int f2 = 0; // Segundo Formante
 int vocal = -1;
-FiltroMA formante1MA(5);
-FiltroMA formante2MA(5);
+FiltroMA formante1MA(10);
+FiltroMA formante2MA(10);
 
 // Funciones Auxiliares
 void medir()
 {
-  datos[indice] = analogRead(PIN_MIC_AUDIO);
-  indice++;
+  if(analogRead(PIN_MIC_ENVOLVENTE)>=50)
+  {
+    datos[indice] = analogRead(PIN_MIC_AUDIO);
+    indice++;
+  }
 }
 
 void setup()
 {
-  //pinMode(13, OUTPUT);
+  pinMode(PIN_MIC_ENVOLVENTE, INPUT);
   delay(1000);
   
   // Limpia el vector datos
@@ -437,18 +440,29 @@ void setup()
   delay(1000);
   
   Serial.println("Prueba FiltroMA");
-  Serial.println("Se carga datos[3]={0,0,0} y se agrega 1 en cada iteración");
-  Serial.print("Primer iteracion\t");
+  
   Serial.print("datos[3]={1,0,0}\tPromedio:\t");
   filtro.cargar(1);
   Serial.println(filtro.promedio());
-  Serial.print("Segunda iteracion\t");
+  
   Serial.print("datos[3]={1,1,0}\tPromedio:\t");
   filtro.cargar(1);
   Serial.println(filtro.promedio());
-  Serial.print("Tercera iteracion\t");
+  
   Serial.print("datos[3]={1,1,1}\tPromedio:\t");
   filtro.cargar(1);
+  Serial.println(filtro.promedio());
+  
+  Serial.print("datos[3]={2,1,1}\tPromedio:\t");
+  filtro.cargar(2);
+  Serial.println(filtro.promedio());
+  
+  Serial.print("datos[3]={3,2,1}\tPromedio:\t");
+  filtro.cargar(3);
+  Serial.println(filtro.promedio());
+  
+  Serial.print("datos[3]={0,3,2}\tPromedio:\t");
+  filtro.cargar(0);
   Serial.println(filtro.promedio());
 }
 

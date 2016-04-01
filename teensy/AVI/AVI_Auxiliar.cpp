@@ -23,7 +23,6 @@ FiltroMA::FiltroMA(int cant)
   {
     _datos[i] = 0;
   }
-  _prom = 0;
 }
 
 // Coloca en 0 todos los elementos
