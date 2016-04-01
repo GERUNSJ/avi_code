@@ -11,16 +11,9 @@
 //
 //=================================================================================================
 
-#include "Arduino.h"
-#include "AVI_Config.h"
-#include "AVI_Pines.h"
-#include "AVI_LEDs.h"
 #include "AVI_Modo_3.h"
 
 #define DEBUG_MODO_3 0
-
-// Variables Globales
-extern LEDs leds;
 
 // Funciones
 void Modo3(int umbral, int tiempo)
@@ -63,7 +56,7 @@ void Modo3(int umbral, int tiempo)
   int envolvente = 0;
 
   t_actual = millis();
-  if((t_actual - t_anterior) >= M1_TS)
+  if((t_actual - t_anterior) >= M3_TS)
   {
     t_anterior = t_actual;
     switch(estado)

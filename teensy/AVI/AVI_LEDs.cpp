@@ -12,8 +12,6 @@
 //=================================================================================================
 
 #include "AVI_LEDs.h"
-#include "AVI_Config.h"
-#include "AVI_Pines.h"
 
 #define DEBUG_LEDS 0
 

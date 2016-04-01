@@ -1,3 +1,20 @@
+//=================================================================================================
+// AVI.ino
+//
+// Aguado, Pablo.
+// Areche, Ariadna.
+// Barragan, Edwin.
+// Icard, Nicolas.
+// Mas, German Emilio.
+// 
+// Año 2016
+//
+//=================================================================================================
+
+//-------------------------------------------------------------------------------------------------
+// DEPENDENCIAS
+//-------------------------------------------------------------------------------------------------
+#include "AVI_Auxiliar.h"
 #include "AVI_Config.h"
 #include "AVI_Pines.h"
 #include "AVI_Formantes.h"
@@ -7,23 +24,37 @@
 #include "AVI_Modo_2.h"
 #include "AVI_Modo_3.h"
 #include "AVI_Motores.h"
-#include "AVI_Interfaz.h"
 #include <FastLED.h>
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
+#include <FlexiTimer2.h>
+#include <Eigen30.h>
+#include <arm_math.h>
 
-// Descomentar solo 1 y trabajar 
+//-------------------------------------------------------------------------------------------------
+// VARIABLES GLOBALES
+// Los otros archivos deben llamarlas via 'extern' en su respectivo header
+//-------------------------------------------------------------------------------------------------
+LEDs leds;
+
+//-------------------------------------------------------------------------------------------------
+// DEBUG POR BLOQUES
+// Descomentar solo uno y trabajar 
+//-------------------------------------------------------------------------------------------------
 //#define D_MOTORES
 //#define D_LEDs
 //#define D_MODO_1
 //#define D_MODO_2
 //#define D_MODO_3
+//#define D_MODO_4
+//#define D_MODO_5
 //#define D_FORMANTES
-//#define D_GRABAR_AUDIO
-#define D_INTERFAZ
+#define D_GRABAR_AUDIO
+//#define D_FILTROMA
 
 //-------------------------------------------------------------------------------------------------
+// DEBUG POR BLOQUES
+// D_MOTORES
 //-------------------------------------------------------------------------------------------------
+#ifdef D_MOTORES
 
 // VARIABLES GLOBALES
 LEDs leds;
@@ -49,43 +80,42 @@ Motores motores ( motor_A , motor_B , motor_C , motor_D );
 
 void setup()
 {
-	pinMode(13, OUTPUT);
-	//Serial.begin(9600);
-	delay(500);
+  pinMode(13, OUTPUT);
+  //Serial.begin(9600);
+  delay(500);
 //   motor_A = Motor(PIN_MOTOR_A_1, PIN_MOTOR_A_2, PIN_PWM_A);
 //   motor_B = Motor(PIN_MOTOR_B_1, PIN_MOTOR_B_2, PIN_PWM_B);
 //   motor_C = Motor(PIN_MOTOR_C_1, PIN_MOTOR_C_2, PIN_PWM_C);
 //   motor_D = Motor(PIN_MOTOR_D_1, PIN_MOTOR_D_2, PIN_PWM_D);
 //   
 //   Motores motores ( motor_A , motor_B , motor_C , motor_D );
-	digitalWrite(13, HIGH);
-	delay(500);
+  digitalWrite(13, HIGH);
+  delay(500);
   motores.encender();
-	digitalWrite(13, LOW);
-	delay(500);
- 
+  digitalWrite(13, LOW);
+  delay(500);
 }
 
 void loop()
 {
   Serial.println(motores.getEstado());
-	digitalWrite(13, HIGH);
-	delay(500);
-	digitalWrite(13, LOW);
-	delay(500);
-	motores.desplazamientoAdelante(50);
-	delay(500);
-	motores.desplazamientoAtras(50);
-	delay(500);
-	motores.girarCCW(50, 700);
-	delay(500);
+  digitalWrite(13, HIGH);
+  delay(500);
+  digitalWrite(13, LOW);
+  delay(500);
+  motores.desplazamientoAdelante(50);
+  delay(500);
+  motores.desplazamientoAtras(50);
+  delay(500);
+  motores.girarCCW(50, 700);
+  delay(500);
 }
 #endif // D_MOTORES
 
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-
-
+//-------------------------------------------------------------------------------------------------
+// DEBUG POR BLOQUES
+// D_LEDs
+//-------------------------------------------------------------------------------------------------
 #ifdef D_LEDs
 
 //LEDs leds;
@@ -116,10 +146,9 @@ void setup()
 
 void loop()
 {
- // LEDs leds;
-  digitalWrite(13, HIGH);
+  //digitalWrite(13, HIGH); // Este es un pin de Audio, no se deberia tocar.
   delay(500);
-  digitalWrite(13, LOW);
+  //digitalWrite(13, LOW);
   delay(500);
   
 	leds.mostrar(IMAGENES::circulo , long(0x2084B7));
@@ -127,17 +156,17 @@ void loop()
 	leds.apagar();
 	delay(1000);
 
-   leds.mostrar(IMAGENES::o_img , 0x00FF00 ); // rojo
+  leds.mostrar(IMAGENES::o_img , 0x00FF00 ); // rojo
   delay(1000);
   leds.apagar();
   delay(1000);
 
-     leds.mostrar(IMAGENES::m2_img_medio , 0x66FF00, 0x0066FF); // naranja
+  leds.mostrar(IMAGENES::m2_img_medio , 0x66FF00, 0x0066FF); // naranja
   delay(1000);
   leds.apagar();
   delay(1000);
 
-       leds.mostrar(IMAGENES::o_img , 0xFFFF00 ); //amarillo
+  leds.mostrar(IMAGENES::o_img , 0xFFFF00 ); //amarillo
   delay(1000);
   leds.apagar();
   delay(1000);
@@ -149,10 +178,10 @@ void loop()
 
 #endif // D_LEDs
 
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-
-
+//-------------------------------------------------------------------------------------------------
+// DEBUG POR BLOQUES
+// D_MODO_1
+//-------------------------------------------------------------------------------------------------
 #ifdef D_MODO_1
 void setup()
 {
@@ -168,14 +197,14 @@ void setup()
 
 void loop()
 {
-  Modo1(40);
+  Modo1(512);
 }
 #endif // D_MODO_1
 
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-
-
+//-------------------------------------------------------------------------------------------------
+// DEBUG POR BLOQUES
+// D_MODO_2
+//-------------------------------------------------------------------------------------------------
 #ifdef D_MODO_2
 void setup()
 {
@@ -196,10 +225,10 @@ void loop()
 
 #endif // D_MODO_2
 
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-
-
+//-------------------------------------------------------------------------------------------------
+// DEBUG POR BLOQUES
+// D_MODO_3
+//-------------------------------------------------------------------------------------------------
 #ifdef D_MODO_3
 void setup()
 {
@@ -209,20 +238,54 @@ void setup()
   Serial.println("--- INICIO ---");
 }
 
-//-------------------------------------------------------------------------------------------------
-// LOOP
-//-------------------------------------------------------------------------------------------------
-
 void loop()
 {
   Modo3(240, 6);
 }
 #endif // D_MODO_3
 
+//-------------------------------------------------------------------------------------------------
+// DEBUG POR BLOQUES
+// D_MODO_4
+//-------------------------------------------------------------------------------------------------
+#ifdef D_MODO_4
+void setup()
+{
+  //COMUNICACION
+  Serial.begin(9600);
+  delay(1000);
+  Serial.println("--- INICIO ---");
+}
 
-//----------------------------------------------------------------------------------------------------------------------------------------------------
+void loop()
+{
+  Modo4();
+}
+#endif // D_MODO_4
 
+//-------------------------------------------------------------------------------------------------
+// DEBUG POR BLOQUES
+// D_MODO_5
+//-------------------------------------------------------------------------------------------------
+#ifdef D_MODO_5
+void setup()
+{
+  //COMUNICACION
+  Serial.begin(9600);
+  delay(1000);
+  Serial.println("--- INICIO ---");
+}
 
+void loop()
+{
+  Modo5();
+}
+#endif // D_MODO_5
+
+//-------------------------------------------------------------------------------------------------
+// DEBUG POR BLOQUES
+// D_FORMANTES
+//-------------------------------------------------------------------------------------------------
 #ifdef D_FORMANTES
 #include <Eigen30.h>
 // Para evitar problemas. Ver https://forum.pjrc.com/archive/index.php/t-28181.html
@@ -260,8 +323,7 @@ int main()
   {
     Serial.println(a[i],6);
   }
-  Serial.println();
-  
+  Serial.println();  
 
   obtener_formantes(x, x_n, p, Fs, &f1, &f2);
   
@@ -274,10 +336,10 @@ int main()
 }
 #endif // D_FORMANTES
 
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-
-
+//-------------------------------------------------------------------------------------------------
+// DEBUG POR BLOQUES
+// D_GRABAR_AUDIO
+//-------------------------------------------------------------------------------------------------
 #ifdef D_GRABAR_AUDIO
 #include <FlexiTimer2.h>
 #include <Eigen30.h>
@@ -298,18 +360,23 @@ float maximo = 0;
 float minimo = 1024;
 int f1 = 0; // Primer Formante
 int f2 = 0; // Segundo Formante
-char vocal = 'X';
+int vocal = -1;
+FiltroMA formante1MA(10);
+FiltroMA formante2MA(10);
 
 // Funciones Auxiliares
 void medir()
 {
-  datos[indice] = analogRead(A0);
-  indice++;
+  if(analogRead(PIN_MIC_ENVOLVENTE)>=50)
+  {
+    datos[indice] = analogRead(PIN_MIC_AUDIO);
+    indice++;
+  }
 }
 
 void setup()
 {
-  pinMode(13, OUTPUT);
+  pinMode(PIN_MIC_ENVOLVENTE, INPUT);
   delay(1000);
   
   // Limpia el vector datos
@@ -322,7 +389,7 @@ void setup()
   FlexiTimer2::set(1, 1.0/AUDIO_FS, medir);
   FlexiTimer2::start();
   
-  digitalWrite(13, HIGH);
+  //digitalWrite(13, HIGH);
 }
 
 void loop()
@@ -331,7 +398,7 @@ void loop()
   {
     // Finaliza el ciclo de muestreo y comienza el de calculo
     FlexiTimer2::stop();
-    digitalWrite(13, LOW);
+    //digitalWrite(13, LOW);
     indice = 0;
 
     // Resta del valor medio y busca max/min
@@ -363,52 +430,70 @@ void loop()
     // Filtrado y Obtencion de Formantes
     hamming(datos, AUDIO_CANT_MUESTRAS);
     obtener_formantes(datos, AUDIO_CANT_MUESTRAS, FILTRO_PROM_N, AUDIO_FS, &f1, &f2);
-    vocal = getVocal(f1, f2);
+    formante1MA.cargar(f1);
+    formante2MA.cargar(f2);
+    
+    vocal = getVocal(formante1MA.promedio(), formante2MA.promedio());
     
     // Imprimir los resultados
     Serial.begin(115200);
     Serial.print("F1 =\t");
-    Serial.print(f1);
+    Serial.print(formante1MA.promedio());
     Serial.print("\tF2 =\t");
-    Serial.print(f2);
+    Serial.print(formante2MA.promedio());
     Serial.print("\tVocal =\t");
     Serial.println(vocal);
     Serial.end();
 
     // Fin del ciclo de calculo
-    digitalWrite(13, HIGH);
+    //digitalWrite(13, HIGH);
     FlexiTimer2::start();
   }
 }
 #endif // D_GRABAR_AUDIO
 
-
-
-
-
-
-
-
-
-#ifdef D_INTERFAZ
+//-------------------------------------------------------------------------------------------------
+// DEBUG POR BLOQUES
+// D_FILTROMA
+//-------------------------------------------------------------------------------------------------
+#ifdef D_FILTROMA
 
 void setup()
 {
-	pinMode(PIN_BOTON_1, INPUT);
-	pinMode(PIN_BOTON_2, INPUT);
-	Serial.begin(9600);
-	delay(2000);
-	Serial.println("Comienza programa interfaz");
+  Serial.begin(9600);
+  FiltroMA filtro(3);
+  delay(1000);
+  
+  Serial.println("Prueba FiltroMA");
+  
+  Serial.print("datos[3]={1,0,0}\tPromedio:\t");
+  filtro.cargar(1);
+  Serial.println(filtro.promedio());
+  
+  Serial.print("datos[3]={1,1,0}\tPromedio:\t");
+  filtro.cargar(1);
+  Serial.println(filtro.promedio());
+  
+  Serial.print("datos[3]={1,1,1}\tPromedio:\t");
+  filtro.cargar(1);
+  Serial.println(filtro.promedio());
+  
+  Serial.print("datos[3]={2,1,1}\tPromedio:\t");
+  filtro.cargar(2);
+  Serial.println(filtro.promedio());
+  
+  Serial.print("datos[3]={3,2,1}\tPromedio:\t");
+  filtro.cargar(3);
+  Serial.println(filtro.promedio());
+  
+  Serial.print("datos[3]={0,3,2}\tPromedio:\t");
+  filtro.cargar(0);
+  Serial.println(filtro.promedio());
 }
 
 void loop()
 {
-	Serial.println("Entra elegir_modo");
-	delay(2000);
-	MODOS modo = elegir_modo();
-	Serial.println("Entra elegir_modo");
-	delay(4000);
+  //
 }
 
-
-#endif // D_INTERFAZ
+#endif // D_FILTROMA

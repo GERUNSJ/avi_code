@@ -32,7 +32,7 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 
 //-------------------------------------------------------------------------------------------------
 // LEDS
-#define LEDS_BRILLO 128	//0-255
+#define LEDS_BRILLO 128	// De 0 a 255
 
 //-------------------------------------------------------------------------------------------------
 // MOTORES
@@ -48,18 +48,22 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 
 //-------------------------------------------------------------------------------------------------
 // MODOS
-#define M1_PROM 2 // Tamaño del Filtro Promediador
-#define M1_TS 70 // Tiempo de Muestreo [mseg]
+#define M1_PROM 5 // Tamaño del Filtro Promediador
+#define M1_TS 20 // Tiempo de Muestreo [mseg]
 
-#define M2_PORC_BAJO 4 // Porcentaje del Maximo que se considera Bajo
-#define M2_PORC_MEDIO 8 // Porcentaje del Maximo que se considera Medio
-#define M2_PORC_ALTO 12 // Porcentaje del Maximo que se considera Alto
-#define M2_PROM 40 // Tamaño del Filtro Promediador
+#define M2_PORC_BAJO 25 // Porcentaje del Maximo que se considera Bajo
+#define M2_PORC_MEDIO 55 // Porcentaje del Maximo que se considera Medio
+#define M2_PORC_ALTO 85 // Porcentaje del Maximo que se considera Alto
+#define M2_PROM 5 // Tamaño del Filtro Promediador
 #define M2_TS 20 // Tiempo de Muestreo [mseg]
 
 #define M3_TS 20 // Tiempo de Muestreo [mseg]
 #define M3_PORC_BAJO 33 // Porcentaje de tiempo para mostrar la primer imagen
 #define M3_PORC_MEDIO 66 // Porcentaje de tiempo para mostrar la segunda imagen
+
+#define M4_TS 20 // Tiempo de Muestreo [mseg]
+
+#define M5_TS 20 // Tiempo de Muestreo [mseg]
 
 //-------------------------------------------------------------------------------------------------
 // VOCALES

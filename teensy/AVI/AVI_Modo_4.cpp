@@ -1,5 +1,5 @@
 //=================================================================================================
-// AVI_Modo_1.cpp
+// AVI_Modo_4.cpp
 //
 // Aguado, Pablo.
 // Areche, Ariadna.
@@ -11,19 +11,12 @@
 //
 //=================================================================================================
 
-#include "Arduino.h"
-#include "AVI_Config.h"
-#include "AVI_Pines.h"
-#include "AVI_LEDs.h"
-#include "AVI_Modo_1.h"
+#include "AVI_Modo_4.h"
 
-#define DEBUG_MODO_1 0
-
-// Variables Globales
-extern LEDs leds;
+#define DEBUG_MODO_4 0
 
 // Funciones
-void Modo1(int umbral)
+void Modo4()
 {
   // Estados
   enum Estados
@@ -38,26 +31,27 @@ void Modo1(int umbral)
   // Base de Tiempo
   static unsigned long t_anterior = 0;
   unsigned long t_actual;
-  int t_verde = 2000/M1_TS; // 2 Segundos
-  int t_delay = 5000/M1_TS; // 5 Segundos
-  int t_cara = 3000/M1_TS; // 3 Segundos
-  int t_rojo = 4000/M1_TS; // 4 Segundos
-
+  int t_verde = 2000/M4_TS; // 2 Segundos
+  int t_cara = 3000/M4_TS; // 3 Segundos
+  int t_rojo = 4000/M4_TS; // 4 Segundos
+  int t_delay = 5000/M4_TS; // 5 Segundos
+  
   // Flags
   static boolean flag_verde = LOW;
   static boolean flag_rojo = LOW;
   static boolean flag_cara = LOW;
   static boolean flag_standby = LOW;
-  static boolean flag_ok = LOW; // Si se cumplio o no el objetivo
-
+  
   // Contadores
   static int contador = 0;
 
   // Otros
-  static FiltroMA envolvente(M1_PROM);
+  int vocalRandom = 0;
+  int vocalObtenida = 0;
+  randomSeed(micros()); // Microsegundos asegura un Seed aleatorio
 
   t_actual = millis();
-  if((t_actual - t_anterior) >= M1_TS)
+  if((t_actual - t_anterior) >= M4_TS)
   {
     t_anterior = t_actual;
     switch(estado)
@@ -69,7 +63,6 @@ void Modo1(int umbral)
         flag_verde = HIGH;
         leds.mostrar(IMAGENES::circulo, c_verde);
         contador = 0;
-        envolvente.reiniciar();
       }
       contador++;
       if(contador >= t_verde)
@@ -84,58 +77,77 @@ void Modo1(int umbral)
       case standby:
       if(!flag_standby)
       {
+        // Selecciona una vocal para mostrar
         flag_standby = HIGH;
-        leds.apagar();
-      }
-      envolvente.cargar(analogRead(PIN_MIC_ENVOLVENTE));
-      if(envolvente.promedio() >= umbral)
-      {
-        flag_ok = HIGH;
+        vocalRandom = floor(random(5));
         contador = 0;
-        estado = cara;
-      }
-      else
-      {
-        contador++;
-        if(contador >= t_delay)
+        switch(vocalRandom)
         {
-          if(flag_ok)
-          {
-            estado = verde;
-            flag_ok = LOW;
-          }
-          else
-          {
-            estado = rojo;
-          }
+          // Caso A
+          case 0:
+          leds.mostrar(IMAGENES::a_img, c_naranja);
+          break;
+          // Caso E
+          case 1:
+          leds.mostrar(IMAGENES::a_img, c_naranja);
+          break;
+          // Caso I
+          case 2:
+          leds.mostrar(IMAGENES::a_img, c_naranja);
+          break;
+          // Caso O
+          case 3:
+          leds.mostrar(IMAGENES::a_img, c_naranja);
+          break;
+          // Caso U
+          case 4:
+          leds.mostrar(IMAGENES::a_img, c_naranja);
+          break;
+          // Si no está dentro del rango, no muestra nada y repite.
+          default:
+          leds.apagar();
+          flag_standby = LOW;
+          break;
         }
       }
-      break;
+
+      //-------------------------------------------------------------------------------------------------
+      // TODO: DETECCION DE VOCALES!
+      //-------------------------------------------------------------------------------------------------
       
+
+      if(vocalObtenida == vocalRandom)
+      {
+        estado = cara;
+        flag_standby = LOW;
+        contador = 0;
+      }
+      contador++;
+      if(contador >= t_delay)
+      {
+        estado = rojo;
+        flag_standby = LOW;
+        contador = 0;
+      }
+      break;
+
       //-------------------------------------------------------------------------------------------------
       case cara:
       if(!flag_cara)
       {
         flag_cara = HIGH;
         leds.mostrar(IMAGENES::cara, c_azul);
-      }
-      envolvente.cargar(analogRead(PIN_MIC_ENVOLVENTE));
-      if(envolvente.promedio() >= umbral)
-      {
         contador = 0;
       }
-      else
+      contador++;
+      if(contador >= t_cara)
       {
-        contador++;
-        if(contador >= t_cara)
-        {
-          estado = standby;
-          flag_cara = LOW;
-          contador = 0;
-        }
+        estado = verde;
+        flag_cara = LOW;
+        contador = 0;
       }
       break;
-      
+
       //-------------------------------------------------------------------------------------------------
       case rojo:
       if(!flag_rojo)
@@ -158,12 +170,13 @@ void Modo1(int umbral)
       flag_verde = LOW;
       flag_rojo = LOW;
       flag_cara = LOW;
-      flag_ok = LOW;
+      flag_standby = LOW;
       contador = 0;
       estado = verde;
       break;
     }
-    #if DEBUG_MODO_1 == 1
+    
+    #if DEBUG_MODO_4 == 1
     if(estado==verde)
     {
       Serial.print("VERDE\t");
@@ -173,27 +186,21 @@ void Modo1(int umbral)
     }
     if(estado==standby)
     {
-      Serial.print("STANDBY\t");
+      Serial.print("STANDBY\tVOCAL_RANDOM:\t");
+      Serial.print(vocalRandom);
+      Serial.print("\tVOCAL_OBTENIDA:\t");
+      Serial.print(vocalObtenida);
+      Serial.print("\tContador ");
       Serial.print(contador);
       Serial.print(" de ");
-      Serial.print(t_delay);
-      Serial.print("\tEnvolvente Promedio: ");
-      Serial.print(envolvente.promedio());
-      Serial.print(" (");
-      Serial.print(umbral);
-      Serial.println(")");
+      Serial.println(t_delay);
     }
     if(estado==cara)
     {
       Serial.print("CARA\t");
       Serial.print(contador);
       Serial.print(" de ");
-      Serial.print(t_cara);
-      Serial.print("\tEnvolvente Promedio: ");
-      Serial.print(envolvente.promedio());
-      Serial.print(" (");
-      Serial.print(umbral);
-      Serial.println(")");
+      Serial.println(t_cara);
     }
     if(estado==rojo)
     {
@@ -205,4 +212,3 @@ void Modo1(int umbral)
     #endif
   }
 }
-
