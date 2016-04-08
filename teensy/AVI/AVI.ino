@@ -56,6 +56,15 @@ LEDs leds;
 //=================================================================================================
 #ifdef D_MOTORES
 
+// VARIABLES GLOBALES
+LEDs leds;
+
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+
+
+#ifdef D_MOTORES
 Motor motor_A(PIN_MOTOR_A_1, PIN_MOTOR_A_2, PIN_PWM_A);
 Motor motor_B(PIN_MOTOR_B_1, PIN_MOTOR_B_2, PIN_PWM_B);
 Motor motor_C(PIN_MOTOR_C_1, PIN_MOTOR_C_2, PIN_PWM_C);
@@ -109,6 +118,8 @@ void loop()
 //=================================================================================================
 #ifdef D_LEDs
 
+//LEDs leds;
+
 void setup()
 {
   pinMode(13, OUTPUT);
@@ -131,6 +142,7 @@ void setup()
   Serial.print("Khaki es : "); Serial.println((long)CRGB::Khaki,HEX);
 
 }
+
 
 void loop()
 {
@@ -163,6 +175,7 @@ void loop()
     leds.brillo = 0.1;
 }
 
+
 #endif // D_LEDs
 
 //=================================================================================================
@@ -177,6 +190,10 @@ void setup()
   delay(1000);
   Serial.println("--- INICIO ---");
 }
+
+//-------------------------------------------------------------------------------------------------
+// LOOP
+//-------------------------------------------------------------------------------------------------
 
 void loop()
 {
@@ -196,6 +213,10 @@ void setup()
   delay(1000);
   Serial.println("--- INICIO ---");
 }
+
+//-------------------------------------------------------------------------------------------------
+// LOOP
+//-------------------------------------------------------------------------------------------------
 
 void loop()
 {
@@ -266,6 +287,7 @@ void loop()
 // D_FORMANTES
 //=================================================================================================
 #ifdef D_FORMANTES
+#include <Eigen30.h>
 // Para evitar problemas. Ver https://forum.pjrc.com/archive/index.php/t-28181.html
 void abort()
 {
@@ -319,6 +341,9 @@ int main()
 // D_GRABAR_AUDIO
 //=================================================================================================
 #ifdef D_GRABAR_AUDIO
+#include <FlexiTimer2.h>
+#include <Eigen30.h>
+#include <arm_math.h>
 
 // Para evitar problemas. Ver https://forum.pjrc.com/archive/index.php/t-28181.html
 void abort()
