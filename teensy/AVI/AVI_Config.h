@@ -36,8 +36,8 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 
 //-------------------------------------------------------------------------------------------------
 // MOTORES
-#define MOTORES_TIEMPO_90	500	// Tiempo en milisegundos para giro 90 grados
-#define MOTORES_VELOCIDAD_90	50.0	// Velocidad (en porcentaje) para el giro de 90 grados, el de 180 y el de 360
+#define MOTORES_TIEMPO_90 500 // Tiempo en milisegundos para giro 90 grados
+#define MOTORES_VELOCIDAD_90 50.0 // Velocidad (en porcentaje) para el giro de 90 grados, el de 180 y el de 360
 
 //-------------------------------------------------------------------------------------------------
 // FORMANTES
