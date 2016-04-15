@@ -23,6 +23,7 @@
 //#define D_FORMANTES
 //#define D_GRABAR_AUDIO
 //#define D_FILTROMA
+#define D_MOTOR_LED // Prueba Motores junto con LED. 15/04/16
 //
 //=================================================================================================
 
@@ -35,9 +36,7 @@
 #include "AVI_Formantes.h"
 #include "AVI_LEDs.h"
 #include "AVI_Motores.h"
-#include "AVI_Modo_1.h"
-#include "AVI_Modo_2.h"
-#include "AVI_Modo_3.h"
+#include "AVI_Modos.h"
 #include "AVI_Motores.h"
 #include <FastLED.h>
 #include <FlexiTimer2.h>
@@ -54,16 +53,6 @@ LEDs leds;
 // DEBUG POR BLOQUES
 // D_MOTORES
 //=================================================================================================
-#ifdef D_MOTORES
-
-// VARIABLES GLOBALES
-LEDs leds;
-
-
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-
-
 #ifdef D_MOTORES
 Motor motor_A(PIN_MOTOR_A_1, PIN_MOTOR_A_2, PIN_PWM_A);
 Motor motor_B(PIN_MOTOR_B_1, PIN_MOTOR_B_2, PIN_PWM_B);
@@ -117,8 +106,6 @@ void loop()
 // D_LEDs
 //=================================================================================================
 #ifdef D_LEDs
-
-//LEDs leds;
 
 void setup()
 {
@@ -497,3 +484,62 @@ void loop()
 }
 
 #endif // D_FILTROMA
+
+//=================================================================================================
+// DEBUG POR BLOQUES
+// D_MOTOR_LED
+//=================================================================================================
+#ifdef D_MOTOR_LED
+
+Motor motor_A(PIN_MOTOR_A_1, PIN_MOTOR_A_2, PIN_PWM_A);
+Motor motor_B(PIN_MOTOR_B_1, PIN_MOTOR_B_2, PIN_PWM_B);
+Motor motor_C(PIN_MOTOR_C_1, PIN_MOTOR_C_2, PIN_PWM_C);
+Motor motor_D(PIN_MOTOR_D_1, PIN_MOTOR_D_2, PIN_PWM_D);
+
+Motores motores ( motor_A , motor_B , motor_C , motor_D );
+
+void setup()
+{
+  Serial.begin(9600);
+  delay(500);
+  
+  // USAR SOLO SI EL MICROFONO NO ESTÁ CONECTADO AL PIN 13
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
+  delay(500);
+  digitalWrite(13, LOW);
+  delay(500);
+  motores.encender();
+
+  leds.mostrar(IMAGENES::circulo , CRGB::Blue );
+  delay(2000);
+  
+  leds.apagar();
+  delay(1000);
+  
+  motores.desplazamientoAdelante(50);
+}
+
+
+void loop()
+{
+  leds.mostrar(IMAGENES::a_img , c_rojo);
+  delay(1000);
+  
+  leds.mostrar(IMAGENES::e_img , c_azul);
+  delay(1000);
+  
+  leds.mostrar(IMAGENES::i_img , c_amarillo);
+  delay(1000);
+  
+  leds.mostrar(IMAGENES::o_img , c_violeta);
+  delay(1000);
+  
+  leds.mostrar(IMAGENES::u_img , c_verde);
+  delay(1000);
+  
+  leds.mostrar(IMAGENES::cara , c_naranja);
+  delay(1000);
+}
+
+#endif // D_MOTOR_LED
