@@ -17,10 +17,18 @@
 // CLASES:
 // - FiltroMA: Filtro Promediador de Media Movil.
 //
+// METODOS
+// - pinInit(): Inicializa los pines
+//
 //=================================================================================================
 
 #ifndef AVI_AUXILIAR_H
 #define AVI_AUXILIAR_H
+
+#include "AVI_Pines.h"
+
+//-------------------------------------------------------------------------------------------------
+// CLASES
 
 // Clase Filtro Moving Average (Promediador)
 class FiltroMA
@@ -37,5 +45,9 @@ class FiltroMA
     float* _datos;
     int _cant;
 };
+
+//-------------------------------------------------------------------------------------------------
+// METODOS
+void pinInit();
 
 #endif // AVI_AUXILIAR_H

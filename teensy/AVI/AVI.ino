@@ -19,12 +19,13 @@
 //=================================================================================================
 #include "AVI_Auxiliar.h"
 #include "AVI_Config.h"
-#include "AVI_Pines.h"
 #include "AVI_Formantes.h"
+#include "AVI_Interfaz.h"
 #include "AVI_LEDs.h"
-#include "AVI_Motores.h"
 #include "AVI_Modos.h"
 #include "AVI_Motores.h"
+#include "AVI_Pines.h"
+
 #include <FastLED.h>
 #include <FlexiTimer2.h>
 #include <Eigen30.h>
@@ -59,8 +60,10 @@ FiltroMA formante1MA(10);
 FiltroMA formante2MA(10);
 int vocal = -1; // Vocal Resultado
 
-
-
+//-------------------------------------------------------------------------------------------------
+// Modos
+Modos modoSeleccionado;
+  
 //=================================================================================================
 // FUNCIONES AUXILIARES
 // Funciones de apoyo para Setup y Loop.
@@ -76,10 +79,11 @@ void medir()
 {
   if(analogRead(PIN_MIC_ENVOLVENTE)>=50)
   {
-    datos[indice] = analogRead(PIN_MIC_AUDIO);
-    indice++;
+    audioDatos[audioIndice] = analogRead(PIN_MIC_AUDIO);
+    audioIndice++;
   }
 }
+
 //=================================================================================================
 // SETUP
 // Inicio del programa. Configuración y definicion de pines.
@@ -87,24 +91,35 @@ void medir()
 void setup()
 {
   // Comunicacion
+  delay(1000);
   Serial.begin(9600);
   Serial.println("AVI Inicio");
 
   // Configuración de Pines
+  Serial.println("Configuracion de Pines");
   pinInit();
   
   // Inicializaciones
+  Serial.println("Encendido de Motores");
   motores.encender();
+  Serial.println("Apaga Leds");
   leds.apagar();
-  
+
+  Serial.println("Limpia Datos");
   // Limpieza del Vector de Datos
   for(int n=0; n<AUDIO_CANT_MUESTRAS; n++)
   {
-    datos[n]=0;
+    audioDatos[n]=0;
   }
 
+  Serial.println("Setea Flexitimer");
   // FlexiTimer2
   FlexiTimer2::set(1, 1.0/AUDIO_FS, medir);
+
+  //-------------------------------------------------------------------------------------------------
+  // Fin de configuración, comienza el programa.
+  Serial.println("Eleccion de Modo");
+  modoSeleccionado = elegir_modo();
 }
 
 //=================================================================================================
@@ -114,71 +129,106 @@ void setup()
 void loop()
 {
   //
-}
-
-
-
-
-
-
-void loop()
-{
-  if(indice >= AUDIO_CANT_MUESTRAS)
+  switch(modoSeleccionado)
   {
-    // Finaliza el ciclo de muestreo y comienza el de calculo
-    FlexiTimer2::stop();
-    //digitalWrite(13, LOW);
-    indice = 0;
+    case Modos::modo1:
+    Serial.println("Modo 1");
+    delay(1000);
+    break;
 
-    // Resta del valor medio y busca max/min
-    for(int n=0; n<AUDIO_CANT_MUESTRAS; n++)
-    {
-      datos[n] -= 511.5;
-      if(datos[n]>maximo)
-      {
-        maximo = datos[n];
-      }
-      if(datos[n]<minimo)
-      {
-        minimo = datos[n];
-      }
-    }
+    case Modos::modo2:
+    Serial.println("Modo 2");
+    delay(1000);
+    break;
+
+    case Modos::modo3:
+    Serial.println("Modo 3");
+    delay(1000);
+    break;
+
+    case Modos::modo4:
+    Serial.println("Modo 4");
+    delay(1000);
+    break;
+
+    case Modos::modo5:
+    Serial.println("Modo 5");
+    delay(1000);
+    break;
+
+    default:
+    Serial.println("Case default!");
+    delay(1000);
+    break;
+
+
     
-    // Busca el maximo en valor absoluto
-    if(abs(minimo)>maximo)
-    {
-      maximo = abs(minimo);
-    }
-
-    // Normalizacion de los datos
-    for(int n=0; n<AUDIO_CANT_MUESTRAS; n++)
-    {
-      datos[n] /= maximo;
-    }
-
-    // Filtrado y Obtencion de Formantes
-    hamming(datos, AUDIO_CANT_MUESTRAS);
-    obtener_formantes(datos, AUDIO_CANT_MUESTRAS, FILTRO_PROM_N, AUDIO_FS, &f1, &f2);
-    formante1MA.cargar(f1);
-    formante2MA.cargar(f2);
-    
-    vocal = getVocal(formante1MA.promedio(), formante2MA.promedio());
-    
-    // Imprimir los resultados
-    Serial.begin(115200);
-    Serial.print("F1 =\t");
-    Serial.print(formante1MA.promedio());
-    Serial.print("\tF2 =\t");
-    Serial.print(formante2MA.promedio());
-    Serial.print("\tVocal =\t");
-    Serial.println(vocal);
-    Serial.end();
-
-    // Fin del ciclo de calculo
-    //digitalWrite(13, HIGH);
-    FlexiTimer2::start();
   }
 }
-#endif // D_GRABAR_AUDIO
+
+
+
+
+
+
+//void loop()
+//{
+//  if(indice >= AUDIO_CANT_MUESTRAS)
+//  {
+//    // Finaliza el ciclo de muestreo y comienza el de calculo
+//    FlexiTimer2::stop();
+//    //digitalWrite(13, LOW);
+//    indice = 0;
+//
+//    // Resta del valor medio y busca max/min
+//    for(int n=0; n<AUDIO_CANT_MUESTRAS; n++)
+//    {
+//      datos[n] -= 511.5;
+//      if(datos[n]>maximo)
+//      {
+//        maximo = datos[n];
+//      }
+//      if(datos[n]<minimo)
+//      {
+//        minimo = datos[n];
+//      }
+//    }
+//    
+//    // Busca el maximo en valor absoluto
+//    if(abs(minimo)>maximo)
+//    {
+//      maximo = abs(minimo);
+//    }
+//
+//    // Normalizacion de los datos
+//    for(int n=0; n<AUDIO_CANT_MUESTRAS; n++)
+//    {
+//      datos[n] /= maximo;
+//    }
+//
+//    // Filtrado y Obtencion de Formantes
+//    hamming(datos, AUDIO_CANT_MUESTRAS);
+//    obtener_formantes(datos, AUDIO_CANT_MUESTRAS, FILTRO_PROM_N, AUDIO_FS, &f1, &f2);
+//    formante1MA.cargar(f1);
+//    formante2MA.cargar(f2);
+//    
+//    vocal = getVocal(formante1MA.promedio(), formante2MA.promedio());
+//    
+//    // Imprimir los resultados
+//    Serial.begin(115200);
+//    Serial.print("F1 =\t");
+//    Serial.print(formante1MA.promedio());
+//    Serial.print("\tF2 =\t");
+//    Serial.print(formante2MA.promedio());
+//    Serial.print("\tVocal =\t");
+//    Serial.println(vocal);
+//    Serial.end();
+//
+//    // Fin del ciclo de calculo
+//    //digitalWrite(13, HIGH);
+//    FlexiTimer2::start();
+//  }
+//}
+//#endif // D_GRABAR_AUDIO
 
 

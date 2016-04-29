@@ -17,10 +17,16 @@
 // CLASES:
 // - FiltroMA: Filtro Promediador de Media Movil.
 //
+// METODOS
+// - pinInit(): Inicializa los pines
+//
 //=================================================================================================
 
 #include "Arduino.h"
 #include "AVI_Auxiliar.h"
+
+//-------------------------------------------------------------------------------------------------
+// CLASES
 
 // Constructor
 FiltroMA::FiltroMA(int cant)
@@ -61,4 +67,33 @@ float FiltroMA::promedio()
     suma += _datos[i];
   }
   return (suma /= _cant);
+}
+
+//-------------------------------------------------------------------------------------------------
+// METODOS
+void pinInit()
+{
+  // Motores (Redundante. Se inicializan en los constructores)
+  pinMode(PIN_PWM_A, OUTPUT);
+  pinMode(PIN_MOTOR_A_1, OUTPUT);
+  pinMode(PIN_MOTOR_A_2, OUTPUT);
+  pinMode(PIN_PWM_B, OUTPUT);
+  pinMode(PIN_MOTOR_B_1, OUTPUT);
+  pinMode(PIN_MOTOR_B_2, OUTPUT);
+  pinMode(PIN_PWM_C, OUTPUT);
+  pinMode(PIN_MOTOR_C_1, OUTPUT);
+  pinMode(PIN_MOTOR_C_2, OUTPUT);
+  pinMode(PIN_PWM_D, OUTPUT);
+  pinMode(PIN_MOTOR_D_1, OUTPUT);
+  pinMode(PIN_MOTOR_D_2, OUTPUT);
+
+  // Botones
+  pinMode(PIN_BOTON_1, INPUT_PULLUP);
+  pinMode(PIN_BOTON_2, INPUT_PULLUP);
+
+  // LED
+  pinMode(PIN_LED_DATA, OUTPUT);
+
+  // Microfono - Los analogicos no se declaran
+  pinMode(PIN_MIC_GATE, INPUT);
 }

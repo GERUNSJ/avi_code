@@ -29,6 +29,8 @@
 #ifndef AVI_PINES_H
 #define AVI_PINES_H
 
+#include "Arduino.h" // Para pinMode
+
 //-------------------------------------------------------------------------------------------------
 // Motor A
 #define PIN_PWM_A 3
@@ -61,34 +63,5 @@
 #define PIN_MIC_GATE 13
 #define PIN_MIC_ENVOLVENTE A0 // Pin digital 14
 #define PIN_MIC_AUDIO A1 // Pin digital 15
-
-//-------------------------------------------------------------------------------------------------
-// Funciones Auxiliares
-void pinInit()
-{
-  // Motores (Redundante. Se inicializan en los constructores)
-  pinMode(PIN_PWM_A, OUTPUT);
-  pinMode(PIN_MOTOR_A_1, OUTPUT);
-  pinMode(PIN_MOTOR_A_2, OUTPUT);
-  pinMode(PIN_PWM_B, OUTPUT);
-  pinMode(PIN_MOTOR_B_1, OUTPUT);
-  pinMode(PIN_MOTOR_B_2, OUTPUT);
-  pinMode(PIN_PWM_C, OUTPUT);
-  pinMode(PIN_MOTOR_C_1, OUTPUT);
-  pinMode(PIN_MOTOR_C_2, OUTPUT);
-  pinMode(PIN_PWM_D, OUTPUT);
-  pinMode(PIN_MOTOR_D_1, OUTPUT);
-  pinMode(PIN_MOTOR_D_2, OUTPUT);
-
-  // Botones
-  pinMode(PIN_BOTON_1, INPUT_PULLUP);
-  pinMode(PIN_BOTON_2, INPUT_PULLUP);
-
-  // LED
-  pinMode(PIN_LED_DATA, OUTPUT);
-
-  // Microfono - Los analogicos no se declaran
-  pinMode(PIN_MIC_GATE, INPUT);
-}
 
 #endif // AVI_PINES_H

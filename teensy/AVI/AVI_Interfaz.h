@@ -10,33 +10,40 @@
 // Año 2016
 //
 //=================================================================================================
+// DESCRIPCION
+// - Contiene las funciones relacionadas al interfaz de usuario.
+// 
+//=================================================================================================
 
 #ifndef AVI_INTERFAZ_H
 #define AVI_INTERFAZ_H
 
+#include "AVI_Config.h"
+#include "AVI_Pines.h"
+#include "AVI_LEDs.h"
+#include "Arduino.h"
 
-enum class MODOS
+// Enum 
+enum class Modos
 {
-	modo1 = 0,
-	modo2 = 1,
-	modo3 = 2,
-	modo4 = 3,
-	modo5 = 4
+  modo1 = 1,
+  modo2 = 2,
+  modo3 = 3,
+  modo4 = 4,
+  modo5 = 5
 };
 
-/* Esta función elige un modo. El modo elegido será procesado en el programa principal, para llamar a
- * las funciones del modo correspondiente.
- * 
- * Oprimiendo y soltando un botón se circula entre los modos, que serán mostrados en la matriz. 
- * Un botón avanza el número, el otro retrocede. Oprimiendo y soltando los dos botones se elige el modo.
- * No se implementan configuraciones de parámetros, ya que hay que verificar cuáles son los que DEBEN
- * ser configurables. */
+//-------------------------------------------------------------------------------------------------
+// Elige el modo.
+// Botón 1 (Izquierda) - Avanza.
+// Botón 2 (Derecha) - Retrocede.
+// Ambos botones presionados - Elige Modo.
+// Nota: No se implementan configuraciones de parámetros.
+Modos elegir_modo(void);
 
-MODOS elegir_modo(void);
-
-
-void mostrar_modo_seleccionado( MODOS modo_seleccionado );
-
+//-------------------------------------------------------------------------------------------------
+// Muestra el modo seleccionado con los LEDs o Puerto Serie.
+void mostrar_modo_seleccionado( Modos modo_seleccionado );
 
 #endif // AVI_INTERFAZ_H
  
