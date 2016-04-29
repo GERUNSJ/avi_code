@@ -132,37 +132,48 @@ void loop()
   switch(modoSeleccionado)
   {
     case Modos::modo1:
-    Serial.println("Modo 1");
+    // Modo 1 Seleccionado
+    
     delay(1000);
     break;
 
     case Modos::modo2:
-    Serial.println("Modo 2");
+    // Modo 2 Seleccionado
+    
     delay(1000);
     break;
 
     case Modos::modo3:
-    Serial.println("Modo 3");
+    // Modo 3 Seleccionado
+    
     delay(1000);
     break;
 
     case Modos::modo4:
-    Serial.println("Modo 4");
+    // Modo 4 Seleccionado
+    
     delay(1000);
     break;
 
     case Modos::modo5:
-    Serial.println("Modo 5");
+    // Modo 5 Seleccionado
+    
     delay(1000);
     break;
 
     default:
-    Serial.println("Case default!");
-    delay(1000);
+    // No debería entrar acá. Error y reseteo.
+    motores.parar();
+    motores.apagar();
+    FlexiTimer2::stop();
+    while(1)
+    {
+      leds.mostrar(IMAGENES::x_img, c_rojo);
+      delay(1000);
+      leds.apagar();
+      delay(1000);
+    }
     break;
-
-
-    
   }
 }
 
