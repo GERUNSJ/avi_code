@@ -25,8 +25,8 @@
 
 //-------------------------------------------------------------------------------------------------
 // AUDIO
-#define AUDIO_FS 8000 // Frecuencia Muestreo [Hz]
-#define AUDIO_TIEMPO_SEGMENTO 25 // Duracion del segmento de grabacion [ms] (a Fs = 8kHz, 25ms = 200 muestras)
+#define AUDIO_FS 16000 // Frecuencia Muestreo [Hz]
+#define AUDIO_TIEMPO_SEGMENTO 50 // Duracion del segmento de grabacion [ms] (a Fs = 8kHz, 25ms = 200 muestras)
 const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad de muestras
 #define UMBRAL_MINIMO 30 // Umbral Minimo de Captura
 
@@ -42,7 +42,7 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 //-------------------------------------------------------------------------------------------------
 // FORMANTES
 #define FILTRO_PROM_N 10 // Tamaño del Filtro Promediador de Formantes
-#define BURG_P 10 // Orden del Filtro AR de Burg
+#define BURG_P 6 // Orden del Filtro AR de Burg
 #define TOL_VOCALES 0 // Tolerancia de las vocales
 #define TOL_MUESTRA 0 // Tolerancia de las muestras
 

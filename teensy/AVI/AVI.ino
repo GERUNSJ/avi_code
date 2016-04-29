@@ -21,6 +21,7 @@
 #include "AVI_Modo_2.h"
 #include "AVI_Modo_3.h"
 #include "AVI_Motores.h"
+#include "AVI_Auxiliar.h"
 #include <FastLED.h>
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -32,8 +33,8 @@
 //#define D_MODO_2
 //#define D_MODO_3
 //#define D_FORMANTES
-//#define D_GRABAR_AUDIO
-#define D_FILTROMA
+#define D_GRABAR_AUDIO
+//#define D_FILTROMA
 
 
 //-------------------------------------------------------------------------------------------------
@@ -374,7 +375,13 @@ void loop()
     }
 
     // Filtrado y Obtencion de Formantes
-    hamming(datos, AUDIO_CANT_MUESTRAS);
+    //hamming(datos, AUDIO_CANT_MUESTRAS);
+    
+    FilterBuLp5 lowpass;
+		FilterPreemphasis preeenfasis;
+		lowpass.filtrar_offline(datos,AUDIO_CANT_MUESTRAS);
+		//preeenfasis.filtrar_offline(datos,AUDIO_CANT_MUESTRAS);
+		hamming(datos, AUDIO_CANT_MUESTRAS);
     obtener_formantes(datos, AUDIO_CANT_MUESTRAS, FILTRO_PROM_N, AUDIO_FS, &f1, &f2);
     vocal = getVocal(f1, f2);
     
