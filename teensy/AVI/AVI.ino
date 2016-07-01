@@ -21,9 +21,9 @@
 //#define D_MODO_4
 //#define D_MODO_5
 //#define D_FORMANTES
-//#define D_GRABAR_AUDIO
+#define D_GRABAR_AUDIO
 //#define D_FILTROMA
-#define D_MOTOR_LED // Prueba Motores junto con LED. 15/04/16
+//#define D_MOTOR_LED // Prueba Motores junto con LED. 15/04/16
 //
 //=================================================================================================
 
@@ -354,11 +354,11 @@ FiltroMA formante2MA(10);
 // Funciones Auxiliares
 void medir()
 {
-  if(analogRead(PIN_MIC_ENVOLVENTE)>=50)
-  {
+  //if(analogRead(PIN_MIC_ENVOLVENTE)>=50)
+  //{
     datos[indice] = analogRead(PIN_MIC_AUDIO);
     indice++;
-  }
+  //}
 }
 
 void setup()
@@ -385,8 +385,9 @@ void loop()
   {
     // Finaliza el ciclo de muestreo y comienza el de calculo
     FlexiTimer2::stop();
-    //digitalWrite(13, LOW);
     indice = 0;
+	minimo = 1024;
+	maximo = 0;
 
     // Resta del valor medio y busca max/min
     for(int n=0; n<AUDIO_CANT_MUESTRAS; n++)
@@ -424,16 +425,27 @@ void loop()
     
     // Imprimir los resultados
     Serial.begin(115200);
-    Serial.print("F1 =\t");
+	
+	// Verbose
+    /*
+	Serial.print("F1 =\t");
     Serial.print(formante1MA.promedio());
     Serial.print("\tF2 =\t");
     Serial.print(formante2MA.promedio());
     Serial.print("\tVocal =\t");
     Serial.println(vocal);
-    Serial.end();
+    */
+	
+	// En CSV
+	Serial.print(formante1MA.promedio());
+    Serial.print(",");
+    Serial.print(formante2MA.promedio());
+    Serial.print(",");
+    Serial.println(vocal);
+	
+	Serial.end();
 
     // Fin del ciclo de calculo
-    //digitalWrite(13, HIGH);
     FlexiTimer2::start();
   }
 }
@@ -517,7 +529,7 @@ void setup()
   leds.apagar();
   delay(1000);
   
-  motores.desplazamientoAdelante(50);
+  motores.desplazamientoAdelante(0);
 }
 
 
@@ -540,6 +552,12 @@ void loop()
   
   leds.mostrar(IMAGENES::cara , c_naranja);
   delay(1000);
+  
+  leds.apagar();
+  delay(1000);
+  
+  leds.mostrar(IMAGENES::full_led , c_blanco);
+  delay(10000);
 }
 
 #endif // D_MOTOR_LED
