@@ -41,8 +41,8 @@ const int AUDIO_CANT_MUESTRAS = AUDIO_TIEMPO_SEGMENTO*AUDIO_FS/1000; // Cantidad
 
 //-------------------------------------------------------------------------------------------------
 // FORMANTES
-#define FILTRO_PROM_N 10 // Tamaño del Filtro Promediador de Formantes
-#define BURG_P 10 // Orden del Filtro AR de Burg
+#define FILTRO_PROM_N 5 // Tamaño del Filtro Promediador de Formantes
+#define BURG_P 8 // Orden del Filtro AR de Burg
 #define TOL_VOCALES 0 // Tolerancia de las vocales
 #define TOL_MUESTRA 0 // Tolerancia de las muestras
 

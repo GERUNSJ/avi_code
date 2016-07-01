@@ -348,8 +348,8 @@ float minimo = 1024;
 int f1 = 0; // Primer Formante
 int f2 = 0; // Segundo Formante
 int vocal = -1;
-FiltroMA formante1MA(10);
-FiltroMA formante2MA(10);
+FiltroMA formante1MA(FILTRO_PROM_N);
+FiltroMA formante2MA(FILTRO_PROM_N);
 
 // Funciones Auxiliares
 void medir()
@@ -375,8 +375,6 @@ void setup()
   // FlexiTimer2
   FlexiTimer2::set(1, 1.0/AUDIO_FS, medir);
   FlexiTimer2::start();
-  
-  //digitalWrite(13, HIGH);
 }
 
 void loop()
@@ -417,7 +415,7 @@ void loop()
 
     // Filtrado y Obtencion de Formantes
     hamming(datos, AUDIO_CANT_MUESTRAS);
-    obtener_formantes(datos, AUDIO_CANT_MUESTRAS, FILTRO_PROM_N, AUDIO_FS, &f1, &f2);
+    obtener_formantes(datos, AUDIO_CANT_MUESTRAS, BURG_P, AUDIO_FS, &f1, &f2);
     formante1MA.cargar(f1);
     formante2MA.cargar(f2);
     
