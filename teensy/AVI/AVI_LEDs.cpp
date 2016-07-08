@@ -22,7 +22,7 @@
 // Constructor de LEDs
 LEDs::LEDs(void)
 {
-	FastLED.addLeds<WS2812B, PIN_LED_DATA> (leds, 50);
+  FastLED.addLeds<WS2812B, PIN_LED_DATA> (leds, 50);
   FastLED.setCorrection(0xB0FFF0); // GRB TypicalSMD5050
   FastLED.setTemperature(Halogen);
 	brillo = LEDS_BRILLO;
@@ -323,11 +323,11 @@ void LEDs::mostrar(IMAGENES img, long color, long color_b)
 	// Máscara //GRB
 	for(unsigned int i = 0 ; i < 50 ; i++)
 	{
-      leds[i].r = (long)((((a_mostrar[i] & color) | (a_mostrar_b[i] & color_b)) & 0xFF0000) >> 16 ) * brillo;
-      leds[i].g = (long)((((a_mostrar[i] & color) | (a_mostrar_b[i] & color_b)) & 0x00FF00) >> 8  ) * brillo;
-      leds[i].b = (long)((((a_mostrar[i] & color) | (a_mostrar_b[i] & color_b)) & 0x0000FF) >> 0  ) * brillo;
-      //Serial.println(leds[i].g,HEX);
-      //leds[i] = (a_mostrar[i] & color) * (float)brillo/255;
+    leds[i].r = (long)((((a_mostrar[i] & color) | (a_mostrar_b[i] & color_b)) & 0xFF0000) >> 16 ) * brillo;
+    leds[i].g = (long)((((a_mostrar[i] & color) | (a_mostrar_b[i] & color_b)) & 0x00FF00) >> 8  ) * brillo;
+    leds[i].b = (long)((((a_mostrar[i] & color) | (a_mostrar_b[i] & color_b)) & 0x0000FF) >> 0  ) * brillo;
+    //Serial.println(leds[i].g,HEX);
+    //leds[i] = (a_mostrar[i] & color) * (float)brillo/255;
 	}
 	
 	FastLED.show();
