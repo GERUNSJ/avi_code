@@ -18,6 +18,10 @@
 // - FiltroMA: Filtro Promediador de Media Movil.
 //
 //=================================================================================================
+// METODOS AUXILIARES:
+// - pinInit() Inicializacion de Pines.
+//
+//=================================================================================================
 
 #ifndef AVI_AUXILIAR_H
 #define AVI_AUXILIAR_H
@@ -37,5 +41,8 @@ class FiltroMA
     float* _datos;
     int _cant;
 };
+
+// Metodos Auxiliares
+void pinInit();
 
 #endif // AVI_AUXILIAR_H
