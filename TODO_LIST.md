@@ -1,4 +1,0 @@
-- Terminar Modo 4
-- Terminar Modo 5
-- Implementar cada modo en el switch del loop
-- Implementar las acciones de cada modo
