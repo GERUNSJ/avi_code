@@ -82,8 +82,8 @@ void pinInit()
   // Los LEDs inicializan sus pines en su clase.
 
   // Botones
-  pinMode(PIN_BOTON_1, INPUT_PULLUP);
-  pinMode(PIN_BOTON_2, INPUT_PULLUP);
+  pinMode(PIN_BOTON_1, INPUT);
+  pinMode(PIN_BOTON_2, INPUT);
 
   // Audio
   pinMode(PIN_MIC_GATE, INPUT);

@@ -23,7 +23,7 @@
 //#define D_FORMANTES
 //#define D_GRABAR_AUDIO
 //#define D_FILTROMA
-//#define D_INTERFAZ
+  #define D_INTERFAZ
 //#define D_MOTOR_LED // Prueba Motores junto con LED. 15/04/16
 //
 //=================================================================================================
@@ -554,7 +554,43 @@ void loop()
 // D_INTERFAZ
 //=================================================================================================
 #ifdef D_INTERFAZ
+#include <FastLED.h>
+#include <FlexiTimer2.h>
+#include <Eigen30.h>
+#include <arm_math.h>
 
+//=================================================================================================
+// VARIABLES GLOBALES
+// Los otros archivos deben llamarlas via 'extern' en su respectivo header.
+//=================================================================================================
+// Tira de LED (WS2812B)
+// LEDs leds;
+
+// Motores (150:1 Micro Metal Gearmotor MP)
+Motor motor_A(PIN_MOTOR_A_1, PIN_MOTOR_A_2, PIN_PWM_A);
+Motor motor_B(PIN_MOTOR_B_1, PIN_MOTOR_B_2, PIN_PWM_B);
+Motor motor_C(PIN_MOTOR_C_1, PIN_MOTOR_C_2, PIN_PWM_C);
+Motor motor_D(PIN_MOTOR_D_1, PIN_MOTOR_D_2, PIN_PWM_D);
+Motores motores(motor_A, motor_B, motor_C, motor_D);
+
+//-------------------------------------------------------------------------------------------------
+// Audio
+float audioDatos[AUDIO_CANT_MUESTRAS]; // Vector de Muestras
+int audioIndice = 0; // Indice del Vector de Muestras
+float audioMax = 0;
+float audioMin = 1024; // Minimo y maximo para normalizar
+
+//-------------------------------------------------------------------------------------------------
+// Formantes - Filtros Promediadores
+int f1 = 0; // Primer Formante
+int f2 = 0; // Segundo Formante
+FiltroMA formante1MA(10);
+FiltroMA formante2MA(10);
+int vocal = -1; // Vocal Resultado
+
+//-------------------------------------------------------------------------------------------------
+// Modos
+Modos modoSeleccionado;
 //=================================================================================================
 // FUNCIONES AUXILIARES
 // Funciones de apoyo para Setup y Loop.

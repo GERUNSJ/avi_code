@@ -17,13 +17,13 @@
 
 #include "AVI_Interfaz.h"
 
-#define DEBUG_INTERFAZ 0 // Muestra el estado de los botones.
-#define DEBUG_SERIE 1 // Muestra por LEDs (0) o Serie (1).
+#define DEBUG_INTERFAZ 1 // Muestra el estado de los botones.
+#define DEBUG_SERIE 0 // Muestra por LEDs (0) o Serie (1).
 
 // Simula los botones via Serie (1). Si los botones están implementados físicamente, igualar a 0.
 // Boton 1: Tecla '1' aprieta y 'q' suelta.
 // Boton 2: Tecla '2' aprieta y 'w' suelta.
-#define CON_TECLADO 1
+#define CON_TECLADO 0
 
 #define CANTIDAD_DE_MODOS 5
 
@@ -60,8 +60,8 @@ Modos elegir_modo(void)
     
     #if CON_TECLADO == 0
     // Botones implementados en Hardware
-    boton1_actual = digitalRead( PIN_BOTON_1 );
-    boton2_actual = digitalRead( PIN_BOTON_2 );
+    boton1_actual = !digitalRead( PIN_BOTON_1 );
+    boton2_actual = !digitalRead( PIN_BOTON_2 );
     #endif // CON_TECLADO == 0
     
     #if CON_TECLADO == 1
@@ -157,7 +157,7 @@ Modos elegir_modo(void)
     Serial.println((int)decision_tomada);
     Serial.print("modo_seleccionado = ");
     Serial.println((int)modo_seleccionado);
-    delay(1000);
+    delay(500);
     #endif // DEBUG_INTERFAZ
   }
   
@@ -189,7 +189,7 @@ void mostrar_modo_seleccionado( Modos modo_seleccionado )
   #else
 
   // Muestra por Serie
-  Serial.print("Seleccinonado Modo ");
+  Serial.print("Seleccionado Modo ");
   Serial.println((int)modo_seleccionado);
   
   #endif // DEBUG_SERIE
