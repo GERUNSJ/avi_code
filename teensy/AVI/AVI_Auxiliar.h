@@ -26,6 +26,11 @@
 #ifndef AVI_AUXILIAR_H
 #define AVI_AUXILIAR_H
 
+#include "AVI_Pines.h"
+
+//-------------------------------------------------------------------------------------------------
+// CLASES
+
 // Clase Filtro Moving Average (Promediador)
 class FiltroMA
 {

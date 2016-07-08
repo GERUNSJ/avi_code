@@ -19,6 +19,8 @@
 #define DEBUG_MODO_4 0
 #define DEBUG_MODO_5 0
 
+extern LEDs leds;
+
 //-------------------------------------------------------------------------------------------------
 // Funciones
 void Modo1(int umbral)

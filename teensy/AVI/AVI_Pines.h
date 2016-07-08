@@ -29,6 +29,8 @@
 #ifndef AVI_PINES_H
 #define AVI_PINES_H
 
+#include "Arduino.h" // Para pinMode
+
 //-------------------------------------------------------------------------------------------------
 // Motor A
 #define PIN_PWM_A 3
