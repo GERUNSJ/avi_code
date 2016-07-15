@@ -13,4 +13,6 @@
 - Calibrar Formantes
 - Modos 4 y 5
 - Corregir LEDs
+- Probar Interfaz como un todo
+- Hacer más robusto el reconocimiento de vocales
 -----

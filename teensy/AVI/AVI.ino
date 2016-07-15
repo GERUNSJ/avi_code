@@ -23,7 +23,7 @@
 //#define D_FORMANTES
 //#define D_GRABAR_AUDIO
 //#define D_FILTROMA
-  #define D_INTERFAZ
+  #define D_INTERFAZ // Prueba todas las funciones juntas. 15/07/16
 //#define D_MOTOR_LED // Prueba Motores junto con LED. 15/04/16
 //
 //=================================================================================================
@@ -66,23 +66,10 @@ Motor motor_D(PIN_MOTOR_D_1, PIN_MOTOR_D_2, PIN_PWM_D);
 
 Motores motores ( motor_A , motor_B , motor_C , motor_D );
 
-//   Motor motor_A;
-//   Motor motor_B;
-//   Motor motor_C;
-//   Motor motor_D;
-//   Motores motores;
-
 void setup()
 {
-  pinMode(13, OUTPUT);
   //Serial.begin(9600);
   delay(500);
-//   motor_A = Motor(PIN_MOTOR_A_1, PIN_MOTOR_A_2, PIN_PWM_A);
-//   motor_B = Motor(PIN_MOTOR_B_1, PIN_MOTOR_B_2, PIN_PWM_B);
-//   motor_C = Motor(PIN_MOTOR_C_1, PIN_MOTOR_C_2, PIN_PWM_C);
-//   motor_D = Motor(PIN_MOTOR_D_1, PIN_MOTOR_D_2, PIN_PWM_D);
-//   
-//   Motores motores ( motor_A , motor_B , motor_C , motor_D );
   digitalWrite(13, HIGH);
   delay(500);
   motores.encender();
@@ -124,23 +111,15 @@ void setup()
 
   leds.mostrar(IMAGENES::circulo , CRGB::Blue );
   delay(1000);
-//  for( int i = 0 ; i<50 ; i++)
-//  {
-//    Serial.println(leds.leds[i]);
-//  }
   leds.apagar();
   delay(1000);
 
   Serial.print("Khaki es : "); Serial.println((long)CRGB::Khaki,HEX);
-
 }
 
 
 void loop()
 {
-  //digitalWrite(13, HIGH); // Este es un pin de Audio, no se deberia tocar.
-  delay(500);
-  //digitalWrite(13, LOW);
   delay(500);
   
 	leds.mostrar(IMAGENES::circulo , long(0x2084B7));
@@ -162,12 +141,11 @@ void loop()
   delay(1000);
   leds.apagar();
   delay(1000);
+
   leds.brillo = (leds.brillo + 0.1);
   if(leds.brillo > 1)
     leds.brillo = 0.1;
 }
-
-
 #endif // D_LEDs
 
 //=================================================================================================
@@ -214,7 +192,6 @@ void loop()
 {
   Modo2(1024);
 }
-
 #endif // D_MODO_2
 
 //=================================================================================================
@@ -380,8 +357,6 @@ void setup()
   // FlexiTimer2
   FlexiTimer2::set(1, 1.0/AUDIO_FS, medir);
   FlexiTimer2::start();
-  
-  //digitalWrite(13, HIGH);
 }
 
 void loop()
@@ -390,7 +365,6 @@ void loop()
   {
     // Finaliza el ciclo de muestreo y comienza el de calculo
     FlexiTimer2::stop();
-    //digitalWrite(13, LOW);
     indice = 0;
 
     // Resta del valor medio y busca max/min
@@ -438,7 +412,6 @@ void loop()
     Serial.end();
 
     // Fin del ciclo de calculo
-    //digitalWrite(13, HIGH);
     FlexiTimer2::start();
   }
 }
@@ -508,12 +481,6 @@ void setup()
   Serial.begin(9600);
   delay(500);
   
-  // USAR SOLO SI EL MICROFONO NO ESTÁ CONECTADO AL PIN 13
-  pinMode(13, OUTPUT);
-  digitalWrite(13, HIGH);
-  delay(500);
-  digitalWrite(13, LOW);
-  delay(500);
   motores.encender();
 
   leds.mostrar(IMAGENES::circulo , CRGB::Blue );
@@ -546,7 +513,6 @@ void loop()
   leds.mostrar(IMAGENES::cara , c_naranja);
   delay(1000);
 }
-
 #endif // D_MOTOR_LED
 
 //=================================================================================================
@@ -591,6 +557,7 @@ int vocal = -1; // Vocal Resultado
 //-------------------------------------------------------------------------------------------------
 // Modos
 Modos modoSeleccionado;
+
 //=================================================================================================
 // FUNCIONES AUXILIARES
 // Funciones de apoyo para Setup y Loop.
@@ -658,38 +625,39 @@ void loop()
   //
   switch(modoSeleccionado)
   {
-    case Modos::modo1:
+    //-------------------------------------------------------------------------------------------------
     // Modo 1 Seleccionado
-    
-    delay(1000);
+    case Modos::modo1:
+    Modo1(512); // Analizar Umbral
     break;
 
-    case Modos::modo2:
+    //-------------------------------------------------------------------------------------------------
     // Modo 2 Seleccionado
-    
-    delay(1000);
+    case Modos::modo2:
+    Modo2(1024); // Analizar Umbral
     break;
 
-    case Modos::modo3:
+    //-------------------------------------------------------------------------------------------------
     // Modo 3 Seleccionado
-    
-    delay(1000);
+    case Modos::modo3:
+    Modo3(240, 6); // Analizar Umbral y Segundos Objetivo
     break;
 
-    case Modos::modo4:
+    //-------------------------------------------------------------------------------------------------
     // Modo 4 Seleccionado
-    
-    delay(1000);
+    case Modos::modo4:
+    Modo4(); // TODO: Incluir detección de vocales.
     break;
 
-    case Modos::modo5:
+    //-------------------------------------------------------------------------------------------------
     // Modo 5 Seleccionado
-    
-    delay(1000);
+    case Modos::modo5:
+    Modo5(); // TODO: Incluir detección de vocales.
     break;
 
+    //-------------------------------------------------------------------------------------------------
+    // DEFAULT: No debería entrar acá. Error y reseteo.
     default:
-    // No debería entrar acá. Error y reseteo.
     motores.parar();
     motores.apagar();
     FlexiTimer2::stop();
@@ -701,6 +669,6 @@ void loop()
       delay(1000);
     }
     break;
-  }
+  } // switch(modoSeleccionado)
 }
 #endif

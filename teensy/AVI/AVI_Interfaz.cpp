@@ -17,7 +17,7 @@
 
 #include "AVI_Interfaz.h"
 
-#define DEBUG_INTERFAZ 1 // Muestra el estado de los botones.
+#define DEBUG_INTERFAZ 0 // Muestra el estado de los botones.
 #define DEBUG_SERIE 0 // Muestra por LEDs (0) o Serie (1).
 
 // Simula los botones via Serie (1). Si los botones están implementados físicamente, igualar a 0.
