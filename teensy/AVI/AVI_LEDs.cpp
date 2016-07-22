@@ -31,7 +31,7 @@ LEDs::LEDs(void)
 // Apagar todo. Escribe NEGRO en todos los LEDs
 void LEDs::apagar()
 {
-	this->mostrar(IMAGENES::circulo, 0x000000);
+	this->mostrar(IMAGENES::circulo, 0x000000, 0x000000);
 	return;
 }
 
