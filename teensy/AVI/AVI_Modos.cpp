@@ -103,10 +103,12 @@ void Modo1(int umbral)
           {
             estado = verde;
             flag_ok = LOW;
+						flag_standby = LOW;
           }
           else
           {
             estado = rojo;
+						flag_standby = LOW;
           }
         }
       }
@@ -226,8 +228,8 @@ void Modo2(int umbral_max)
   static unsigned long t_anterior = 0;
   unsigned long t_actual;
   int t_verde = 2000/M2_TS; // 2 Segundos
-  int t_delay = 5000/M2_TS; // 5 Segundos
-  int t_rojo = 4000/M2_TS; // 4 Segundos
+  int t_delay = 2000/M2_TS; // 5 Segundos
+  int t_rojo = 2000/M2_TS; // 4 Segundos
 
   // Flags
   static boolean flag_verde = LOW;
@@ -615,7 +617,7 @@ void Modo3(int umbral, int tiempo)
       if(!flag_bajo)
       {
         flag_bajo = HIGH;
-        leds.mostrar(IMAGENES::m2_img_bajo, c_naranja, c_azul);
+        leds.mostrar(IMAGENES::m3_img_bajo, c_naranja, c_azul);
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente >= umbral)
@@ -640,7 +642,7 @@ void Modo3(int umbral, int tiempo)
       if(!flag_medio)
       {
         flag_medio = HIGH;
-        leds.mostrar(IMAGENES::m2_img_medio, c_naranja, c_azul);
+        leds.mostrar(IMAGENES::m3_img_medio, c_naranja, c_azul);
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente >= umbral)
@@ -665,7 +667,7 @@ void Modo3(int umbral, int tiempo)
       if(!flag_alto)
       {
         flag_alto = HIGH;
-        leds.mostrar(IMAGENES::m2_img_alto, c_naranja, c_azul);
+        leds.mostrar(IMAGENES::m3_img_alto, c_naranja, c_azul);
       }
       envolvente = analogRead(PIN_MIC_ENVOLVENTE);
       if(envolvente < umbral)
