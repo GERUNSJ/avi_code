@@ -1027,7 +1027,6 @@ void Modo5(int vocalObtenida)
   static unsigned long t_anterior = 0;
   unsigned long t_actual;
   int t_verde = 2000/M5_TS; // 2 Segundos
-  int t_delay = 2000/M5_TS; // TODO: Tiempo de respuesta
   
   // Flags
   static boolean flag_verde = LOW;
@@ -1122,17 +1121,44 @@ void Modo5(int vocalObtenida)
         flag_a = HIGH;
         leds.mostrar(IMAGENES::a_img, c_naranja);
       }
-      contador++;
 
       //-------------------------------------------------------------------------------------------------
-      // TODO: REACCION EN A
+      // TODO: REACCION EN A.
+      // Delay en detección de vocales.
       //-------------------------------------------------------------------------------------------------
 
-      if(contador >= t_verde)
+      // Verifica nuevamente la vocal
+      switch(vocalObtenida)
       {
+        case 0: // Case A
+        // Caso actual. Continua el loop.
+        break;
+        
+        case 1: // Case E
+        estado = vocal_e;
         flag_a = LOW;
+        break;
+        
+        case 2: // Case I
+        estado = vocal_i;
+        flag_a = LOW;
+        break;
+        
+        case 3: // Case O
+        estado = vocal_o;
+        flag_a = LOW;
+        break;
+        
+        case 4: // Case U
+        estado = vocal_u;
+        flag_a = LOW;
+        break;
+
+        // Si no está dentro del rango, vuelve al Standby.
+        default:
         estado = standby;
-        contador = 0;
+        flag_a = LOW;
+        break;
       }
       break;
 
@@ -1143,17 +1169,44 @@ void Modo5(int vocalObtenida)
         flag_e = HIGH;
         leds.mostrar(IMAGENES::e_img, c_naranja);
       }
-      contador++;
       
       //-------------------------------------------------------------------------------------------------
-      // TODO: REACCION EN E
+      // TODO: REACCION EN E.
+      // Delay en detección de vocales.
       //-------------------------------------------------------------------------------------------------
 
-      if(contador >= t_verde)
+      // Verifica nuevamente la vocal
+      switch(vocalObtenida)
       {
+        case 0: // Case A
+        estado = vocal_a;
         flag_e = LOW;
+        break;
+        
+        case 1: // Case E
+        // Caso actual. Continua el loop.
+        break;
+        
+        case 2: // Case I
+        estado = vocal_i;
+        flag_e = LOW;
+        break;
+        
+        case 3: // Case O
+        estado = vocal_o;
+        flag_e = LOW;
+        break;
+        
+        case 4: // Case U
+        estado = vocal_u;
+        flag_e = LOW;
+        break;
+
+        // Si no está dentro del rango, vuelve al Standby.
+        default:
         estado = standby;
-        contador = 0;
+        flag_e = LOW;
+        break;
       }
       break;
 
@@ -1164,17 +1217,44 @@ void Modo5(int vocalObtenida)
         flag_i = HIGH;
         leds.mostrar(IMAGENES::i_img, c_naranja);
       }
-      contador++;
       
       //-------------------------------------------------------------------------------------------------
-      // TODO: REACCION EN I
+      // TODO: REACCION EN I.
+      // Delay en detección de vocales.
       //-------------------------------------------------------------------------------------------------
 
-      if(contador >= t_verde)
+      // Verifica nuevamente la vocal
+      switch(vocalObtenida)
       {
+        case 0: // Case A
+        estado = vocal_a;
         flag_i = LOW;
+        break;
+        
+        case 1: // Case E
+        estado = vocal_e;
+        flag_i = LOW;
+        break;
+        
+        case 2: // Case I
+        // Caso actual. Continua el loop.
+        break;
+        
+        case 3: // Case O
+        estado = vocal_o;
+        flag_i = LOW;
+        break;
+        
+        case 4: // Case U
+        estado = vocal_u;
+        flag_i = LOW;
+        break;
+
+        // Si no está dentro del rango, vuelve al Standby.
+        default:
         estado = standby;
-        contador = 0;
+        flag_i = LOW;
+        break;
       }
       break;
 
@@ -1185,17 +1265,44 @@ void Modo5(int vocalObtenida)
         flag_o = HIGH;
         leds.mostrar(IMAGENES::o_img, c_naranja);
       }
-      contador++;
 
       //-------------------------------------------------------------------------------------------------
-      // TODO: REACCION EN O
+      // TODO: REACCION EN O.
+      // Delay en detección de vocales.
       //-------------------------------------------------------------------------------------------------
       
-      if(contador >= t_verde)
+      // Verifica nuevamente la vocal
+      switch(vocalObtenida)
       {
+        case 0: // Case A
+        estado = vocal_a;
         flag_o = LOW;
+        break;
+        
+        case 1: // Case E
+        estado = vocal_a;
+        flag_o = LOW;
+        break;
+        
+        case 2: // Case I
+        estado = vocal_i;
+        flag_o = LOW;
+        break;
+        
+        case 3: // Case O
+        // Caso actual. Continua el loop.
+        break;
+        
+        case 4: // Case U
+        estado = vocal_u;
+        flag_o = LOW;
+        break;
+
+        // Si no está dentro del rango, vuelve al Standby.
+        default:
         estado = standby;
-        contador = 0;
+        flag_o = LOW;
+        break;
       }
       break;
 
@@ -1206,17 +1313,44 @@ void Modo5(int vocalObtenida)
         flag_u = HIGH;
         leds.mostrar(IMAGENES::u_img, c_naranja);
       }
-      contador++;
       
       //-------------------------------------------------------------------------------------------------
-      // TODO: REACCION EN U
+      // TODO: REACCION EN U.
+      // Delay en detección de vocales.
       //-------------------------------------------------------------------------------------------------
 
-      if(contador >= t_verde)
+      // Verifica nuevamente la vocal
+      switch(vocalObtenida)
       {
+        case 0: // Case A
+        estado = vocal_a;
         flag_u = LOW;
+        break;
+        
+        case 1: // Case E
+        estado = vocal_a;
+        flag_u = LOW;
+        break;
+        
+        case 2: // Case I
+        estado = vocal_i;
+        flag_u = LOW;
+        break;
+        
+        case 3: // Case O
+        estado = vocal_o;
+        flag_u = LOW;
+        break;
+        
+        case 4: // Case U
+        // Caso actual. Continua el loop.
+        break;
+
+        // Si no está dentro del rango, vuelve al Standby.
+        default:
         estado = standby;
-        contador = 0;
+        flag_u = LOW;
+        break;
       }
       break;
 
