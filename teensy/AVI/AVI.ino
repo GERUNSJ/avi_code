@@ -46,6 +46,8 @@
 #include <Eigen30.h>
 #include <arm_math.h>
 
+#define SERIAL_DEBUG 1
+
 //=================================================================================================
 // VARIABLES GLOBALES
 // Los otros archivos deben llamarlas via 'extern' en su respectivo header
@@ -622,42 +624,89 @@ void setup()
 //=================================================================================================
 void loop()
 {
-  //
+  //-------------------------------------------------------------------------------------------------
+  // Primera parte - Deteccion de Vocales
+  if(indice >= AUDIO_CANT_MUESTRAS)
+  {
+    // Finaliza el ciclo de muestreo y comienza el de calculo
+    FlexiTimer2::stop();
+    indice = 0;
+
+    // Resta del valor medio y busca max/min
+    for(int n=0; n<AUDIO_CANT_MUESTRAS; n++)
+    {
+      datos[n] -= 511.5;
+      if(datos[n]>maximo)
+      {
+        maximo = datos[n];
+      }
+      if(datos[n]<minimo)
+      {
+        minimo = datos[n];
+      }
+    }
+    
+    // Busca el maximo en valor absoluto
+    if(abs(minimo)>maximo)
+    {
+      maximo = abs(minimo);
+    }
+
+    // Normalizacion de los datos
+    for(int n=0; n<AUDIO_CANT_MUESTRAS; n++)
+    {
+      datos[n] /= maximo;
+    }
+
+    // Filtrado y Obtencion de Formantes
+    hamming(datos, AUDIO_CANT_MUESTRAS);
+    obtener_formantes(datos, AUDIO_CANT_MUESTRAS, FILTRO_PROM_N, AUDIO_FS, &f1, &f2);
+    formante1MA.cargar(f1);
+    formante2MA.cargar(f2);
+    
+    vocal = getVocal(formante1MA.promedio(), formante2MA.promedio());
+    
+    // Imprimir los resultados
+    #ifdef SERIAL_DEBUG
+    Serial.begin(115200);
+    Serial.print("F1 =\t");
+    Serial.print(formante1MA.promedio());
+    Serial.print("\tF2 =\t");
+    Serial.print(formante2MA.promedio());
+    Serial.print("\tVocal =\t");
+    Serial.println(vocal);
+    Serial.end();
+    #endif
+
+    // Fin del ciclo de calculo
+    FlexiTimer2::start();
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  // Segunda parte - Modos de Funcionamiento
   switch(modoSeleccionado)
   {
-    //-------------------------------------------------------------------------------------------------
-    // Modo 1 Seleccionado
-    case Modos::modo1:
-    Modo1(512); // Analizar Umbral
+    case Modos::modo1: // Modo 1 Seleccionado
+    Modo1(512); // TODO: Analizar Umbral
     break;
 
-    //-------------------------------------------------------------------------------------------------
-    // Modo 2 Seleccionado
-    case Modos::modo2:
-    Modo2(1024); // Analizar Umbral
+    case Modos::modo2: // Modo 2 Seleccionado
+    Modo2(1024); // TODO: Analizar Umbral
     break;
 
-    //-------------------------------------------------------------------------------------------------
-    // Modo 3 Seleccionado
-    case Modos::modo3:
-    Modo3(240, 6); // Analizar Umbral y Segundos Objetivo
+    case Modos::modo3: // Modo 3 Seleccionado
+    Modo3(240, 6); // TODO: Analizar Umbral y Segundos Objetivo
     break;
 
-    //-------------------------------------------------------------------------------------------------
-    // Modo 4 Seleccionado
-    case Modos::modo4:
-    Modo4(); // TODO: Incluir detección de vocales.
+    case Modos::modo4: // Modo 4 Seleccionado
+    Modo4(vocal);
     break;
 
-    //-------------------------------------------------------------------------------------------------
-    // Modo 5 Seleccionado
-    case Modos::modo5:
-    Modo5(); // TODO: Incluir detección de vocales.
+    case Modos::modo5: // Modo 5 Seleccionado
+    Modo5(vocal);
     break;
 
-    //-------------------------------------------------------------------------------------------------
-    // DEFAULT: No debería entrar acá. Error y reseteo.
-    default:
+    default: // No debería entrar acá. Error y reseteo.
     motores.parar();
     motores.apagar();
     FlexiTimer2::stop();
