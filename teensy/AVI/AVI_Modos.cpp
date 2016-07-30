@@ -810,7 +810,7 @@ void Modo3(int umbral, int tiempo)
 }
 
 //-------------------------------------------------------------------------------------------------
-void Modo4()
+void Modo4(int vocalObtenida)
 {
   // Estados
   enum Estados
@@ -841,7 +841,6 @@ void Modo4()
 
   // Otros
   int vocalRandom = 0;
-  int vocalObtenida = 0;
   randomSeed(micros()); // Microsegundos asegura un Seed aleatorio
 
   t_actual = millis();
@@ -877,26 +876,26 @@ void Modo4()
         contador = 0;
         switch(vocalRandom)
         {
-          // Caso A
-          case 0:
+          case 0: // Caso A
           leds.mostrar(IMAGENES::a_img, c_naranja);
           break;
-          // Caso E
-          case 1:
+
+          case 1: // Caso E
           leds.mostrar(IMAGENES::a_img, c_naranja);
           break;
-          // Caso I
-          case 2:
+          
+          case 2: // Caso I
           leds.mostrar(IMAGENES::a_img, c_naranja);
           break;
-          // Caso O
-          case 3:
+          
+          case 3: // Caso O
           leds.mostrar(IMAGENES::a_img, c_naranja);
           break;
-          // Caso U
-          case 4:
+          
+          case 4: // Caso U
           leds.mostrar(IMAGENES::a_img, c_naranja);
           break;
+          
           // Si no está dentro del rango, no muestra nada y repite.
           default:
           leds.apagar();
@@ -906,10 +905,9 @@ void Modo4()
       }
 
       //-------------------------------------------------------------------------------------------------
-      // TODO: DETECCION DE VOCALES!
+      // La deteccion de vocales ocurre en el loop del programa principal
       //-------------------------------------------------------------------------------------------------
       
-
       if(vocalObtenida == vocalRandom)
       {
         estado = cara;
@@ -1008,7 +1006,7 @@ void Modo4()
 }
 
 //-------------------------------------------------------------------------------------------------
-void Modo5()
+void Modo5(int vocalObtenida)
 {
   // Estados
   enum Estados
@@ -1027,6 +1025,7 @@ void Modo5()
   static unsigned long t_anterior = 0;
   unsigned long t_actual;
   int t_verde = 2000/M5_TS; // 2 Segundos
+  int t_delay = 2000/M5_TS; // TODO: Tiempo de respuesta
   
   // Flags
   static boolean flag_verde = LOW;
@@ -1076,36 +1075,36 @@ void Modo5()
       }
 
       //-------------------------------------------------------------------------------------------------
-      // TODO: DETECCION DE VOCALES!
+      // La deteccion de vocales ocurre en el loop del programa principal
       //-------------------------------------------------------------------------------------------------
 
       switch(vocalObtenida)
       {
-        // Case A
-        case 0:
+        case 0: // Case A
         estado = vocal_a;
         flag_standby = LOW;
         break;
-        // Case E
-        case 1:
+        
+        case 1: // Case E
         estado = vocal_e;
         flag_standby = LOW;
         break;
-        // Case I
-        case 2:
+        
+        case 2: // Case I
         estado = vocal_i;
         flag_standby = LOW;
         break;
-        // Case O
-        case 3:
+        
+        case 3: // Case O
         estado = vocal_o;
         flag_standby = LOW;
         break;
-        // Case U
-        case 4:
+        
+        case 4: // Case U
         estado = vocal_u;
         flag_standby = LOW;
         break;
+
         // Si no está dentro del rango, no muestra nada y repite.
         default:
         flag_standby = LOW;
@@ -1121,15 +1120,18 @@ void Modo5()
         flag_a = HIGH;
         leds.mostrar(IMAGENES::a_img, c_naranja);
       }
+      contador++;
 
       //-------------------------------------------------------------------------------------------------
-      // TODO: REACCION EN A!
+      // TODO: REACCION EN A
       //-------------------------------------------------------------------------------------------------
 
-      //-------------------------------------------------------------------------------------------------
-      // TODO: Volver a STANDBY!
-      //-------------------------------------------------------------------------------------------------
-      
+      if(contador >= t_verde)
+      {
+        flag_a = LOW;
+        estado = standby;
+        contador = 0;
+      }
       break;
 
       //-------------------------------------------------------------------------------------------------
@@ -1139,15 +1141,18 @@ void Modo5()
         flag_e = HIGH;
         leds.mostrar(IMAGENES::e_img, c_naranja);
       }
-
-      //-------------------------------------------------------------------------------------------------
-      // TODO: REACCION EN E!
-      //-------------------------------------------------------------------------------------------------
-
-      //-------------------------------------------------------------------------------------------------
-      // TODO: Volver a STANDBY!
-      //-------------------------------------------------------------------------------------------------
+      contador++;
       
+      //-------------------------------------------------------------------------------------------------
+      // TODO: REACCION EN E
+      //-------------------------------------------------------------------------------------------------
+
+      if(contador >= t_verde)
+      {
+        flag_e = LOW;
+        estado = standby;
+        contador = 0;
+      }
       break;
 
       //-------------------------------------------------------------------------------------------------
@@ -1157,15 +1162,18 @@ void Modo5()
         flag_i = HIGH;
         leds.mostrar(IMAGENES::i_img, c_naranja);
       }
-
-      //-------------------------------------------------------------------------------------------------
-      // TODO: REACCION EN I!
-      //-------------------------------------------------------------------------------------------------
-
-      //-------------------------------------------------------------------------------------------------
-      // TODO: Volver a STANDBY!
-      //-------------------------------------------------------------------------------------------------
+      contador++;
       
+      //-------------------------------------------------------------------------------------------------
+      // TODO: REACCION EN I
+      //-------------------------------------------------------------------------------------------------
+
+      if(contador >= t_verde)
+      {
+        flag_i = LOW;
+        estado = standby;
+        contador = 0;
+      }
       break;
 
       //-------------------------------------------------------------------------------------------------
@@ -1175,15 +1183,18 @@ void Modo5()
         flag_o = HIGH;
         leds.mostrar(IMAGENES::o_img, c_naranja);
       }
+      contador++;
 
       //-------------------------------------------------------------------------------------------------
-      // TODO: REACCION EN O!
-      //-------------------------------------------------------------------------------------------------
-
-      //-------------------------------------------------------------------------------------------------
-      // TODO: Volver a STANDBY!
+      // TODO: REACCION EN O
       //-------------------------------------------------------------------------------------------------
       
+      if(contador >= t_verde)
+      {
+        flag_o = LOW;
+        estado = standby;
+        contador = 0;
+      }
       break;
 
       //-------------------------------------------------------------------------------------------------
@@ -1193,15 +1204,18 @@ void Modo5()
         flag_u = HIGH;
         leds.mostrar(IMAGENES::u_img, c_naranja);
       }
-
-      //-------------------------------------------------------------------------------------------------
-      // TODO: REACCION EN A!
-      //-------------------------------------------------------------------------------------------------
-
-      //-------------------------------------------------------------------------------------------------
-      // TODO: Volver a STANDBY!
-      //-------------------------------------------------------------------------------------------------
+      contador++;
       
+      //-------------------------------------------------------------------------------------------------
+      // TODO: REACCION EN U
+      //-------------------------------------------------------------------------------------------------
+
+      if(contador >= t_verde)
+      {
+        flag_u = LOW;
+        estado = standby;
+        contador = 0;
+      }
       break;
 
       //-------------------------------------------------------------------------------------------------
@@ -1217,7 +1231,7 @@ void Modo5()
       estado = verde;
       contador = 0;
       break;
-    }
+    } // switch(estado)
 
     #if DEBUG_MODO_5 == 1
     if(estado==verde)

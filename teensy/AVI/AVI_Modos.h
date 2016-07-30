@@ -27,7 +27,7 @@ extern LEDs leds;
 void Modo1(int umbral);
 void Modo2(int umbral);
 void Modo3(int umbral, int segundos);
-void Modo4(void);
-void Modo5(void);
+void Modo4(int vocalObtenida);
+void Modo5(int vocalObtenida);
 
 #endif // AVI_MODOS_H
