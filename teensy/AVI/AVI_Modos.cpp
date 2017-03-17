@@ -1041,7 +1041,7 @@ void Modo5(int vocalObtenida)
   static int contador = 0;
 
   // Otros
-  int vocalObtenida = 0;
+  //vocalObtenida = 0;
   randomSeed(micros()); // Microsegundos asegura un Seed aleatorio
 
   t_actual = millis();

@@ -69,6 +69,14 @@ contador_muestras=1;
 % grid on;
 % hold on;
 
+% Estamos enviando con
+%     Serial.print("F1 =\t");
+%     Serial.print(formante1MA.promedio());
+%     Serial.print("\tF2 =\t");
+%     Serial.print(formante2MA.promedio());
+%     Serial.print("\tVocal =\t");
+%     Serial.println(vocal);
+
 %Bucle while para que tome y dibuje las muestras que queremos
 while contador_muestras<=5000
 %         ylim([0 5.1]); 

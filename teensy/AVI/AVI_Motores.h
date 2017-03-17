@@ -45,7 +45,7 @@ class Motor
 	uint8_t mPin1;
 	uint8_t mPin2;
 	uint8_t mPinPWM;
-};
+}
 
 // Clase Motores (Grupal de 4)
 class Motores

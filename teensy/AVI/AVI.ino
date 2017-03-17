@@ -626,41 +626,41 @@ void loop()
 {
   //-------------------------------------------------------------------------------------------------
   // Primera parte - Deteccion de Vocales
-  if(indice >= AUDIO_CANT_MUESTRAS)
+  if(audioIndice >= AUDIO_CANT_MUESTRAS)
   {
     // Finaliza el ciclo de muestreo y comienza el de calculo
     FlexiTimer2::stop();
-    indice = 0;
+    audioIndice = 0;
 
     // Resta del valor medio y busca max/min
     for(int n=0; n<AUDIO_CANT_MUESTRAS; n++)
     {
-      datos[n] -= 511.5;
-      if(datos[n]>maximo)
+      audioDatos[n] -= 511.5;
+      if(audioDatos[n]>audioMax)
       {
-        maximo = datos[n];
+        audioMax = audioDatos[n];
       }
-      if(datos[n]<minimo)
+      if(audioDatos[n]<audioMin)
       {
-        minimo = datos[n];
+        audioMin = audioDatos[n];
       }
     }
     
     // Busca el maximo en valor absoluto
-    if(abs(minimo)>maximo)
+    if(abs(audioMin)>audioMax)
     {
-      maximo = abs(minimo);
+      audioMax = abs(audioMin);
     }
 
     // Normalizacion de los datos
     for(int n=0; n<AUDIO_CANT_MUESTRAS; n++)
     {
-      datos[n] /= maximo;
+      audioDatos[n] /= audioMax;
     }
 
     // Filtrado y Obtencion de Formantes
-    hamming(datos, AUDIO_CANT_MUESTRAS);
-    obtener_formantes(datos, AUDIO_CANT_MUESTRAS, FILTRO_PROM_N, AUDIO_FS, &f1, &f2);
+    hamming(audioDatos, AUDIO_CANT_MUESTRAS);
+    obtener_formantes(audioDatos, AUDIO_CANT_MUESTRAS, FILTRO_PROM_N, AUDIO_FS, &f1, &f2);
     formante1MA.cargar(f1);
     formante2MA.cargar(f2);
     
